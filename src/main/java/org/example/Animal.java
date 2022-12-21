@@ -121,7 +121,7 @@ public class Animal {
             case 6 -> { newPosition = this.position.add(new Vector2d(-1,0)); }
             case 7 -> { newPosition = this.position.add(new Vector2d(-1,1)); }
             default -> {
-                System.out.println("NIEPRAWIDLOWY GEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                System.out.println("NIEPRAWIDLOWY GEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?");
             }
         }
 
