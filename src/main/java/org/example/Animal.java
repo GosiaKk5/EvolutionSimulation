@@ -49,7 +49,7 @@ public class Animal {
         this.genotypeLength = genotypeLength;
         this.breedEnergy = breedEnergy;
         this.indexOfActiveGen = 0;
-        this.orientation = 0;
+        this.orientation = this.genotype[this.indexOfActiveGen];
     }
     public Animal(int energy, Vector2d position, IMutationHandler mutationHandler, IChangePositionHandler positionHandler, int genotypeLength, int breedEnergy){
         int[] genotype = this.getRandomGenotype(genotypeLength);
@@ -61,7 +61,7 @@ public class Animal {
         this.genotypeLength = genotypeLength;
         this.breedEnergy = breedEnergy;
         this.indexOfActiveGen = 0;
-        this.orientation = 0;
+        this.orientation = this.genotype[this.indexOfActiveGen];
     }
 
     private int[] getRandomGenotype(int genotypeLength) {
@@ -126,7 +126,7 @@ public class Animal {
         }
 
         this.position = newPosition;
-        System.out.println(this.position);
+        //System.out.println(this.position);
 
     }
 
