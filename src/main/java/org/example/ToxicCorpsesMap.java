@@ -1,2 +1,4 @@
-package org.example;public class ToxicCorpsesMap {
+package org.example;
+
+public class ToxicCorpsesMap {
 }
