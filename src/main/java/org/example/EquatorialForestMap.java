@@ -51,7 +51,7 @@ public class EquatorialForestMap extends AbstractMap {
         return fertileAll;
     }
 
-    public void addPlants(int noPlants){ // dodaje okreslona liczbe roslin
+    public void addPlants(int noPlants){ // wydziel do funkcji
 
         Random random = new Random();
         for(int i = 0; i < noPlants; i++){

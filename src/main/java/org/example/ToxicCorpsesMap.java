@@ -16,18 +16,26 @@ public class ToxicCorpsesMap extends AbstractMap{
 
     }
 
+    //to delate
+    public HashMap<Vector2d, Integer> getAllFieldsWithDeaths(){
+        return this.allFieldsWithDeaths;
+    }
+    public ArrayList<Vector2d> getFreeFields(){
+        return this.freeFields;
+    }
+    //
+
     private void setFields(){
         for(int y = 0; y < height; y++){
             for(int x = 0; x < width; x++){
                 allFieldsWithDeaths.put(new Vector2d(x,y), 0);
                 freeFields.add(new Vector2d(x, y));
-
             }
         }
     }
 
-    public void sortFreeFields(){
-        this.freeFields.sort((e1 ,e2)-> allFieldsWithDeaths.get(e1) - allFieldsWithDeaths.get(e2) );
+    private void sortFreeFields(){
+        this.freeFields.sort((e1 ,e2)-> allFieldsWithDeaths.get(e1) - allFieldsWithDeaths.get(e2));
     }
 
     public void addStartPlants(int noPlants){
