@@ -1,7 +1,7 @@
 package org.example;
 
 public interface IMap {
-    void place(Animal animal);
+    void placeAnimal(Animal animal);
     Object objectAt(Vector2d position);
 
     boolean isOccupied(Vector2d position);

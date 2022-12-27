@@ -15,9 +15,10 @@ public class Main {
         Animal a2 = new Animal(5, position, mutationHandler, positionHandler, genotypeLength, breedEnergy);
          */
 
-        EquatorialForestMap map = new EquatorialForestMap(10,5, 50);
+        ToxicCorpsesMap map = new ToxicCorpsesMap(10,7, 70);
         System.out.println(map);
         map.removePlant(new Vector2d(0,0));
         System.out.println(map);
+
     }
 }
