@@ -50,19 +50,19 @@ class AnimalTest {
         int[] orientationCheck = {1,3,6,1,5,2,0,1,4,4};
 
 
-        //System.out.println(animal.getPosition());
+        System.out.println(animal.getPosition());
         for(int i = 0; i < genotype.length; i++){
-            //System.out.println("i: " + i);
-            //System.out.println("ORIENTATION: " + animal.getOrientation());
+            System.out.println("i: " + i);
+            System.out.println("ORIENTATION: " + animal.getOrientation());
             animal.move();
             animal.changeOrientation();
 
-            //System.out.println("POSITION: " + animal.getPosition());
+            System.out.println("POSITION: " + animal.getPosition());
 
             assertEquals(animal.getPosition(), positionCheks[i]);
             assertEquals(animal.getOrientation(), orientationCheck[i]);
 
-            //System.out.println();
+            System.out.println();
         }
     }
 }
