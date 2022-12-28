@@ -21,7 +21,7 @@ public class Animal {
     private IMap map;
     private int energy;
     private final IMutationHandler mutationHandler;
-    private final IChangePositionHandler positionHandler;
+    private final IChangeOrientationHandler orientationHandler;
     private final int breedEnergy;
     private int indexOfActiveGen;
 
@@ -44,38 +44,38 @@ public class Animal {
         this.indexOfActiveGen = indexOfActiveGen;
     }
 
-    public Animal(IMap map, int[] genotype, int energy, Vector2d position, IMutationHandler mutationHandler, IChangePositionHandler positionHandler, int genotypeLength, int breedEnergy) {
+    public Animal(IMap map, int[] genotype, int energy, Vector2d position, IMutationHandler mutationHandler, IChangeOrientationHandler positionHandler, int genotypeLength, int breedEnergy) {
         this.map = map;
         this.genotype = genotype;
         this.position = position;
         this.energy = energy;
         this.mutationHandler = mutationHandler;
-        this.positionHandler = positionHandler;
+        this.orientationHandler = positionHandler;
         this.genotypeLength = genotypeLength;
         this.breedEnergy = breedEnergy;
         this.indexOfActiveGen = 0;
         this.orientation = this.genotype[this.indexOfActiveGen];
     }
 
-    public Animal(int[] genotype, int energy, Vector2d position, IMutationHandler mutationHandler, IChangePositionHandler positionHandler, int genotypeLength, int breedEnergy) {
+    public Animal(int[] genotype, int energy, Vector2d position, IMutationHandler mutationHandler, IChangeOrientationHandler positionHandler, int genotypeLength, int breedEnergy) {
         this.genotype = genotype;
         this.position = position;
         this.energy = energy;
         this.mutationHandler = mutationHandler;
-        this.positionHandler = positionHandler;
+        this.orientationHandler = positionHandler;
         this.genotypeLength = genotypeLength;
         this.breedEnergy = breedEnergy;
         this.indexOfActiveGen = 0;
         this.orientation = this.genotype[this.indexOfActiveGen];
     }
 
-    public Animal(int energy, Vector2d position, IMutationHandler mutationHandler, IChangePositionHandler positionHandler, int genotypeLength, int breedEnergy) {
+    public Animal(int energy, Vector2d position, IMutationHandler mutationHandler, IChangeOrientationHandler positionHandler, int genotypeLength, int breedEnergy) {
         int[] genotype = this.getRandomGenotype(genotypeLength);
         this.genotype = genotype;
         this.position = position;
         this.energy = energy;
         this.mutationHandler = mutationHandler;
-        this.positionHandler = positionHandler;
+        this.orientationHandler = positionHandler;
         this.genotypeLength = genotypeLength;
         this.breedEnergy = breedEnergy;
         this.indexOfActiveGen = 0;
@@ -112,7 +112,7 @@ public class Animal {
         boolean strongerGenotypeOnLeft = this.chooseSideForStrongerAnimal();
         int[] genotypeForChild = createGenotypeFromAnimals(strongerAnimal, weakerAnimal, strongerGenotypeOnLeft);
 
-        Animal newAnimal = new Animal(genotypeForChild, this.breedEnergy * 2, new Vector2d(0, 0), this.mutationHandler, this.positionHandler, this.genotypeLength, this.breedEnergy);
+        Animal newAnimal = new Animal(genotypeForChild, this.breedEnergy * 2, new Vector2d(0, 0), this.mutationHandler, this.orientationHandler, this.genotypeLength, this.breedEnergy);
 
         //set parents energy
         strongerAnimal.energy -= this.breedEnergy;
@@ -122,7 +122,7 @@ public class Animal {
     }
 
     public void changeOrientation() {
-        int nextIndexOfActiveGen = this.positionHandler.changePosition(this);
+        int nextIndexOfActiveGen = this.orientationHandler.changeOrientation(this);
         this.orientation = (this.orientation + this.genotype[nextIndexOfActiveGen]) % 8;
         this.indexOfActiveGen = nextIndexOfActiveGen;
 //        System.out.println("INDEX: " + this.indexOfActiveGen);
@@ -231,8 +231,6 @@ public class Animal {
 
         return gensToMutate;
     }
-
-    ;
 
     @Override
     public String toString() {

@@ -1,13 +1,9 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-public class FullPredestination implements IChangePositionHandler{
+public class FullPredestination implements IChangeOrientationHandler {
     //aributes: genotypeLength
     @Override
-    public int changePosition(Animal animal) {
+    public int changeOrientation(Animal animal) {
         int activeGenIndex = animal.getIndexOfActiveGen();
         int genotypeLength = animal.getGenotypeLength();
 
