@@ -7,49 +7,47 @@ import java.util.Random;
 public class EquatorialForestMap extends AbstractMap {
     private ArrayList<Vector2d> fertileFree = new ArrayList<Vector2d>(); // wolne pola żyzne
     private ArrayList<Vector2d>  notFertileFree = new ArrayList<Vector2d>(); // wolne pola nieżyzne
-    private final HashSet<Vector2d> fertileAll = new HashSet<>(); // wszystkie pola żyzne
+    //private final HashSet<Vector2d> fertileAll = new HashSet<>(); // wszystkie pola żyzne
+
+    private int equatorStart;
+    private int equatorEnd;
+
 
     public EquatorialForestMap(int width, int height, int noStartPlants){
         super(width, height, noStartPlants);
+        findEquator();
         setFertileFields();
-        setNotFertileFields();
         addPlants(noStartPlants);
     }
 
-    private void setFertileFields(){
-        int noFertileFields = (int) Math.round(((double) this.width * (double) this.height)/5); // liczba żyznych pól
-        int row =  (height-1) / 2; // wiersz z ktorego zaczynamy dodawanie żyznych pól
-        int rowChanger = 0; //zmiana wiersza
-        int signOfRowChanger = -1;
+    private void findEquator(){
+        int noFertileFields = (int) Math.round(((double) this.width * (double) this.height)/5);
+        int middleRow =  (height-1) / 2;
+        int equatorialHeight = this.height / 5;
 
-        for(int i = 0; i < noFertileFields; i++){
-
-            if(i % this.width == 0){ // jeśli z danego wiersza dodamy wszystkie pola to przechodzimy na nastepny
-                row += signOfRowChanger * rowChanger; // np. przy height = 5 - row przyjmuje wartosci: 2,3,1,4,0
-                rowChanger += 1;
-                signOfRowChanger *= (-1);
-            }
-
-            this.fertileAll.add(new Vector2d(i % this.width, row));
-            this.fertileFree.add(new Vector2d(i % this.width, row));
+        if ( ((double)equatorialHeight / (double)this.height) < 0.20){
+            equatorialHeight += 1;
 
         }
+
+
+        this.equatorStart = (this.height - equatorialHeight)/2;
+        this.equatorEnd = this.equatorStart + equatorialHeight - 1;
     }
 
-    private void setNotFertileFields(){
+    private void setFertileFields(){
         for(int y = 0; y < this.height; y++){
             for(int x = 0; x < this.width; x++){
                 Vector2d position = new Vector2d(x, y);
-                if(!fertileAll.contains(position)){
-                    notFertileFree.add(position);
+                if(y >= this.equatorStart && y <= this.equatorEnd){
+                    this.fertileFree.add(position);
+                }else{
+                    this.notFertileFree.add(position);
                 }
             }
         }
     }
 
-    public HashSet<Vector2d> getFertileFields(){
-        return fertileAll;
-    }
 
     public void addPlants(int noPlants){ // wydziel do funkcji
 
@@ -77,11 +75,20 @@ public class EquatorialForestMap extends AbstractMap {
 
     public void removePlant(Vector2d position){ // usuwa rosline na danej pozycji
         plants.remove(position);
-        if(fertileAll.contains(position)){
-            fertileFree.add(position);
+        if(position.y >= this.equatorStart && position.y <= this.equatorEnd){
+            this.fertileFree.add(position);
         }else{
-            notFertileFree.add(position);
+            this.notFertileFree.add(position);
         }
+
+    }
+
+    public int getEquatorStart(){
+        return this.equatorStart;
+    }
+
+    public int getEquatorEnd(){
+        return this.equatorEnd;
     }
 
 }

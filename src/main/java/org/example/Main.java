@@ -14,7 +14,7 @@ public class Main {
         Animal a1 = new Animal(1, position, mutationHandler, positionHandler, genotypeLength, breedEnergy);
         Animal a2 = new Animal(5, position, mutationHandler, positionHandler, genotypeLength, breedEnergy);
         */
-
+        /*
         IMutationHandler mutationHandler = new FullRandomness();
         IChangePositionHandler positionHandler = new LittleCraziness();
         int genotypeLength = 15;
@@ -29,16 +29,12 @@ public class Main {
         map.placeAnimal(a1);
         map.placeAnimal(a2);
         System.out.println(map.animalsAt(position));
-
         System.out.println(map);
         a1.move();
         a1.changeOrientation();
-
-        System.out.println(map);
-        a1.move();
-        a1.changeOrientation();
-
-        System.out.println(map);
+*/
+        EquatorialForestMap mape = new EquatorialForestMap(5,13,25);
+        System.out.println(mape);
 
 
 
