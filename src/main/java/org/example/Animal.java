@@ -253,12 +253,13 @@ public class Animal {
 
     @Override
     public String toString() {
-        String genotypeString = "";
-        for (Integer gen : this.genotype) {
-            genotypeString += gen;
-        }
+//        String genotypeString = "";
+//        for (Integer gen : this.genotype) {
+//            genotypeString += gen;
+//        }
         //return "(%s, energia: %d)".formatted(genotypeString, this.energy);
-        return "A";
+        //return "A";
+        return "%d".formatted(this.orientation);
     }
 
     public void addObserver(IPositionChangeObserver observer) {
