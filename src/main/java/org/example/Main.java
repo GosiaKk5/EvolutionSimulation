@@ -9,7 +9,10 @@ public class Main {
     public static void main(String[] args) {
 
 //        //SHOW BREEDING
-//        IMap map = new ToxicCorpsesMap(5,5,0);
+//        int width = 5;
+//        int height = 5;
+//        int numberOfStartPlants = 0;
+//        IMap map = new ToxicCorpsesMap(width,height,numberOfStartPlants);
 //        Vector2d position = new Vector2d(0,0);
 //        int[] genotype1 = {0,0,0,0,0};
 //        int[] genotype2 = {1,1,1,1,1};
@@ -17,10 +20,10 @@ public class Main {
 //        int indexOfActiveGen = 0;
 //        int energy1 = 15;
 //        int energy2 = 5;
-//        int breedEnergy = 1;
+//        int breedHandoverEnergy = 1;
 //        IMutationHandler mutationHandler = new FullRandomness();
 //        IChangeOrientationHandler orientationHandler = new FullPredestination();
-//        IChangePositionHandler positionHandler = new HellishPortal(100,100);
+//        IChangePositionHandler positionHandler = new HellishPortal(width, height, breedHandoverEnergy);
 //
 //        Animal a1 = new Animal(map,
 //                                position,
@@ -28,7 +31,7 @@ public class Main {
 //                                genotypeLength,
 //                                indexOfActiveGen,
 //                                energy1,
-//                                breedEnergy,
+//                                breedHandoverEnergy,
 //                                mutationHandler,
 //                                orientationHandler,
 //                                positionHandler);
@@ -39,7 +42,7 @@ public class Main {
 //                genotypeLength,
 //                indexOfActiveGen,
 //                energy2,
-//                breedEnergy,
+//                breedHandoverEnergy,
 //                mutationHandler,
 //                orientationHandler,
 //                positionHandler);
@@ -48,17 +51,20 @@ public class Main {
 //        System.out.println(children);
 
 
-//        IMap map = new ToxicCorpsesMap(10,7, 10);
+//        int width = 10;
+//        int height = 7;
+//        int numberOfStartPlants = 10;
+//        IMap map = new ToxicCorpsesMap(width,height, numberOfStartPlants);
 //        Vector2d position = new Vector2d(0,0);
 //        int[] genotype = {0,1,2,3,3,4,5,6,1,3};
 //        int genotypeLength = genotype.length;
 //        int indexOfActiveGen = 0;
 //        int energy1 = 1;
 //        int energy2 = 5;
-//        int breedEnergy = 5;
+//        int breedHandoverEnergy = 5;
 //        IMutationHandler mutationHandler = new FullRandomness();
 //        IChangeOrientationHandler orientationHandler = new LittleCraziness();
-//        IChangePositionHandler positionHandler = new HellishPortal();
+//        IChangePositionHandler positionHandler = new HellishPortal(width, height, breedHandoverEnergy);
 //
 //        Animal a1 = new Animal(map,
 //                            position,
@@ -66,7 +72,7 @@ public class Main {
 //                            genotypeLength,
 //                            indexOfActiveGen,
 //                            energy1,
-//                            breedEnergy,
+//                            breedHandoverEnergy,
 //                            mutationHandler,
 //                            orientationHandler,
 //                            positionHandler);
@@ -77,7 +83,7 @@ public class Main {
 //                genotypeLength,
 //                indexOfActiveGen,
 //                energy2,
-//                breedEnergy,
+//                breedHandoverEnergy,
 //                mutationHandler,
 //                orientationHandler,
 //                positionHandler);
@@ -100,7 +106,7 @@ public class Main {
         int height = 5;
         int width = 5;
         String variantMap = "Globe";
-        int numberOfStartPlants = 0;
+        int numberOfStartPlants = 3;
         int plantEnergy = 0;
         int numberOfPlantsGrowDaily = 0;
         String variantGrowingPlants = "EquatorialForest";

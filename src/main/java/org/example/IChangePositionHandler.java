@@ -1,7 +1,7 @@
 package org.example;
 
 public interface IChangePositionHandler {
-    Vector2d getNewPositionInMap(Vector2d position, Animal animal, int lowerBound, int upperBound, int leftBound, int rightBound);
+    Vector2d getNewPositionInMap(Vector2d position, Vector2d oldPosition, int orientation);
     int getNewOrientation();
-    int getNewEnergy(Animal animal);
+    int getNewEnergy(int animalEnergy);
 }

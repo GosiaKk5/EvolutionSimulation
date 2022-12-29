@@ -95,8 +95,8 @@ public class SimulationEngine {
         this.animals = new ArrayList<>();
 
         switch(variantMap){
-            case "Globe" -> { this.changePositionHandler = new Globe(); }
-            case "Hell" -> {  this.changePositionHandler = new HellishPortal(); }
+            case "Globe" -> { this.changePositionHandler = new Globe(width, height); }
+            case "Hell" -> {  this.changePositionHandler = new HellishPortal(width, height, breedHandoverEnergy); }
             default -> {
                 System.out.println("NAZWA WARIANTU ZMIANY POZYCJI");
             }
