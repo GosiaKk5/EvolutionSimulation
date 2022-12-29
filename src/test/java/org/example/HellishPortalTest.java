@@ -17,7 +17,7 @@ class HellishPortalTest {
         int genotypeLength = genotype.length;
         int indexOfActiveGen = 0;
         int energy = 10;
-        int breedEnergy = 5;
+        int breedEnergy = 4;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
         IChangePositionHandler positionHandler = new HellishPortal();
@@ -33,6 +33,8 @@ class HellishPortalTest {
                 orientationHandler,
                 positionHandler);
 
+        int energyCheck = 5;
+
         map.placeAnimal(animal);
 
         System.out.println(map);
@@ -41,7 +43,7 @@ class HellishPortalTest {
         System.out.println(animal.getEnergy());
         assertEquals(animal.getOrientation(), genotype[0]);
         assertNotSame(animal.getPosition(), position);
-        //assertEquals(animal.getEnergy(), energy - breedEnergy);
+        assertEquals(animal.getEnergy(), energyCheck);
 
         System.out.println(map);
 

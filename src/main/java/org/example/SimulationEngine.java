@@ -1,5 +1,8 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SimulationEngine {
 
     private final int height;
@@ -19,12 +22,9 @@ public class SimulationEngine {
     IChangeOrientationHandler changeOrientationHandler;
     IMutationHandler mutationHandler;
     IMap map;
+    private final List<Animal> animals;
 
-    String variantGrowingPlants;
 
-    String variantMutation;
-
-    String variantOrientation;
     //    Symulacja każdego dnia składa się z poniższej sekwencji kroków:
     //
     //    usunięcie martwych zwierząt z mapy,
@@ -77,6 +77,7 @@ public class SimulationEngine {
         // wszystkie inty itd > 0
         // minNumberOfMutation <= max
         // number of plants < widht*height? nie wiem jak to jest zaimplementowane
+        // maxnumber of mutation <= genotypelenght
 
         this.height = height;
         this.width = width;
@@ -90,6 +91,8 @@ public class SimulationEngine {
         this.minNumberOfMutations = minNumberOfMutations;
         this.maxNumberOfMutations = maxNumberOfMutations;
         this.genotypeLength = genotypeLength;
+
+        this.animals = new ArrayList<>();
 
         switch(variantMap){
             case "Globe" -> { this.changePositionHandler = new Globe(); }
@@ -122,10 +125,80 @@ public class SimulationEngine {
                 System.out.println("NAZWA WARIANTU ORIENTACJI");
             }
         }
+
+        System.out.println(this.map);
+        this.addAnimals();
+
+        System.out.println("ANIMALS ADDED:");
+        System.out.println();
+        System.out.println(this.map);
+
+        System.out.println("ANIMALS: " + this.animals);
+        System.out.println();
     }
 
+    private void addAnimals(){
+
+        int[] genotype = new int[genotypeLength];
+
+        for(int i = 0; i < genotypeLength; i++){
+            genotype[i] = 0;
+        }
+
+        int indexOfActiveGen = 0;
+
+        IMutationHandler mutationHandler = this.mutationHandler;
+        IChangeOrientationHandler orientationHandler = this.changeOrientationHandler;
+        IChangePositionHandler positionHandler = this.changePositionHandler;
+        Animal a1 = new Animal(this.map,
+                            new Vector2d(0,0),
+                            genotype,
+                            this.genotypeLength,
+                            indexOfActiveGen,
+                            this.startEnergy,
+                            this.breedHandoverEnergy,
+                            this.mutationHandler,
+                            this.changeOrientationHandler,
+                            this.changePositionHandler);
+
+        int[] genotype2 = new int[genotypeLength];
+
+        for(int i = 0; i < genotypeLength; i++){
+            genotype2[i] = 1;
+        }
+
+        Animal a2 = new Animal(this.map,
+                            new Vector2d(3,3),
+                            genotype2,
+                            this.genotypeLength,
+                            indexOfActiveGen,
+                            this.startEnergy,
+                            this.breedHandoverEnergy,
+                            this.mutationHandler,
+                            this.changeOrientationHandler,
+                            this.changePositionHandler);
+
+        //wyjątek na umieszczenie poza mapą
+
+        this.map.placeAnimal(a1);
+        this.animals.add(a1);
+        this.map.placeAnimal(a2);
+        this.animals.add(a2);
+    }
+    public void run(){
+        this.moveAnimals();
+    }
     private void deleteDeadAnimals(){}
-    private void moveAnimals(){}
+    private void moveAnimals(){
+        for(int i = 0; i < 5; i++){
+            for(Animal animal : this.animals){
+                animal.move();
+                animal.changeOrientation();
+            }
+            System.out.println("i: " + i);
+            System.out.println(map);
+        }
+    }
     private void eatPlants(){}
     private void breedAnimals(){}
     private void growPlants(){}

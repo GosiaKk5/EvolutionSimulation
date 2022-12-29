@@ -105,9 +105,9 @@ public class Main {
         int numberOfPlantsGrowDaily = 0;
         String variantGrowingPlants = "EquatorialForest";
         int numberOfStartAnimals = 0;
-        int startEnergy = 0;
-        int breedReadyEnergy = 0;
-        int breedHandoverEnergy = 0;
+        int startEnergy = 8;
+        int breedReadyEnergy = 6;
+        int breedHandoverEnergy = 5;
         int minNumberOfMutations = 0;
         int maxNumberOfMutations = 0;
         String variantMutation = "FullRandomness";
@@ -130,6 +130,6 @@ public class Main {
                                 variantMutation,
                                 genotypeLength,
                                 variantOrientation);
-
+        engine.run();
     }
 }

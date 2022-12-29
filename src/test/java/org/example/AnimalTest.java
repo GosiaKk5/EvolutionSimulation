@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AnimalTest {
 
     @Test
-    void moveAndChangePositionSimpleTest() {
+    void checkMoveAndPositionOrientation1() {
 
         System.out.println();
         System.out.println("-------------------------------------");
@@ -62,7 +62,7 @@ class AnimalTest {
     }
 
     @Test
-    void moveAndChangePositionSimpleTest2() {
+    void checkMoveAndPositionOrientation2() {
 
         System.out.println();
         System.out.println("-------------------------------------");
@@ -89,7 +89,7 @@ class AnimalTest {
                                 orientationHandler,
                                 positionHandler);
 
-        Vector2d[] positionCheks = {
+        Vector2d[] positonCheks = {
                 new Vector2d(0,1),
                 new Vector2d(1,2),
                 new Vector2d(2,1),
@@ -113,10 +113,45 @@ class AnimalTest {
 
             System.out.println("POSITION: " + animal.getPosition());
 
-            assertEquals(animal.getPosition(), positionCheks[i]);
+            assertEquals(animal.getPosition(), positonCheks[i]);
             assertEquals(animal.getOrientation(), orientationCheck[i]);
 
             System.out.println();
+        }
+    }
+
+    @Test
+    void checkIfEnergyWorksProperly(){
+        System.out.println();
+        System.out.println("-------------------------------------");
+
+        IMap map = new ToxicCorpsesMap(100,100,0);
+        Vector2d position = new Vector2d(2,2);
+        int[] genotype = {0,2,2,2};
+        int genotypeLength = genotype.length;
+        int indexOfActiveGen = 0;
+        int energy = 5;
+        int breedEnergy = 5;
+        IMutationHandler mutationHandler = new FullRandomness();
+        IChangeOrientationHandler orientationHandler = new FullPredestination();
+        IChangePositionHandler positionHandler = new Globe();
+
+        Animal animal = new Animal(map,
+                position,
+                genotype,
+                genotypeLength,
+                indexOfActiveGen,
+                energy,
+                breedEnergy,
+                mutationHandler,
+                orientationHandler,
+                positionHandler);
+
+        int[] energyChecks = {4,3,2,1,0};
+
+        for(int i = 0; i < energyChecks.length; i++){
+            animal.move();
+            assertEquals(animal.getEnergy(), energyChecks[i]);
         }
     }
 }

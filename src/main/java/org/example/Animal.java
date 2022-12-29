@@ -142,6 +142,8 @@ public class Animal {
 
     public void move() {
 
+        this.energy -= 1;
+
         Vector2d newPosition = this.position;
         int newOrientation = this.orientation;
         int newEnergy = this.energy;
@@ -259,7 +261,7 @@ public class Animal {
 //        }
         //return "(%s, energia: %d)".formatted(genotypeString, this.energy);
         //return "A";
-        return "%d".formatted(this.orientation);
+        return "%d".formatted(this.energy);
     }
 
     public void addObserver(IPositionChangeObserver observer) {
