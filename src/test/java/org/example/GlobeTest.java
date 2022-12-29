@@ -14,7 +14,7 @@ class GlobeTest {
 
         IMap map = new ToxicCorpsesMap(5,5, 0);
         Vector2d position = new Vector2d(0,0);
-        int[] genotype = {4,4,0,0,0,0,0,0,0,0,0,0};
+        int[] genotype = {4,0,0,0,0,0,0,0,0,0,0};
         int genotypeLength = genotype.length;
         int indexOfActiveGen = 0;
         int energy = 1;
@@ -32,7 +32,7 @@ class GlobeTest {
                 new Vector2d(0,4)
         };
 
-        int[] orientationChecks = {4,0,0,0,0,0,0,0,0};
+        int[] orientationChecks = {0,0,0,0,0,4};
 
         Animal animal = new Animal(map,
                 position,

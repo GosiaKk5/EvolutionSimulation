@@ -2,13 +2,19 @@ package org.example;
 
 public class Globe implements IChangePositionHandler {
 
+    private int newOrientation;
+
+    public Globe(){
+        this.newOrientation = 0;
+    }
     @Override
     public Vector2d getNewPositionInMap(Vector2d position, Animal animal, int lowerBound, int upperBound, int leftBound, int rightBound) {
 
         int newX = animal.getPosition().x;
         int newY = animal.getPosition().y;
+        this.newOrientation = animal.getOrientation();
 
-        //System.out.println(position);
+        //position;
         if(position.x < leftBound){
             newX = rightBound;
         }
@@ -16,7 +22,22 @@ public class Globe implements IChangePositionHandler {
             newX = leftBound;
         }
 
-        //System.out.println(new Vector2d(newX, newY));
-        return new Vector2d(newX, newY);
+        //orientation
+        if(position.y < lowerBound){
+            this.newOrientation = 0;
+        }
+        if(position.y > upperBound){
+            this.newOrientation = 4;
+        }
+
+        Vector2d newPosition = new Vector2d(newX, newY);
+        return newPosition;
     }
+
+    @Override
+    public int getNewOrientation() {
+        return this.newOrientation;
+    }
+
+
 }
