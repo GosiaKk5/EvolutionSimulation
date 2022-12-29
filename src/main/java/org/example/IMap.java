@@ -10,5 +10,8 @@ public interface IMap {
     void removePlant(Vector2d position);
     ArrayList<Animal> animalsAt(Vector2d position);
     boolean inMap(Vector2d position);
-
+    int getUpperBound();
+    int getLowerBound();
+    int getLeftBound();
+    int getRightBound();
 }

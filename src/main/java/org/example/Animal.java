@@ -168,11 +168,12 @@ public class Animal {
             }
         }
 
-
+        if(!map.inMap(newPosition)){
+            newPosition = this.positionHandler.getNewPositionInMap(newPosition, this, map.getLowerBound(), this.map.getUpperBound(), this.map.getLeftBound(), this.map.getRightBound());
+        }
         this.positionChanged(this.position, newPosition);
         this.position = newPosition;
         //System.out.println(this.position);
-
     }
 
     //ASIDE BREEDING FUNCTIONS////////////////////////////////////////////////////////////////////////////////////////////////////

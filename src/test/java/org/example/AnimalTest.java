@@ -21,7 +21,7 @@ class AnimalTest {
         int breedEnergy = 5;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
-        IChangePositionHandler positionHandler = new HellishPortal(100,100);
+        IChangePositionHandler positionHandler = new Globe();
 
         Animal animal = new Animal(map,
                 position,
@@ -76,7 +76,7 @@ class AnimalTest {
         int breedEnergy = 5;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
-        IChangePositionHandler positionHandler = new HellishPortal(100,100);
+        IChangePositionHandler positionHandler = new Globe();
 
         Animal animal = new Animal(map,
                                 position,

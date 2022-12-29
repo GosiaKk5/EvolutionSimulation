@@ -6,10 +6,31 @@ import java.util.Map;
 
 public abstract class AbstractMap implements IMap, IPositionChangeObserver{
 
-    protected int height;
-    protected int width;
-    protected Vector2d lowerLeft;
-    protected Vector2d upperRight;
+    protected final int height;
+    protected final int width;
+    protected final Vector2d lowerLeft;
+    protected final Vector2d upperRight;
+
+    public int getUpperBound() {
+        return upperBound;
+    }
+
+    public int getLowerBound() {
+        return lowerBound;
+    }
+
+    public int getLeftBound() {
+        return leftBound;
+    }
+
+    public int getRightBound() {
+        return rightBound;
+    }
+
+    protected final int upperBound;
+    protected final int lowerBound;
+    protected final int leftBound;
+    protected final int rightBound;
 
     protected Map<Vector2d, Plant> plants = new HashMap<>();
     protected Map<Vector2d, ArrayList<Animal>> animals = new HashMap<>();
@@ -19,6 +40,10 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
         this.width = width;
         this.lowerLeft = new Vector2d(0,0);
         this.upperRight = new Vector2d(width - 1, height - 1);
+        this.lowerBound = 0;
+        this.upperBound = height - 1;
+        this.leftBound = 0;
+        this.rightBound = width - 1;
 
 
         for(int y = 0; y < height; y++){

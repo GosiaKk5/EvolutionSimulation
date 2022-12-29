@@ -45,7 +45,6 @@ public class Main {
 //        System.out.println(children);
 
 
-
 //        IMap map = new ToxicCorpsesMap(10,7, 10);
 //        Vector2d position = new Vector2d(0,0);
 //        int[] genotype = {0,1,2,3,3,4,5,6,1,3};
@@ -56,7 +55,7 @@ public class Main {
 //        int breedEnergy = 5;
 //        IMutationHandler mutationHandler = new FullRandomness();
 //        IChangeOrientationHandler orientationHandler = new LittleCraziness();
-//        IChangePositionHandler positionHandler = new HellishPortal(100,100);
+//        IChangePositionHandler positionHandler = new HellishPortal();
 //
 //        Animal a1 = new Animal(map,
 //                            position,
@@ -93,6 +92,5 @@ public class Main {
 //        a1.changeOrientation();
 //
 //        System.out.println(map);
-
     }
 }
