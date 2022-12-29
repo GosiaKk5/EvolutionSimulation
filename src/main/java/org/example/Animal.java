@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Animal {
-    private IMap map;
+    private final IMap map;
     private Vector2d position;
     private int orientation;
     private final int[] genotype;
@@ -14,32 +14,24 @@ public class Animal {
     private final int breedEnergy;
     private final IMutationHandler mutationHandler;
     private final IChangeOrientationHandler orientationHandler;
-    private IChangePositionHandler positionHandler;
-    private List<IPositionChangeObserver> observers = new ArrayList<>();
+    private final IChangePositionHandler positionHandler;
+    private final List<IPositionChangeObserver> observers;
 
     public Vector2d getPosition() {
         return position;
     }
-    public void setPosition(Vector2d position) {
-        this.position = position;
-    }
-
 
     public int getOrientation() {
         return orientation;
     }
 
-    public void setOrientation(int orientation) {
-        this.orientation = orientation;
-    }
-
     public int getIndexOfActiveGen() {
         return indexOfActiveGen;
     }
-
-    public void setIndexOfActiveGen(int indexOfActiveGen) {
-        this.indexOfActiveGen = indexOfActiveGen;
+    public int getGenotypeLength() {
+        return genotypeLength;
     }
+
 
     //konstruktor ogólny
     public Animal(IMap map,
@@ -260,12 +252,6 @@ public class Animal {
         //return "(%s, energia: %d)".formatted(genotypeString, this.energy);
         return "A";
     }
-
-
-    public int getGenotypeLength() {
-        return genotypeLength;
-    }
-
 
     public void addObserver(IPositionChangeObserver observer) {
         observers.add(observer);
