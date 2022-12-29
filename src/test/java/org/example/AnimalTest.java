@@ -12,7 +12,9 @@ class AnimalTest {
         System.out.println();
         System.out.println("-------------------------------------");
 
-        IMap map = new ToxicCorpsesMap(100,100,0);
+        int width = 100;
+        int height = 100;
+        IMap map = new ToxicCorpsesMap(width,height,0);
         Vector2d position = new Vector2d(2,2);
         int[] genotype = {0,2,2,2};
         int genotypeLength = genotype.length;
@@ -21,7 +23,7 @@ class AnimalTest {
         int breedEnergy = 5;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
-        IChangePositionHandler positionHandler = new Globe();
+        IChangePositionHandler positionHandler = new Globe(width, height);
 
         Animal animal = new Animal(map,
                 position,
@@ -67,7 +69,9 @@ class AnimalTest {
         System.out.println();
         System.out.println("-------------------------------------");
 
-        IMap map = new ToxicCorpsesMap(100,100,0);
+        int width = 100;
+        int height = 100;
+        IMap map = new ToxicCorpsesMap(width,height,0);
         Vector2d position = new Vector2d(0,0);
         int[] genotype = {0,1,2,3,3,4,5,6,1,3};
         int genotypeLength = genotype.length;
@@ -76,7 +80,7 @@ class AnimalTest {
         int breedEnergy = 5;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
-        IChangePositionHandler positionHandler = new Globe();
+        IChangePositionHandler positionHandler = new Globe(width, height);
 
         Animal animal = new Animal(map,
                                 position,
@@ -125,7 +129,9 @@ class AnimalTest {
         System.out.println();
         System.out.println("-------------------------------------");
 
-        IMap map = new ToxicCorpsesMap(100,100,0);
+        int width = 100;
+        int height = 100;
+        IMap map = new ToxicCorpsesMap(width,width,0);
         Vector2d position = new Vector2d(2,2);
         int[] genotype = {0,2,2,2};
         int genotypeLength = genotype.length;
@@ -134,7 +140,7 @@ class AnimalTest {
         int breedEnergy = 5;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
-        IChangePositionHandler positionHandler = new Globe();
+        IChangePositionHandler positionHandler = new Globe(width, height);
 
         Animal animal = new Animal(map,
                 position,

@@ -11,16 +11,18 @@ class HellishPortalTest {
         System.out.println();
         System.out.println("-------------------------------------");
 
-        IMap map = new ToxicCorpsesMap(5,5, 0);
+        int width = 5;
+        int height = 5;
+        IMap map = new ToxicCorpsesMap(width,height, 0);
         Vector2d position = new Vector2d(4,4);
         int[] genotype = {0};
         int genotypeLength = genotype.length;
         int indexOfActiveGen = 0;
         int energy = 10;
-        int breedEnergy = 4;
+        int breedHandoverEnergy = 4;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
-        IChangePositionHandler positionHandler = new HellishPortal();
+        IChangePositionHandler positionHandler = new HellishPortal(width, height, breedHandoverEnergy);
 
         Animal animal = new Animal(map,
                 position,
@@ -28,7 +30,7 @@ class HellishPortalTest {
                 genotypeLength,
                 indexOfActiveGen,
                 energy,
-                breedEnergy,
+                breedHandoverEnergy,
                 mutationHandler,
                 orientationHandler,
                 positionHandler);

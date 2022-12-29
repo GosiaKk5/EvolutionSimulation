@@ -1,24 +1,44 @@
 package org.example;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class HellishPortal implements IChangePositionHandler {
 
-    private int orientation = 0;
-    public HellishPortal(){
+    private int orientation;
+    private final int xBound;
+    private final int yBound;
+    private final int breedHandoverEnergy;
+    private final ArrayList<Integer> ox;
+    private final ArrayList<Integer> oy;
+    private final Random random;
+
+    public HellishPortal(int width, int height, int breedHandoverEnergy){
         this.orientation = 0;
+        this.xBound = width - 1;
+        this.yBound = height - 1;
+        this.breedHandoverEnergy = breedHandoverEnergy;
+
+        this.ox = new ArrayList<>();
+        for(int i = 0; i < xBound + 1; i++){
+            ox.add(i);
+        }
+
+        this.oy = new ArrayList<>();
+        for(int i = 0; i < yBound + 1; i++){
+            oy.add(i);
+        }
+
+        this.random = new Random();
     }
     @Override
-    public Vector2d getNewPositionInMap(Vector2d position, Animal animal, int lowerBound, int upperBound, int leftBound, int rightBound) {
+    public Vector2d getNewPositionInMap(Vector2d position, Vector2d oldPosition, int orientation) {
 
         int oldX = position.x;
         int oldY = position.y;
-        this.orientation = animal.getOrientation();
+        this.orientation = orientation;
 
-        return new Vector2d(getNewXOrY(oldX, rightBound), getNewXOrY(oldY, upperBound));
+        return new Vector2d(getNewXOrY(oldX, this.xBound, this.ox), getNewXOrY(oldY, this.yBound, this.oy));
     }
 
     @Override
@@ -27,26 +47,18 @@ public class HellishPortal implements IChangePositionHandler {
     }
 
     @Override
-    public int getNewEnergy(Animal animal) {
-        return animal.getEnergy() - animal.getBreedEnergy();
+    public int getNewEnergy(int animalEnergy) {
+        return animalEnergy - this.breedHandoverEnergy;
     }
 
-    private int getNewXOrY(int oldXorY, int bound){
-        List<Integer> possibleValues = new ArrayList<>();
+    private int getNewXOrY(int OldXOrY, int bound, ArrayList<Integer> possibleValues){
 
-        Random random = new Random();
+        possibleValues.remove(Integer.valueOf(OldXOrY));
 
-        for(int i = 0; i < bound + 1; i++){
-            possibleValues.add(i);
-        }
-
-        //wyciągam starą wartość, żeby jej nie wylosować
-        possibleValues.remove(Integer.valueOf(oldXorY));
-
-        int index = random.nextInt(0,bound);
+        int index = this.random.nextInt(0, bound);
         int newXorY = possibleValues.get(index);
 
-        possibleValues.add(oldXorY);
+        possibleValues.add(OldXOrY);
 
         return newXorY;
     }

@@ -149,45 +149,29 @@ public class Animal {
         int newEnergy = this.energy;
 
         switch (this.orientation) {
-            case 0 -> {
-                newPosition = this.position.add(new Vector2d(0, 1));
-            }
-            case 1 -> {
-                newPosition = this.position.add(new Vector2d(1, 1));
-            }
-            case 2 -> {
-                newPosition = this.position.add(new Vector2d(1, 0));
-            }
-            case 3 -> {
-                newPosition = this.position.add(new Vector2d(1, -1));
-            }
-            case 4 -> {
-                newPosition = this.position.add(new Vector2d(0, -1));
-            }
-            case 5 -> {
-                newPosition = this.position.add(new Vector2d(-1, -1));
-            }
-            case 6 -> {
-                newPosition = this.position.add(new Vector2d(-1, 0));
-            }
-            case 7 -> {
-                newPosition = this.position.add(new Vector2d(-1, 1));
-            }
+            case 0 -> { newPosition = this.position.add(new Vector2d(0, 1)); }
+            case 1 -> { newPosition = this.position.add(new Vector2d(1, 1)); }
+            case 2 -> { newPosition = this.position.add(new Vector2d(1, 0)); }
+            case 3 -> { newPosition = this.position.add(new Vector2d(1, -1)); }
+            case 4 -> { newPosition = this.position.add(new Vector2d(0, -1)); }
+            case 5 -> { newPosition = this.position.add(new Vector2d(-1, -1));}
+            case 6 -> { newPosition = this.position.add(new Vector2d(-1, 0)); }
+            case 7 -> { newPosition = this.position.add(new Vector2d(-1, 1)); }
             default -> {
                 System.out.println("NIEPRAWIDLOWY GEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?");
             }
         }
 
         if(!map.inMap(newPosition)){
-            newPosition = this.positionHandler.getNewPositionInMap(newPosition, this, map.getLowerBound(), this.map.getUpperBound(), this.map.getLeftBound(), this.map.getRightBound());
+            newPosition = this.positionHandler.getNewPositionInMap(newPosition, this.position, this.orientation);
             newOrientation = this.positionHandler.getNewOrientation();
-            newEnergy = this.positionHandler.getNewEnergy(this);
+            newEnergy = this.positionHandler.getNewEnergy(this.energy);
         }
+
         this.positionChanged(this.position, newPosition);
         this.position = newPosition;
         this.orientation = newOrientation;
         this.energy = newEnergy;
-        //System.out.println(this.position);
     }
 
     //ASIDE BREEDING FUNCTIONS////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -261,7 +245,7 @@ public class Animal {
 //        }
         //return "(%s, energia: %d)".formatted(genotypeString, this.energy);
         //return "A";
-        return "%d".formatted(this.energy);
+        return "%d".formatted(this.orientation);
     }
 
     public void addObserver(IPositionChangeObserver observer) {
