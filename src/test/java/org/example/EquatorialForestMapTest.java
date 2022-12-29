@@ -16,31 +16,24 @@ class EquatorialForestMapTest {
 
         //1
         EquatorialForestMap map1 = new EquatorialForestMap(3,8, 0);
-        HashSet<Vector2d> fertileAll1 = map1.getFertileFields();
 
-        Vector2d[] FertileAllResult = {
-                new Vector2d(0,3),
-                new Vector2d(1,3),
-                new Vector2d(2,3),
-                new Vector2d(0,4),
-                new Vector2d(1,4),
-        };
 
-        for(int i = 0; i < fertileAll1.size(); i++){
-            assertTrue(fertileAll1.contains(FertileAllResult[i]));
-        }
+            assertEquals(3, map1.getEquatorStart());
+            assertEquals(4,  map1.getEquatorEnd());
 
         //2
-        EquatorialForestMap map2 = new EquatorialForestMap(5,1, 0);
-        HashSet<Vector2d> fertileAll2 = map2.getFertileFields();
+        EquatorialForestMap map2 = new EquatorialForestMap(3,5, 0);
 
-        Vector2d[] FertileAllResult2 = {
-                new Vector2d(0,0),
-        };
 
-        for(int i = 0; i < fertileAll2.size(); i++){
-            assertTrue(fertileAll2.contains(FertileAllResult2[i]));
-        }
+        assertEquals(2, map2.getEquatorStart());
+        assertEquals(2,  map2.getEquatorEnd());
+
+        //3
+        EquatorialForestMap map3 = new EquatorialForestMap(5,13,25);
+
+        assertEquals(5, map3.getEquatorStart());
+        assertEquals(7,  map3.getEquatorEnd());
+
     }
 
     @Test

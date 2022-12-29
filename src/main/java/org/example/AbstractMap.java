@@ -72,6 +72,8 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
         return new Vector2d(width-1, height-1);
     }
 
+    public Vector2d getLowerCorner(){ return new Vector2d(0,0); }
+
     public String toString() {
         MapVisualizer mapVisualizer = new MapVisualizer(this);
         return mapVisualizer.draw(new Vector2d(0,0), new Vector2d(width-1, height-1));
