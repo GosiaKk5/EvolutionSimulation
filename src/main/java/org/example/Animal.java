@@ -4,82 +4,78 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 public class Animal {
-    private final int[] genotype;
-
-    public Vector2d getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vector2d position) {
-        this.position = position;
-    }
-
+    private final IMap map;
     private Vector2d position;
     private int orientation;
+    private final int[] genotype;
     private final int genotypeLength;
-
-    private IMap map;
-    private int energy;
-    private final IMutationHandler mutationHandler;
-    private final IChangePositionHandler positionHandler;
-    private final int breedEnergy;
     private int indexOfActiveGen;
+    private int energy;
+    private final int breedEnergy;
+    private final IMutationHandler mutationHandler;
+    private final IChangeOrientationHandler orientationHandler;
+    private final IChangePositionHandler positionHandler;
+    private final List<IPositionChangeObserver> observers;
 
-    private List<IPositionChangeObserver> observers = new ArrayList<>();
-
-
+    public Vector2d getPosition() { return position; }
     public int getOrientation() {
         return orientation;
     }
-
-    public void setOrientation(int orientation) {
-        this.orientation = orientation;
-    }
-
     public int getIndexOfActiveGen() {
         return indexOfActiveGen;
     }
-
-    public void setIndexOfActiveGen(int indexOfActiveGen) {
-        this.indexOfActiveGen = indexOfActiveGen;
+    public int getGenotypeLength() {
+        return genotypeLength;
     }
 
-    public Animal(IMap map, int[] genotype, int energy, Vector2d position, IMutationHandler mutationHandler, IChangePositionHandler positionHandler, int genotypeLength, int breedEnergy) {
+
+    //konstruktor ogólny
+    public Animal(IMap map,
+                  Vector2d position,
+                  int[] genotype,
+                  int genotypeLength,
+                  int indexOfActiveGen,
+                  int energy,
+                  int breedEnergy,
+                  IMutationHandler mutationHandler,
+                  IChangeOrientationHandler orientationHandler,
+                  IChangePositionHandler positionHandler){
         this.map = map;
-        this.genotype = genotype;
         this.position = position;
+        this.orientation = genotype[indexOfActiveGen];
+        this.genotype = genotype;
+        this.genotypeLength = genotypeLength;
+        this.indexOfActiveGen = indexOfActiveGen;
         this.energy = energy;
+        this.breedEnergy = breedEnergy;
         this.mutationHandler = mutationHandler;
         this.positionHandler = positionHandler;
-        this.genotypeLength = genotypeLength;
-        this.breedEnergy = breedEnergy;
-        this.indexOfActiveGen = 0;
-        this.orientation = this.genotype[this.indexOfActiveGen];
+        this.orientationHandler = orientationHandler;
+        this.observers = new ArrayList<>();
     }
 
-    public Animal(int[] genotype, int energy, Vector2d position, IMutationHandler mutationHandler, IChangePositionHandler positionHandler, int genotypeLength, int breedEnergy) {
-        this.genotype = genotype;
+    //konstruktor przypisujący losowy genotyp (będzie potrzebny do simulation engine)
+    public Animal(IMap map,
+                  Vector2d position,
+                  int genotypeLength,
+                  int indexOfActiveGen,
+                  int energy,
+                  int breedEnergy,
+                  IMutationHandler mutationHandler,
+                  IChangeOrientationHandler orientationHandler,
+                  IChangePositionHandler positionHandler){
+        this.map = map;
         this.position = position;
+        this.genotype = this.getRandomGenotype(genotypeLength);
+        this.orientation = genotype[indexOfActiveGen];
+        this.genotypeLength = genotypeLength;
+        this.indexOfActiveGen = indexOfActiveGen;
         this.energy = energy;
+        this.breedEnergy = breedEnergy;
         this.mutationHandler = mutationHandler;
         this.positionHandler = positionHandler;
-        this.genotypeLength = genotypeLength;
-        this.breedEnergy = breedEnergy;
-        this.indexOfActiveGen = 0;
-        this.orientation = this.genotype[this.indexOfActiveGen];
-    }
-
-    public Animal(int energy, Vector2d position, IMutationHandler mutationHandler, IChangePositionHandler positionHandler, int genotypeLength, int breedEnergy) {
-        int[] genotype = this.getRandomGenotype(genotypeLength);
-        this.genotype = genotype;
-        this.position = position;
-        this.energy = energy;
-        this.mutationHandler = mutationHandler;
-        this.positionHandler = positionHandler;
-        this.genotypeLength = genotypeLength;
-        this.breedEnergy = breedEnergy;
-        this.indexOfActiveGen = 0;
-        this.orientation = this.genotype[this.indexOfActiveGen];
+        this.orientationHandler = orientationHandler;
+        this.observers = new ArrayList<>();
     }
 
     private int[] getRandomGenotype(int genotypeLength) {
@@ -112,7 +108,17 @@ public class Animal {
         boolean strongerGenotypeOnLeft = this.chooseSideForStrongerAnimal();
         int[] genotypeForChild = createGenotypeFromAnimals(strongerAnimal, weakerAnimal, strongerGenotypeOnLeft);
 
-        Animal newAnimal = new Animal(genotypeForChild, this.breedEnergy * 2, new Vector2d(0, 0), this.mutationHandler, this.positionHandler, this.genotypeLength, this.breedEnergy);
+        Animal newAnimal = new Animal(this.map,
+                                        this.position,
+                                        genotypeForChild,
+                                        this.genotypeLength,
+                                        0,
+                                        this.breedEnergy * 2,
+                                        this.breedEnergy,
+                                        this.mutationHandler,
+                                        this.orientationHandler,
+                                        this.positionHandler);
+        //Animal newAnimal = new Animal(genotypeForChild, this.breedEnergy * 2, new Vector2d(0, 0), this.mutationHandler, this.orientationHandler, this.genotypeLength, this.breedEnergy);
 
         //set parents energy
         strongerAnimal.energy -= this.breedEnergy;
@@ -122,7 +128,7 @@ public class Animal {
     }
 
     public void changeOrientation() {
-        int nextIndexOfActiveGen = this.positionHandler.changePosition(this);
+        int nextIndexOfActiveGen = this.orientationHandler.changeOrientation(this);
         this.orientation = (this.orientation + this.genotype[nextIndexOfActiveGen]) % 8;
         this.indexOfActiveGen = nextIndexOfActiveGen;
 //        System.out.println("INDEX: " + this.indexOfActiveGen);
@@ -162,6 +168,7 @@ public class Animal {
                 System.out.println("NIEPRAWIDLOWY GEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?");
             }
         }
+
 
         this.positionChanged(this.position, newPosition);
         this.position = newPosition;
@@ -232,8 +239,6 @@ public class Animal {
         return gensToMutate;
     }
 
-    ;
-
     @Override
     public String toString() {
         String genotypeString = "";
@@ -243,12 +248,6 @@ public class Animal {
         //return "(%s, energia: %d)".formatted(genotypeString, this.energy);
         return "A";
     }
-
-
-    public int getGenotypeLength() {
-        return genotypeLength;
-    }
-
 
     public void addObserver(IPositionChangeObserver observer) {
         observers.add(observer);

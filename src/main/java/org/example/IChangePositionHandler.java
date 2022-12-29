@@ -1,5 +1,5 @@
 package org.example;
 
 public interface IChangePositionHandler {
-    int changePosition(Animal animal);
+    boolean newPositionInMap(Vector2d newPosition);
 }

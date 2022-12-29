@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class ToxicCorpsesMapTest {
     IMutationHandler mutationHandler = new FullRandomness();
-    IChangePositionHandler positionHandler = new LittleCraziness();
+    IChangeOrientationHandler positionHandler = new LittleCraziness();
     int genotypeLength = 15;
     int breedEnergy = 5;
     Vector2d position = new Vector2d(0,0);
