@@ -17,14 +17,10 @@ public class Animal {
     private final IChangePositionHandler positionHandler;
     private final List<IPositionChangeObserver> observers;
 
-    public Vector2d getPosition() {
-        return position;
-    }
-
+    public Vector2d getPosition() { return position; }
     public int getOrientation() {
         return orientation;
     }
-
     public int getIndexOfActiveGen() {
         return indexOfActiveGen;
     }
