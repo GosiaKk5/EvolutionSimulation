@@ -6,8 +6,31 @@ import java.util.Map;
 
 public abstract class AbstractMap implements IMap, IPositionChangeObserver{
 
-    protected int height;
-    protected int width;
+    protected final int height;
+    protected final int width;
+    protected final Vector2d lowerLeft;
+    protected final Vector2d upperRight;
+
+    public int getUpperBound() {
+        return upperBound;
+    }
+
+    public int getLowerBound() {
+        return lowerBound;
+    }
+
+    public int getLeftBound() {
+        return leftBound;
+    }
+
+    public int getRightBound() {
+        return rightBound;
+    }
+
+    protected final int upperBound;
+    protected final int lowerBound;
+    protected final int leftBound;
+    protected final int rightBound;
 
     protected Map<Vector2d, Plant> plants = new HashMap<>();
     protected Map<Vector2d, ArrayList<Animal>> animals = new HashMap<>();
@@ -15,6 +38,12 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
     public AbstractMap(int width, int height, int noStartPlants){
         this.height = height;
         this.width = width;
+        this.lowerLeft = new Vector2d(0,0);
+        this.upperRight = new Vector2d(width - 1, height - 1);
+        this.lowerBound = 0;
+        this.upperBound = height - 1;
+        this.leftBound = 0;
+        this.rightBound = width - 1;
 
 
         for(int y = 0; y < height; y++){
@@ -68,15 +97,11 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
         return objectAt(position) != null;
     }
 
-    public Vector2d getUpperCorner(){
-        return new Vector2d(width-1, height-1);
-    }
-
-    public Vector2d getLowerCorner(){ return new Vector2d(0,0); }
+    public boolean inMap(Vector2d position){ return(position.follows(this.lowerLeft) && position.precedes(this.upperRight)); }
 
     public String toString() {
         MapVisualizer mapVisualizer = new MapVisualizer(this);
-        return mapVisualizer.draw(new Vector2d(0,0), new Vector2d(width-1, height-1));
+        return mapVisualizer.draw(this.lowerLeft, this.upperRight);
     }
 
     public Map<Vector2d, Plant> getPlants(){

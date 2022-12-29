@@ -27,6 +27,12 @@ public class Animal {
     public int getGenotypeLength() {
         return genotypeLength;
     }
+    public int getEnergy() {
+        return this.energy;
+    }
+    public int getBreedEnergy() {
+        return this.breedEnergy;
+    }
 
 
     //konstruktor ogólny
@@ -77,7 +83,6 @@ public class Animal {
         this.orientationHandler = orientationHandler;
         this.observers = new ArrayList<>();
     }
-
     private int[] getRandomGenotype(int genotypeLength) {
 
         Random random = new Random();
@@ -137,7 +142,11 @@ public class Animal {
 
     public void move() {
 
+        this.energy -= 1;
+
         Vector2d newPosition = this.position;
+        int newOrientation = this.orientation;
+        int newEnergy = this.energy;
 
         switch (this.orientation) {
             case 0 -> {
@@ -169,11 +178,16 @@ public class Animal {
             }
         }
 
-
+        if(!map.inMap(newPosition)){
+            newPosition = this.positionHandler.getNewPositionInMap(newPosition, this, map.getLowerBound(), this.map.getUpperBound(), this.map.getLeftBound(), this.map.getRightBound());
+            newOrientation = this.positionHandler.getNewOrientation();
+            newEnergy = this.positionHandler.getNewEnergy(this);
+        }
         this.positionChanged(this.position, newPosition);
         this.position = newPosition;
+        this.orientation = newOrientation;
+        this.energy = newEnergy;
         //System.out.println(this.position);
-
     }
 
     //ASIDE BREEDING FUNCTIONS////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,12 +255,13 @@ public class Animal {
 
     @Override
     public String toString() {
-        String genotypeString = "";
-        for (Integer gen : this.genotype) {
-            genotypeString += gen;
-        }
+//        String genotypeString = "";
+//        for (Integer gen : this.genotype) {
+//            genotypeString += gen;
+//        }
         //return "(%s, energia: %d)".formatted(genotypeString, this.energy);
-        return "A";
+        //return "A";
+        return "%d".formatted(this.energy);
     }
 
     public void addObserver(IPositionChangeObserver observer) {
@@ -263,149 +278,3 @@ public class Animal {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-//package org.example;
-//
-//        import java.util.ArrayList;
-//        import java.util.Arrays;
-//        import java.util.List;
-//        import java.util.Random;
-//        import java.util.stream.IntStream;
-//
-//public class Animal {
-//    private int[] genotype;
-//    private int energy;
-//
-//    public int[] getGenotype() {
-//        return genotype;
-//    }
-//
-//    public int getEnergy() {
-//        return energy;
-//    }
-//
-//    public Animal(int[] genotype, int energy){
-//        this.genotype = genotype;
-//        this.energy = energy;
-//    }
-//    @Override
-//    public String toString(){
-//        String genotypeString = "";
-//        for (Integer gen : this.genotype){
-//            genotypeString += gen;
-//        }
-//        return "(%s, energia: %d)".formatted(genotypeString,this.energy);
-//    }
-//    public void breedNewAnimal(Animal animal1, Animal animal2){
-//        Animal strongerAnimal;
-//        Animal weakerAnimal;
-//
-//        //set stronger animal
-//        if (animal1.energy > animal2.energy){
-//            strongerAnimal = animal1;
-//            weakerAnimal = animal2;
-//        }
-//        else{
-//            strongerAnimal = animal2;
-//            weakerAnimal = animal1;
-//        }
-//
-//        boolean strongerGenotypeOnLeft = this.chooseSideForStrongerAnimal();
-//        int[] newGenotype = createGenotype(strongerAnimal, weakerAnimal, strongerGenotypeOnLeft);
-//        System.out.println(Arrays.toString(newGenotype));
-//        //mutate
-//        //create animal
-//        //update energy
-//        //return animal
-//    }
-//    private boolean chooseSideForStrongerAnimal(){
-//        Random random = new Random();
-//        return random.nextInt(0, 2) == 0;
-//    }
-//    //public createGenotype do testów - trzeba będzie zmienić
-//    public int[] createGenotype(Animal strongerAnimal, Animal weakerAnimal, boolean strongerGenotypeOnLeft){
-//
-//        int genotypeLength = this.genotype.length;
-//
-//        int strongerSideLength = (int) Math.round(((double)strongerAnimal.energy / (double)(strongerAnimal.energy + weakerAnimal.energy)) * (double)genotypeLength);
-//        int weakerSideLength = genotypeLength - strongerSideLength;
-//
-//        if (strongerGenotypeOnLeft){
-//            return concatenateGenotypes(strongerAnimal.genotype, strongerSideLength, weakerAnimal.genotype, genotypeLength);
-//        }
-//        else {
-//            return concatenateGenotypes(weakerAnimal.genotype, weakerSideLength, strongerAnimal.genotype, genotypeLength);
-//        }
-//    }
-//    private int[] concatenateGenotypes(int[] leftSide, int leftSideLength, int[] rightSide, int genotypeLength) {
-//        return IntStream.concat(Arrays.stream(Arrays.copyOfRange(leftSide, 0, leftSideLength)), Arrays.stream(Arrays.copyOfRange(rightSide, leftSideLength, genotypeLength))).toArray();
-//    }
-//    private void mutate(Animal animal){
-//
-//        //System.out.println("BEFORE MUTATION: " + Arrays.toString(animal.genotype));
-//
-//        //generate number of mutations
-//        Random random = new Random();
-//        int numberOfMutatingGens = random.nextInt(0, animal.genotype.length + 1);
-//
-//        List<Integer> gensToMutate = this.getIndexesOfGensToMutate(animal.genotype.length, numberOfMutatingGens);
-//
-//        //System.out.println("NUMBER OF GENS TO MUTATE: " + numberOfMutatingGens);
-//        //System.out.println("INDEXES OF GENS TO MUTATE: " + gensToMutate);
-//
-//        this.mutationToAnyOtherGen(gensToMutate, animal);
-//        //this.mutationUpOrDown(gensToMutate, animal);
-//
-//        //System.out.println("AFTER MUTATION: " + Arrays.toString(animal.genotype));
-//
-//    }
-//    private List<Integer> getIndexesOfGensToMutate(int genotypeLength, int numberOfMutatingGens){
-//        List<Integer> indexes = new ArrayList<>();
-//        Random random = new Random();
-//
-//        for (int i = 0; i < genotypeLength; i++){
-//            indexes.add(i);
-//        }
-//
-//        List<Integer> gensToMutate = new ArrayList<>();
-//        for (int i = 0; i < numberOfMutatingGens; i++){
-//            int index = indexes.remove(random.nextInt(0,indexes.size()));
-//            gensToMutate.add(index);
-//        }
-//
-//        return gensToMutate;
-//    };
-//    private void mutationToAnyOtherGen(List<Integer> gensToMutate, Animal animal){
-//        Random random = new Random();
-//
-//        List<Integer> gens = new ArrayList<>();
-//        for (int i = 0; i <= 7; i++){
-//            gens.add(i);
-//        }
-//
-//        for (int index : gensToMutate){
-//            int removedGen = gens.remove(animal.genotype[index]);
-//            animal.genotype[index] = gens.get(random.nextInt(0,7));
-//            //removedGen goes back to the original index
-//            gens.add(removedGen);
-//        }
-//    }
-//    private void mutationUpOrDown(List<Integer> gensToMutate, Animal animal){
-//        Random random = new Random();
-//        int[] upOrDown = {-1, 1};
-//        for (int index : gensToMutate){
-//            int difference = upOrDown[random.nextInt(0,2)];
-//            animal.genotype[index] += difference;
-//        }
-//    }
-//}
-

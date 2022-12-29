@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 public class EquatorialForestMap extends AbstractMap {
+
     private ArrayList<Vector2d> fertileFree = new ArrayList<Vector2d>(); // wolne pola żyzne
     private ArrayList<Vector2d>  notFertileFree = new ArrayList<Vector2d>(); // wolne pola nieżyzne
     //private final HashSet<Vector2d> fertileAll = new HashSet<>(); // wszystkie pola żyzne

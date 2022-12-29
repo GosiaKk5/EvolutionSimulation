@@ -1,15 +1,53 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 public class HellishPortal implements IChangePositionHandler {
 
-    private Vector2d lowerLeft;
-    private Vector2d upperRight;
-    public HellishPortal(int width, int height){
-        Vector2d lowerLeft = new Vector2d(0,0);
-        Vector2d upperRight = new Vector2d(width, height);
+    private int orientation = 0;
+    public HellishPortal(){
+        this.orientation = 0;
     }
     @Override
-    public boolean newPositionInMap(Vector2d newPosition) {
-        return newPosition.follows(this.lowerLeft) && newPosition.precedes(this.upperRight);
+    public Vector2d getNewPositionInMap(Vector2d position, Animal animal, int lowerBound, int upperBound, int leftBound, int rightBound) {
+
+        int oldX = position.x;
+        int oldY = position.y;
+        this.orientation = animal.getOrientation();
+
+        return new Vector2d(getNewXOrY(oldX, rightBound), getNewXOrY(oldY, upperBound));
+    }
+
+    @Override
+    public int getNewOrientation() {
+        return this.orientation;
+    }
+
+    @Override
+    public int getNewEnergy(Animal animal) {
+        return animal.getEnergy() - animal.getBreedEnergy();
+    }
+
+    private int getNewXOrY(int oldXorY, int bound){
+        List<Integer> possibleValues = new ArrayList<>();
+
+        Random random = new Random();
+
+        for(int i = 0; i < bound + 1; i++){
+            possibleValues.add(i);
+        }
+
+        //wyciągam starą wartość, żeby jej nie wylosować
+        possibleValues.remove(Integer.valueOf(oldXorY));
+
+        int index = random.nextInt(0,bound);
+        int newXorY = possibleValues.get(index);
+
+        possibleValues.add(oldXorY);
+
+        return newXorY;
     }
 }
