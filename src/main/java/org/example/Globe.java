@@ -9,6 +9,7 @@ public class Globe implements IChangePositionHandler {
     private final int leftBound;
 
     public Globe(int width, int height){
+
         this.newOrientation = 0;
         this.upperBound = height - 1;
         this.lowerBound = 0;
@@ -38,8 +39,7 @@ public class Globe implements IChangePositionHandler {
             this.newOrientation = 4;
         }
 
-        Vector2d newPosition = new Vector2d(newX, newY);
-        return newPosition;
+        return new Vector2d(newX, newY);
     }
 
     @Override
