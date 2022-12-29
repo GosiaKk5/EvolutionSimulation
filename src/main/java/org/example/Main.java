@@ -97,7 +97,39 @@ public class Main {
 //        System.out.println(map);
 
 
+        int height = 5;
+        int width = 5;
+        String variantMap = "Globe";
+        int numberOfStartPlants = 0;
+        int plantEnergy = 0;
+        int numberOfPlantsGrowDaily = 0;
+        String variantGrowingPlants = "EquatorialForest";
+        int numberOfStartAnimals = 0;
+        int startEnergy = 0;
+        int breedReadyEnergy = 0;
+        int breedHandoverEnergy = 0;
+        int minNumberOfMutations = 0;
+        int maxNumberOfMutations = 0;
+        String variantMutation = "FullRandomness";
+        int genotypeLength = 1;
+        String variantOrientation = "FullPredestination";
 
+        SimulationEngine engine = new SimulationEngine(height,
+                                width,
+                                variantMap,
+                                numberOfStartPlants,
+                                plantEnergy,
+                                numberOfPlantsGrowDaily,
+                                variantGrowingPlants,
+                                numberOfStartAnimals,
+                                startEnergy,
+                                breedReadyEnergy,
+                                breedHandoverEnergy,
+                                minNumberOfMutations,
+                                maxNumberOfMutations,
+                                variantMutation,
+                                genotypeLength,
+                                variantOrientation);
 
     }
 }
