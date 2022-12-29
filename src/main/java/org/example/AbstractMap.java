@@ -8,6 +8,8 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
 
     protected int height;
     protected int width;
+    protected Vector2d lowerLeft;
+    protected Vector2d upperRight;
 
     protected Map<Vector2d, Plant> plants = new HashMap<>();
     protected Map<Vector2d, ArrayList<Animal>> animals = new HashMap<>();
@@ -15,6 +17,8 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
     public AbstractMap(int width, int height, int noStartPlants){
         this.height = height;
         this.width = width;
+        this.lowerLeft = new Vector2d(0,0);
+        this.upperRight = new Vector2d(width - 1, height - 1);
 
 
         for(int y = 0; y < height; y++){
@@ -68,15 +72,11 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
         return objectAt(position) != null;
     }
 
-    public Vector2d getUpperCorner(){
-        return new Vector2d(width-1, height-1);
-    }
-
-    public Vector2d getLowerCorner(){ return new Vector2d(0,0); }
+    public boolean inMap(Vector2d position){ return(position.follows(this.lowerLeft) && position.precedes(this.upperRight)); }
 
     public String toString() {
         MapVisualizer mapVisualizer = new MapVisualizer(this);
-        return mapVisualizer.draw(new Vector2d(0,0), new Vector2d(width-1, height-1));
+        return mapVisualizer.draw(this.lowerLeft, this.upperRight);
     }
 
     public Map<Vector2d, Plant> getPlants(){

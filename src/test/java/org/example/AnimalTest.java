@@ -6,35 +6,89 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AnimalTest {
 
-//    @Test
-//    void moveAndChangePositionSimpleTest() {
-//        int[] genotype = {2,2,2,2};
-//        Animal animal = new Animal(genotype, 10, new Vector2d(0,0), new FullRandomness(), new FullPredestination(), genotype.length, 5);
-//        Vector2d[] positionCheck = {
-//                new Vector2d(1,0),
-//                new Vector2d(1,-1),
-//                new Vector2d(0,-1),
-//                new Vector2d(0,0)
-//        };
-//        int[] orientationCheck = {2,4,6,0};
-//
-//
-//        //System.out.println(animal.getPosition());
-//        for(int i = 0; i < 4; i++){
-//            animal.changeOrientation();
-//            animal.move();
-////            System.out.println("POSITION: " + animal.getPosition());
-////            System.out.println("ORIENTATION: " + animal.getOrientation());
-////            System.out.println();
-//            assertEquals(animal.getPosition(), positionCheck[i]);
-//            assertEquals(animal.getOrientation(), orientationCheck[i]);
-//        }
-//    }
+    @Test
+    void moveAndChangePositionSimpleTest() {
+
+        System.out.println();
+        System.out.println("-------------------------------------");
+
+        IMap map = new ToxicCorpsesMap(100,100,0);
+        Vector2d position = new Vector2d(0,0);
+        int[] genotype = {0,2,2,2};
+        int genotypeLength = genotype.length;
+        int indexOfActiveGen = 0;
+        int energy = 5;
+        int breedEnergy = 5;
+        IMutationHandler mutationHandler = new FullRandomness();
+        IChangeOrientationHandler orientationHandler = new FullPredestination();
+        IChangePositionHandler positionHandler = new HellishPortal(100,100);
+
+        Animal animal = new Animal(map,
+                position,
+                genotype,
+                genotypeLength,
+                indexOfActiveGen,
+                energy,
+                breedEnergy,
+                mutationHandler,
+                orientationHandler,
+                positionHandler);
+
+        Vector2d[] positionCheck = {
+                new Vector2d(0,1),
+                new Vector2d(1,1),
+                new Vector2d(1,0),
+                new Vector2d(0,0),
+                new Vector2d(-1,0),
+                new Vector2d(-1,1)
+        };
+        int[] orientationCheck = {2,4,6,6,0,2};
+
+
+        System.out.println(animal.getPosition());
+        for(int i = 0; i < positionCheck.length; i++){
+            System.out.println("i: " + i);
+            System.out.println("ORIENTATION: " + animal.getOrientation());
+            animal.move();
+            animal.changeOrientation();
+
+            System.out.println("POSITION: " + animal.getPosition());
+
+            assertEquals(animal.getPosition(), positionCheck[i]);
+            assertEquals(animal.getOrientation(), orientationCheck[i]);
+
+            System.out.println();
+        }
+    }
 
     @Test
     void moveAndChangePositionSimpleTest2() {
+
+        System.out.println();
+        System.out.println("-------------------------------------");
+
+        IMap map = new ToxicCorpsesMap(100,100,0);
+        Vector2d position = new Vector2d(0,0);
         int[] genotype = {0,1,2,3,3,4,5,6,1,3};
-        Animal animal = new Animal(genotype, 10, new Vector2d(0,0), new FullRandomness(), new FullPredestination(), genotype.length, 5);
+        int genotypeLength = genotype.length;
+        int indexOfActiveGen = 0;
+        int energy = 5;
+        int breedEnergy = 5;
+        IMutationHandler mutationHandler = new FullRandomness();
+        IChangeOrientationHandler orientationHandler = new FullPredestination();
+        IChangePositionHandler positionHandler = new HellishPortal(100,100);
+
+        Animal animal = new Animal(map,
+                                position,
+                                genotype,
+                                genotypeLength,
+                                indexOfActiveGen,
+                                energy,
+                                breedEnergy,
+                                mutationHandler,
+                                orientationHandler,
+                                positionHandler);
+
         Vector2d[] positionCheks = {
                 new Vector2d(0,1),
                 new Vector2d(1,2),

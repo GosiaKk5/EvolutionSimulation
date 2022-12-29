@@ -77,7 +77,6 @@ public class Animal {
         this.orientationHandler = orientationHandler;
         this.observers = new ArrayList<>();
     }
-
     private int[] getRandomGenotype(int genotypeLength) {
 
         Random random = new Random();

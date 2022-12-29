@@ -17,7 +17,7 @@ public class Main {
 //        int breedEnergy = 1;
 //        IMutationHandler mutationHandler = new FullRandomness();
 //        IChangeOrientationHandler orientationHandler = new FullPredestination();
-//        IPositionHandler positionHandler = new HellishPortal(100,100);
+//        IChangePositionHandler positionHandler = new HellishPortal(100,100);
 //
 //        Animal a1 = new Animal(map,
 //                                position,
@@ -45,9 +45,8 @@ public class Main {
 //        System.out.println(children);
 
 
-//        //pytanie dlaczego nie animalsAt nie działa dla takiej wersji:
-//        //IMap map = new ToxicCorpsesMap(10,7, 10);
-//        ToxicCorpsesMap map = new ToxicCorpsesMap(10,7, 10);
+
+//        IMap map = new ToxicCorpsesMap(10,7, 10);
 //        Vector2d position = new Vector2d(0,0);
 //        int[] genotype = {0,1,2,3,3,4,5,6,1,3};
 //        int genotypeLength = genotype.length;
@@ -57,7 +56,7 @@ public class Main {
 //        int breedEnergy = 5;
 //        IMutationHandler mutationHandler = new FullRandomness();
 //        IChangeOrientationHandler orientationHandler = new LittleCraziness();
-//        IPositionHandler positionHandler = new HellishPortal(100,100);
+//        IChangePositionHandler positionHandler = new HellishPortal(100,100);
 //
 //        Animal a1 = new Animal(map,
 //                            position,
