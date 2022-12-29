@@ -111,5 +111,8 @@ class GlobeTest {
             assertEquals(animal.getPosition(), positionChecks[i]);
             System.out.println(map);
         }
+
+        //ma sens tylko gdy w move nie ma -energia przy ruchu
+        //assertEquals(animal.getEnergy(), energy);
     }
 }

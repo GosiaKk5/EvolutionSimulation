@@ -27,6 +27,12 @@ public class Animal {
     public int getGenotypeLength() {
         return genotypeLength;
     }
+    public int getEnergy() {
+        return this.energy;
+    }
+    public int getBreedEnergy() {
+        return this.breedEnergy;
+    }
 
 
     //konstruktor ogólny
@@ -138,6 +144,7 @@ public class Animal {
 
         Vector2d newPosition = this.position;
         int newOrientation = this.orientation;
+        int newEnergy = this.energy;
 
         switch (this.orientation) {
             case 0 -> {
@@ -172,10 +179,12 @@ public class Animal {
         if(!map.inMap(newPosition)){
             newPosition = this.positionHandler.getNewPositionInMap(newPosition, this, map.getLowerBound(), this.map.getUpperBound(), this.map.getLeftBound(), this.map.getRightBound());
             newOrientation = this.positionHandler.getNewOrientation();
+            newEnergy = this.positionHandler.getNewEnergy(this);
         }
         this.positionChanged(this.position, newPosition);
         this.position = newPosition;
         this.orientation = newOrientation;
+        this.energy = newEnergy;
         //System.out.println(this.position);
     }
 

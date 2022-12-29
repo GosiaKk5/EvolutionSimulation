@@ -39,5 +39,10 @@ public class Globe implements IChangePositionHandler {
         return this.newOrientation;
     }
 
+    @Override
+    public int getNewEnergy(Animal animal) {
+        return animal.getEnergy();
+    }
+
 
 }
