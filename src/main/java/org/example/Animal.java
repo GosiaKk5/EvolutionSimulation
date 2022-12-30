@@ -17,6 +17,9 @@ public class Animal {
     private final IChangePositionHandler positionHandler;
     private final List<IPositionChangeObserver> observers;
 
+    private int age;
+    private int noChildren;
+
     public Vector2d getPosition() { return position; }
     public int getOrientation() {
         return orientation;
@@ -33,6 +36,9 @@ public class Animal {
     public int getBreedEnergy() {
         return this.breedEnergy;
     }
+    public int getAge(){ return this.age; }
+    public int getNoChildren(){ return this.noChildren; }
+
 
 
     //konstruktor ogólny
@@ -58,6 +64,8 @@ public class Animal {
         this.positionHandler = positionHandler;
         this.orientationHandler = orientationHandler;
         this.observers = new ArrayList<>();
+        this.age = 0;
+        this.noChildren = 0;
     }
 
     //konstruktor przypisujący losowy genotyp (będzie potrzebny do simulation engine)
@@ -96,7 +104,20 @@ public class Animal {
         return randomGenotype;
     }
 
+    public void ageAddOne(){
+        this.age += 1;
+    }
+
+    public void changeEnergy(int amountOfEnergy){
+        this.energy += amountOfEnergy;
+    }
+
     public Animal breedNewAnimal(Animal otherAnimal) {
+
+        // dodanie zwierzakom liczby dzieci
+        this.noChildren ++;
+        otherAnimal.noChildren ++;
+        //
 
         Animal strongerAnimal;
         Animal weakerAnimal;
@@ -245,7 +266,7 @@ public class Animal {
 //        }
         //return "(%s, energia: %d)".formatted(genotypeString, this.energy);
         //return "A";
-        return "%d".formatted(this.orientation);
+        return "%d".formatted(this.energy);
     }
 
     public void addObserver(IPositionChangeObserver observer) {

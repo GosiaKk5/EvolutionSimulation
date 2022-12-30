@@ -5,6 +5,7 @@ import java.util.List;
 
 public class SimulationEngine {
 
+    private int moveDelay = 1000;
     private final int height;
     private final int width;
     private final int numberOfStartPlants;
@@ -178,28 +179,135 @@ public class SimulationEngine {
                             this.changeOrientationHandler,
                             this.changePositionHandler);
 
+        Animal a3 = new Animal(this.map,
+                new Vector2d(3,2),
+                genotype2,
+                this.genotypeLength,
+                indexOfActiveGen,
+                this.startEnergy,
+                this.breedHandoverEnergy,
+                this.mutationHandler,
+                this.changeOrientationHandler,
+                this.changePositionHandler);
+
+        Animal a4 = new Animal(this.map,
+                new Vector2d(3,2),
+                genotype2,
+                this.genotypeLength,
+                indexOfActiveGen,
+                this.startEnergy,
+                this.breedHandoverEnergy,
+                this.mutationHandler,
+                this.changeOrientationHandler,
+                this.changePositionHandler);
+
         //wyjątek na umieszczenie poza mapą
 
         this.map.placeAnimal(a1);
         this.animals.add(a1);
         this.map.placeAnimal(a2);
         this.animals.add(a2);
+        this.map.placeAnimal(a3);
+        this.animals.add(a3);
+        this.map.placeAnimal(a4);
+        this.animals.add(a4);
     }
     public void run(){
-        this.moveAnimals();
+
+        for(int i = 0; i < 15; i++){
+            this.deleteDeadAnimals();
+            this.moveAnimals();
+            this.eatPlants();
+            this.breedAnimals();
+            this.growPlants();
+            System.out.println("noAnimals: " + animals.size());
+            System.out.println("i: " + i);
+            System.out.println(animals);
+            System.out.println(map);
+
+            try {
+                Thread.sleep(moveDelay);
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+
     }
-    private void deleteDeadAnimals(){}
+    private void deleteDeadAnimals(){
+        ArrayList <Animal> animalsToDelate = new ArrayList<>();
+        for(Animal animal: animals){
+            if(animal.getEnergy() <= 0){
+                animalsToDelate.add(animal);
+            }
+        }
+        for(Animal animal : animalsToDelate) {
+            map.removeAnimal(animal);
+            this.animals.remove(animal);
+        }
+    }
     private void moveAnimals(){
-        for(int i = 0; i < 5; i++){
             for(Animal animal : this.animals){
+                animal.ageAddOne(); //postarza zwierzę o jeden dzień
                 animal.move();
                 animal.changeOrientation();
             }
-            System.out.println("i: " + i);
-            System.out.println(map);
+
+        }
+    private void eatPlants(){
+        for(int y = 0; y < height; y++){
+            for(int x = 0; x < width; x++){
+                Vector2d position = new Vector2d(x,y);
+                if(map.plantAt(position) != null && map.animalsAt(position).size() > 0){
+                    map.removePlant(position);
+                    Animal animal = chooseWhoEat(position);
+                    animal.changeEnergy(this.plantEnergy);
+                }
+            }
         }
     }
-    private void eatPlants(){}
-    private void breedAnimals(){}
-    private void growPlants(){}
+
+    private Animal chooseWhoEat(Vector2d position){
+
+        ArrayList<Animal> fighters = map.animalsAt(position);
+
+        if (fighters.size() == 1){
+            return fighters.get(0);
+        }
+        fighters.sort((a1, a2) -> {
+            {
+                if(a2.getEnergy() != a1.getEnergy()){
+                    return a2.getEnergy() - a1.getEnergy();
+                }
+                if(a2.getAge() != a1.getAge()){
+                    return a2.getAge() - a1.getAge();
+                }
+                return a2.getNoChildren() - a1.getNoChildren();
+            }
+        });
+
+        return fighters.get(0);
+
+    }
+    private void breedAnimals(){
+        for(int y = 0; y < height; y++){
+            for(int x = 0; x < width; x++){
+                Vector2d position = new Vector2d(x,y);
+                ArrayList<Animal> fighters = map.animalsAt(position);
+                if(fighters.size() >= 2){
+                    Animal animal1 = fighters.get(0); // zwierzeta zostaly posortowane przy walce o jedzenie
+                    Animal animal2 = fighters.get(1);
+                    if(animal1.getEnergy() > breedHandoverEnergy && animal2.getEnergy() > breedHandoverEnergy){
+                        Animal newAnimal = animal1.breedNewAnimal(animal2);
+                        this.map.placeAnimal(newAnimal);
+                        this.animals.add(newAnimal);
+                    }
+
+
+                }
+            }
+        }
+    }
+    private void growPlants(){
+        map.addPlants(numberOfPlantsGrowDaily);
+    }
 }
