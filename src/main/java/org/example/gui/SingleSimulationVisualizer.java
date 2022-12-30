@@ -2,10 +2,14 @@ package org.example.gui;
 
 import javafx.application.Platform;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.example.*;
 
@@ -63,10 +67,17 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
 
         this.createScene();
 
-        VBox sceneContainer = new VBox(this.getButtonContainer(), this.gridPane);
+        VBox simulationAreaContainer = new VBox(this.getButtonContainer(), this.gridPane);
+        VBox statisticsContainer = new VBox(this.getMapStatisticsVBox(), this.getAnimalStatisticsVBox());
+        statisticsContainer.setPadding(new Insets(0,0,0,20));
+
+        HBox sceneContainer = new HBox(simulationAreaContainer, statisticsContainer);
+        Insets insets = new Insets(20);
+        sceneContainer.setPadding(insets);
+        sceneContainer.setAlignment(Pos.CENTER);
 
         Stage newStage = new Stage();
-        Scene scene = new Scene(sceneContainer, 400, 400);
+        Scene scene = new Scene(sceneContainer, 1000, 600);
         newStage.setScene(scene);
         newStage.show();
     }
@@ -135,6 +146,34 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
                 }
             }
         }
+    }
+    public VBox getMapStatisticsVBox(){
+        Text title = new Text("statystyki mapy");
+
+        Text t1 = new Text("liczba wszystkich zwierzat: ");
+        Text t2 = new Text("liczba wszystkich roslin: ");
+        Text t3 = new Text("liczba wolnych pol: ");
+        Text t4 = new Text("najpopularniejszy genotyp: ");
+        Text t5 = new Text("sredni poziom energii dla zyjacych zwierzat: ");
+        Text t6 = new Text("srednia dlugosc zycia zwierzat dla martwych zwierzat: ");
+
+        VBox statisticsContainer = new VBox(title, new Text(""), t1, t2, t3, t4, t5, t6);
+
+        return statisticsContainer;
+    }
+    public VBox getAnimalStatisticsVBox(){
+        Text title = new Text("statystyki zwierzatka");
+
+        Text t1 = new Text("genotyp: ");
+        Text t2 = new Text("aktywny index genu: ");
+        Text t3 = new Text("energia: ");
+        Text t4 = new Text("zjedzone rosliny: ");
+        Text t5 = new Text("dzieci: ");
+        Text t6 = new Text("liczba dni: ");
+
+        VBox statisticsContainer = new VBox(title, new Text(""), t1, t2, t3, t4, t5, t6);
+
+        return statisticsContainer;
     }
     public void refresh() {
         Platform.runLater( () -> {
