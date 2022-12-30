@@ -1,6 +1,6 @@
 package org.example;
 
-public class Plant {
+public class Plant implements IMapElement{
     private final Vector2d position;
 
     public Plant(Vector2d position){

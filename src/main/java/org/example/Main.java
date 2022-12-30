@@ -1,5 +1,8 @@
 package org.example;
 
+import javafx.application.Application;
+import org.example.gui.App;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +10,9 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
+
+
+        Application.launch(App.class, args);
 
 //        //SHOW BREEDING
 //        int width = 5;
@@ -103,39 +109,39 @@ public class Main {
 //        System.out.println(map);
 
 
-        int height = 4;
-        int width = 4;
-        String variantMap = "Globe";
-        int numberOfStartPlants = 10;
-        int plantEnergy = 2;
-        int numberOfPlantsGrowDaily = 1;
-        String variantGrowingPlants = "EquatorialForest";
-        int numberOfStartAnimals = 0;
-        int startEnergy = 8;
-        int breedReadyEnergy = 6;
-        int breedHandoverEnergy = 5;
-        int minNumberOfMutations = 0;
-        int maxNumberOfMutations = 0;
-        String variantMutation = "FullRandomness";
-        int genotypeLength = 1;
-        String variantOrientation = "FullPredestination";
-
-        SimulationEngine engine = new SimulationEngine(height,
-                                width,
-                                variantMap,
-                                numberOfStartPlants,
-                                plantEnergy,
-                                numberOfPlantsGrowDaily,
-                                variantGrowingPlants,
-                                numberOfStartAnimals,
-                                startEnergy,
-                                breedReadyEnergy,
-                                breedHandoverEnergy,
-                                minNumberOfMutations,
-                                maxNumberOfMutations,
-                                variantMutation,
-                                genotypeLength,
-                                variantOrientation);
-        engine.run();
+//        int height = 4;
+//        int width = 4;
+//        String variantMap = "Globe";
+//        int numberOfStartPlants = 10;
+//        int plantEnergy = 2;
+//        int numberOfPlantsGrowDaily = 1;
+//        String variantGrowingPlants = "EquatorialForest";
+//        int numberOfStartAnimals = 0;
+//        int startEnergy = 8;
+//        int breedReadyEnergy = 6;
+//        int breedHandoverEnergy = 5;
+//        int minNumberOfMutations = 0;
+//        int maxNumberOfMutations = 0;
+//        String variantMutation = "FullRandomness";
+//        int genotypeLength = 1;
+//        String variantOrientation = "FullPredestination";
+//
+//        SimulationEngine engine = new SimulationEngine(height,
+//                                width,
+//                                variantMap,
+//                                numberOfStartPlants,
+//                                plantEnergy,
+//                                numberOfPlantsGrowDaily,
+//                                variantGrowingPlants,
+//                                numberOfStartAnimals,
+//                                startEnergy,
+//                                breedReadyEnergy,
+//                                breedHandoverEnergy,
+//                                minNumberOfMutations,
+//                                maxNumberOfMutations,
+//                                variantMutation,
+//                                genotypeLength,
+//                                variantOrientation);
+//        engine.run();
     }
 }

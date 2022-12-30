@@ -3,7 +3,7 @@ package org.example;
 import java.util.*;
 import java.util.stream.IntStream;
 
-public class Animal {
+public class Animal implements IMapElement {
     private final IMap map;
     private Vector2d position;
     private int orientation;
