@@ -266,7 +266,7 @@ public class Animal implements IMapElement {
 //        }
         //return "(%s, energia: %d)".formatted(genotypeString, this.energy);
         //return "A";
-        return "o: %d, e:%d".formatted(this.orientation, this.energy);
+        return "%d".formatted(this.energy);
     }
 
     public void addObserver(IPositionChangeObserver observer) {

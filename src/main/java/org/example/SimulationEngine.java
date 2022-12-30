@@ -1,16 +1,14 @@
 package org.example;
 
-import org.example.gui.AppVisualizer;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationEngine implements Runnable {
 
-    private int moveDelay = 800;
-    private final int height;
-    private final int width;
-    private final int numberOfStartPlants;
+    private int moveDelay = 3000;
+    int height;
+    int width;
+    int numberOfStartPlants;
     private final int plantEnergy;
     private final int numberOfPlantsGrowDaily;
     private final int numberOfStartAnimals;
@@ -26,8 +24,8 @@ public class SimulationEngine implements Runnable {
     IMutationHandler mutationHandler;
     IMap map;
     private final List<Animal> animals;
-    private AppVisualizer appVisualizer;
     private boolean paused;
+    private ArrayList<INextSimulationDayObserver> observers = new ArrayList<INextSimulationDayObserver>();
 
 
     //    Symulacja każdego dnia składa się z poniższej sekwencji kroków:
@@ -79,8 +77,7 @@ public class SimulationEngine implements Runnable {
                             int maxNumberOfMutations,
                             String variantMutation,
                             int genotypeLength,
-                            String variantOrientation,
-                            AppVisualizer appVisualizer){
+                            String variantOrientation){
 
         //UWAGA W TYM MIEJSCU RZUCAMY WYJĄTAKI JEŻELI PODANE WARTOŚCI SA BLEDNE
         // height, widht > 0, width >= 5
@@ -89,7 +86,6 @@ public class SimulationEngine implements Runnable {
         // number of plants < widht*height? nie wiem jak to jest zaimplementowane
         // maxnumber of mutation <= genotypelenght
 
-        this.appVisualizer = appVisualizer;
         this.paused = false;
 
         this.height = height;
@@ -138,6 +134,53 @@ public class SimulationEngine implements Runnable {
                 System.out.println("NAZWA WARIANTU ORIENTACJI");
             }
         }
+
+//        System.out.println(this.map);
+        this.addAnimals();
+
+//        System.out.println("ANIMALS ADDED:");
+//        System.out.println();
+//        System.out.println(this.map);
+//
+//        System.out.println("ANIMALS: " + this.animals);
+//        System.out.println();
+
+    }
+
+    //konstruktor do app
+    public SimulationEngine(IMap map,
+                            IChangePositionHandler changePositionHandler,
+                            int plantEnergy,
+                            int numberOfPlantsGrowDaily,
+                            int numberOfStartAnimals,
+                            int startEnergy,
+                            int breedReadyEnergy,
+                            int breedHandoverEnergy,
+                            int minNumberOfMutations,
+                            int maxNumberOfMutations,
+                            IMutationHandler mutationHandler,
+                            int genotypeLength,
+                            IChangeOrientationHandler changeOrientationHandler){
+
+        this.paused = false;
+
+        this.plantEnergy = plantEnergy;
+        this.numberOfPlantsGrowDaily = numberOfPlantsGrowDaily;
+        this.numberOfStartAnimals = numberOfStartAnimals;
+        this.startEnergy = startEnergy;
+        this.breedReadyEnergy = breedReadyEnergy;
+        this.breedHandoverEnergy = breedHandoverEnergy;
+        this.minNumberOfMutations = minNumberOfMutations;
+        this.maxNumberOfMutations = maxNumberOfMutations;
+        this.genotypeLength = genotypeLength;
+
+        this.animals = new ArrayList<>();
+
+        this.changePositionHandler = changePositionHandler;
+        this.map = map;
+        this.mutationHandler = mutationHandler;
+        this.changeOrientationHandler = changeOrientationHandler;
+
 
 //        System.out.println(this.map);
         this.addAnimals();
@@ -225,31 +268,8 @@ public class SimulationEngine implements Runnable {
         this.map.placeAnimal(a4);
         this.animals.add(a4);
 
-        //System.out.println("NULL?: " + this.appVisualizer);
-
-//        a1.addObserver(this.appVisualizer);
-//        a2.addObserver(this.appVisualizer);
-//        a3.addObserver(this.appVisualizer);
-//        a4.addObserver(this.appVisualizer);
     }
     public void run(){
-
-//        for(int i = 0; i < 15; i++){
-//            this.deleteDeadAnimals();
-//            this.moveAnimals();
-//            this.eatPlants();
-//            this.breedAnimals();
-//            this.growPlants();
-//            System.out.println("noAnimals: " + animals.size());
-//            System.out.println("i: " + i);
-//            System.out.println(animals);
-//            System.out.println(map);
-//
-//            try {
-//                Thread.sleep(moveDelay);
-//            }catch(InterruptedException e){
-//                e.printStackTrace();
-//            }
 
         try{
             for (int i = 0; i < 100; i++) {
@@ -259,8 +279,8 @@ public class SimulationEngine implements Runnable {
                     this.eatPlants();
                     this.breedAnimals();
                     this.growPlants();
-                    this.appVisualizer.appRefresh();
                     System.out.println(map);
+                    this.dayChanged();
                 }
                 Thread.sleep(moveDelay);
             }
@@ -354,5 +374,19 @@ public class SimulationEngine implements Runnable {
         System.out.println(this.paused);}
     public boolean isPaused(){
         return this.paused;
+    }
+
+    public void addObserver(INextSimulationDayObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(INextSimulationDayObserver observer) {
+        observers.remove(observer);
+    }
+
+    private void dayChanged() {
+        for (INextSimulationDayObserver observer : observers) {
+            observer.dayChanged();
+        }
     }
 }
