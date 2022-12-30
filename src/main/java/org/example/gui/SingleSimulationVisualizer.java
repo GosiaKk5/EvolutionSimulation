@@ -128,7 +128,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
                 Vector2d position = new Vector2d(x, y);
                 if (this.map.isOccupied(position)) {
                     Object mapElement = this.map.objectAt(position);
-                    GuiElementBox guiElementBox = new GuiElementBox((IMapElement) mapElement);
+                    GuiElementBox guiElementBox = new GuiElementBox((IMapElement) mapElement, this.engine);
                     VBox elementContainer = guiElementBox.getElementContainer();
                     gridPane.add(elementContainer, position.x + 1, yBound - position.y + 1);
                     GridPane.setHalignment(elementContainer, HPos.CENTER);

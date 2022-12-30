@@ -369,9 +369,9 @@ public class SimulationEngine implements Runnable {
     private void growPlants(){
         map.addPlants(numberOfPlantsGrowDaily);
     }
-    public void changePaused(){
-        this.paused = !this.paused;
-        System.out.println(this.paused);}
+    public boolean isPaused(){
+        return this.paused;
+    }
     public void unPause(){
         this.paused = false;
     }

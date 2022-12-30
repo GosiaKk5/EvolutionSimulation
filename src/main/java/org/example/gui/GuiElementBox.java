@@ -12,6 +12,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import org.example.Animal;
 import org.example.IMapElement;
+import org.example.SimulationEngine;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,7 +23,8 @@ public class GuiElementBox {
     private ImageView image;
     private VBox elementContainer;
 
-    public GuiElementBox(IMapElement mapElement){
+    private SimulationEngine engine;
+    public GuiElementBox(IMapElement mapElement, SimulationEngine engine){
 
         // set the fill of the circle
         Text text = new Text(mapElement.toString());
@@ -30,16 +32,20 @@ public class GuiElementBox {
         this.elementContainer = new VBox(text, elementPosition);
         this.elementContainer.setAlignment(Pos.CENTER);
 
+        this.engine = engine;
+
         this.elementContainer.setOnMouseClicked(event -> {
-            System.out.println(mapElement.getPosition());
+            if(this.engine.isPaused()){
+                System.out.println(mapElement.getPosition());
 
-            BackgroundFill background_fill = new BackgroundFill(Color.PINK, CornerRadii.EMPTY, Insets.EMPTY);
+                BackgroundFill background_fill = new BackgroundFill(Color.PINK, CornerRadii.EMPTY, Insets.EMPTY);
 
-            // create Background
-            Background background = new Background(background_fill);
+                // create Background
+                Background background = new Background(background_fill);
 
-            // set background
-            this.elementContainer.setBackground(background);
+                // set background
+                this.elementContainer.setBackground(background);
+            }
         });
     }
 
