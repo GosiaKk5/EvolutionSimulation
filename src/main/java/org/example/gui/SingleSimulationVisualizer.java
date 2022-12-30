@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.example.*;
 
@@ -87,14 +86,9 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
 
         HBox buttonContainer = new HBox(buttonContinue, buttonStop);
 
-        buttonStop.setOnAction(event -> {
-            this.engine.pause();
+        buttonStop.setOnAction(event -> this.engine.pause());
 
-        });
-
-        buttonContinue.setOnAction(event -> {
-            this.engine.unPause();
-        });
+        buttonContinue.setOnAction(event -> this.engine.unPause());
 
         return buttonContainer;
     }
@@ -157,9 +151,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         Text t5 = new Text("sredni poziom energii dla zyjacych zwierzat: ");
         Text t6 = new Text("srednia dlugosc zycia zwierzat dla martwych zwierzat: ");
 
-        VBox statisticsContainer = new VBox(title, new Text(""), t1, t2, t3, t4, t5, t6);
-
-        return statisticsContainer;
+        return new VBox(title, new Text(""), t1, t2, t3, t4, t5, t6);
     }
     public VBox getAnimalStatisticsVBox(){
         Text title = new Text("statystyki zwierzatka");
@@ -171,9 +163,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         Text t5 = new Text("dzieci: ");
         Text t6 = new Text("liczba dni: ");
 
-        VBox statisticsContainer = new VBox(title, new Text(""), t1, t2, t3, t4, t5, t6);
-
-        return statisticsContainer;
+        return new VBox(title, new Text(""), t1, t2, t3, t4, t5, t6);
     }
     public void refresh() {
         Platform.runLater( () -> {
