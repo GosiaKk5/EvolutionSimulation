@@ -103,12 +103,12 @@ public class Main {
 //        System.out.println(map);
 
 
-        int height = 5;
-        int width = 5;
+        int height = 4;
+        int width = 4;
         String variantMap = "Globe";
-        int numberOfStartPlants = 3;
-        int plantEnergy = 0;
-        int numberOfPlantsGrowDaily = 0;
+        int numberOfStartPlants = 10;
+        int plantEnergy = 2;
+        int numberOfPlantsGrowDaily = 1;
         String variantGrowingPlants = "EquatorialForest";
         int numberOfStartAnimals = 0;
         int startEnergy = 8;

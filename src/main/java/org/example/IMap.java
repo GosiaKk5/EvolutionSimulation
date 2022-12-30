@@ -8,7 +8,11 @@ public interface IMap {
     boolean isOccupied(Vector2d position);
     void addPlants(int noPlants);
     void removePlant(Vector2d position);
+
+    Plant plantAt(Vector2d position);
     ArrayList<Animal> animalsAt(Vector2d position);
+
+    void removeAnimal(Animal animal);
     boolean inMap(Vector2d position);
     int getUpperBound();
     int getLowerBound();

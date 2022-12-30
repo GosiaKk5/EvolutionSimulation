@@ -57,10 +57,12 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
     public void placeAnimal(Animal animal) {
         Vector2d position = animal.getPosition();
 
-        //if canmoveto
-        this.animals.get(position).add(animal);
-        animal.addObserver(this);
-        //else exception - zwierze nie moze byc dodane poza mapa?
+        if(position.x <= getRightBound() && position.y <= getUpperBound() && position.x >= 0 && position.y >=0){
+            this.animals.get(position).add(animal);
+            animal.addObserver(this);
+        }else{
+            throw new IllegalArgumentException(position + "is not on map ");
+        }
     }
 
     public void removeAnimal(Animal animal){
@@ -75,7 +77,7 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
         return null;
     }
 
-    public Plant plantAt(Vector2d position){ //popraw usun if
+    public Plant plantAt(Vector2d position){
         if(plants.size() != 0){
             return plants.get(position);
         }
