@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SimulationEngine implements Runnable {
 
-    private int moveDelay = 3000;
+    private int moveDelay = 1000;
     int height;
     int width;
     int numberOfStartPlants;
@@ -272,7 +272,7 @@ public class SimulationEngine implements Runnable {
     public void run(){
 
         try{
-            for (int i = 0; i < 100; i++) {
+            while(true) {
                 if(!this.paused){
                     this.deleteDeadAnimals();
                     this.moveAnimals();
@@ -372,8 +372,11 @@ public class SimulationEngine implements Runnable {
     public void changePaused(){
         this.paused = !this.paused;
         System.out.println(this.paused);}
-    public boolean isPaused(){
-        return this.paused;
+    public void unPause(){
+        this.paused = false;
+    }
+    public void pause(){
+        this.paused = true;
     }
 
     public void addObserver(INextSimulationDayObserver observer) {

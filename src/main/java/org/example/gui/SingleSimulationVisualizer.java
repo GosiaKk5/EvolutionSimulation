@@ -70,7 +70,6 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         newStage.setScene(scene);
         newStage.show();
     }
-
     public HBox getButtonContainer(){
         Button buttonStop = new Button("stop");
         Button buttonContinue = new Button("continue");
@@ -78,15 +77,12 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         HBox buttonContainer = new HBox(buttonContinue, buttonStop);
 
         buttonStop.setOnAction(event -> {
-            if(!this.engine.isPaused()){
-                this.engine.changePaused();
-            }
+            this.engine.pause();
+
         });
 
         buttonContinue.setOnAction(event -> {
-            if(this.engine.isPaused()){
-                this.engine.changePaused();
-            }
+            this.engine.unPause();
         });
 
         return buttonContainer;
