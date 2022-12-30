@@ -3,7 +3,7 @@ package org.example;
 import java.util.*;
 import java.util.stream.IntStream;
 
-public class Animal {
+public class Animal implements IMapElement {
     private final IMap map;
     private Vector2d position;
     private int orientation;
@@ -266,7 +266,7 @@ public class Animal {
 //        }
         //return "(%s, energia: %d)".formatted(genotypeString, this.energy);
         //return "A";
-        return "%d".formatted(this.energy);
+        return "o: %d, e:%d".formatted(this.orientation, this.energy);
     }
 
     public void addObserver(IPositionChangeObserver observer) {

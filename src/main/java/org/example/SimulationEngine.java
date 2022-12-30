@@ -1,11 +1,13 @@
 package org.example;
 
+import org.example.gui.AppVisualizer;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimulationEngine {
+public class SimulationEngine implements Runnable {
 
-    private int moveDelay = 1000;
+    private int moveDelay = 800;
     private final int height;
     private final int width;
     private final int numberOfStartPlants;
@@ -24,6 +26,8 @@ public class SimulationEngine {
     IMutationHandler mutationHandler;
     IMap map;
     private final List<Animal> animals;
+    private AppVisualizer appVisualizer;
+    private boolean paused;
 
 
     //    Symulacja każdego dnia składa się z poniższej sekwencji kroków:
@@ -56,6 +60,10 @@ public class SimulationEngine {
     //variantMutation -> FullRandomness/LittleCorrect
     //variantOrientation -> FullPredestination/LittleCraziness
 
+    public IMap getMap() {
+        return map;
+    }
+
     public SimulationEngine(int height,
                             int width,
                             String variantMap,
@@ -71,7 +79,8 @@ public class SimulationEngine {
                             int maxNumberOfMutations,
                             String variantMutation,
                             int genotypeLength,
-                            String variantOrientation){
+                            String variantOrientation,
+                            AppVisualizer appVisualizer){
 
         //UWAGA W TYM MIEJSCU RZUCAMY WYJĄTAKI JEŻELI PODANE WARTOŚCI SA BLEDNE
         // height, widht > 0, width >= 5
@@ -79,6 +88,9 @@ public class SimulationEngine {
         // minNumberOfMutation <= max
         // number of plants < widht*height? nie wiem jak to jest zaimplementowane
         // maxnumber of mutation <= genotypelenght
+
+        this.appVisualizer = appVisualizer;
+        this.paused = false;
 
         this.height = height;
         this.width = width;
@@ -127,15 +139,16 @@ public class SimulationEngine {
             }
         }
 
-        System.out.println(this.map);
+//        System.out.println(this.map);
         this.addAnimals();
 
-        System.out.println("ANIMALS ADDED:");
-        System.out.println();
-        System.out.println(this.map);
+//        System.out.println("ANIMALS ADDED:");
+//        System.out.println();
+//        System.out.println(this.map);
+//
+//        System.out.println("ANIMALS: " + this.animals);
+//        System.out.println();
 
-        System.out.println("ANIMALS: " + this.animals);
-        System.out.println();
     }
 
     private void addAnimals(){
@@ -211,27 +224,50 @@ public class SimulationEngine {
         this.animals.add(a3);
         this.map.placeAnimal(a4);
         this.animals.add(a4);
+
+        //System.out.println("NULL?: " + this.appVisualizer);
+
+//        a1.addObserver(this.appVisualizer);
+//        a2.addObserver(this.appVisualizer);
+//        a3.addObserver(this.appVisualizer);
+//        a4.addObserver(this.appVisualizer);
     }
     public void run(){
 
-        for(int i = 0; i < 15; i++){
-            this.deleteDeadAnimals();
-            this.moveAnimals();
-            this.eatPlants();
-            this.breedAnimals();
-            this.growPlants();
-            System.out.println("noAnimals: " + animals.size());
-            System.out.println("i: " + i);
-            System.out.println(animals);
-            System.out.println(map);
+//        for(int i = 0; i < 15; i++){
+//            this.deleteDeadAnimals();
+//            this.moveAnimals();
+//            this.eatPlants();
+//            this.breedAnimals();
+//            this.growPlants();
+//            System.out.println("noAnimals: " + animals.size());
+//            System.out.println("i: " + i);
+//            System.out.println(animals);
+//            System.out.println(map);
+//
+//            try {
+//                Thread.sleep(moveDelay);
+//            }catch(InterruptedException e){
+//                e.printStackTrace();
+//            }
 
-            try {
+        try{
+            for (int i = 0; i < 100; i++) {
+                if(!this.paused){
+                    this.deleteDeadAnimals();
+                    this.moveAnimals();
+                    this.eatPlants();
+                    this.breedAnimals();
+                    this.growPlants();
+                    this.appVisualizer.appRefresh();
+                    System.out.println(map);
+                }
                 Thread.sleep(moveDelay);
-            }catch(InterruptedException e){
-                e.printStackTrace();
             }
         }
-
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     private void deleteDeadAnimals(){
         ArrayList <Animal> animalsToDelate = new ArrayList<>();
@@ -312,5 +348,11 @@ public class SimulationEngine {
     }
     private void growPlants(){
         map.addPlants(numberOfPlantsGrowDaily);
+    }
+    public void changePaused(){
+        this.paused = !this.paused;
+        System.out.println(this.paused);}
+    public boolean isPaused(){
+        return this.paused;
     }
 }
