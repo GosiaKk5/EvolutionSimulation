@@ -260,7 +260,10 @@ public class SimulationEngine {
                 if(map.plantAt(position) != null && map.animalsAt(position).size() > 0){
                     map.removePlant(position);
                     Animal animal = chooseWhoEat(position);
-                    animal.changeEnergy(this.plantEnergy);
+                    if(animal.getEnergy() >= 0){ //jedzą żywe zwierzaki xd
+                        animal.changeEnergy(this.plantEnergy);
+                    }
+
                 }
             }
         }
