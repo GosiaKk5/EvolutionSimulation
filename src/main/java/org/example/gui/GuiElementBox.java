@@ -16,37 +16,28 @@ import org.example.SimulationEngine;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 
 public class GuiElementBox {
 
-    final static int IMAGE_SIZE = 42;
-    private ImageView image;
     private VBox elementContainer;
 
-    private SimulationEngine engine;
-    public GuiElementBox(IMapElement mapElement, SimulationEngine engine){
+    public GuiElementBox(IMapElement mapElement){
 
-        // set the fill of the circle
         Text text = new Text(mapElement.toString());
         Label elementPosition = new Label(mapElement.getPosition().toString());
         this.elementContainer = new VBox(text, elementPosition);
         this.elementContainer.setAlignment(Pos.CENTER);
 
-        this.engine = engine;
+    }
 
-        this.elementContainer.setOnMouseClicked(event -> {
-            if(this.engine.isPaused()){
-                System.out.println(mapElement.getPosition());
+    public void setBackgroundColor(VBox container){
 
-                BackgroundFill background_fill = new BackgroundFill(Color.PINK, CornerRadii.EMPTY, Insets.EMPTY);
-
-                // create Background
-                Background background = new Background(background_fill);
-
-                // set background
-                this.elementContainer.setBackground(background);
-            }
-        });
+        BackgroundFill background_fill = new BackgroundFill(Color.PINK, CornerRadii.EMPTY, Insets.EMPTY);
+        // create Background
+        Background background = new Background(background_fill);
+        // set background
+        container.setBackground(background);
     }
 
     public VBox getElementContainer(){

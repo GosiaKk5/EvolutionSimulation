@@ -20,6 +20,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
     static final int CELL_WIDTH = 60;
     static final int CELL_HEIGHT = 60;
     private final SimulationEngine engine;
+    private Animal followedAnimal;
 
     public SingleSimulationVisualizer(int height,
                                       int width,
@@ -83,12 +84,18 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
     public HBox getButtonContainer(){
         Button buttonStop = new Button("stop");
         Button buttonContinue = new Button("continue");
+        Button buttonResetFollowedAnimal = new Button("reset followed animal");
 
-        HBox buttonContainer = new HBox(buttonContinue, buttonStop);
+        HBox buttonContainer = new HBox(buttonContinue, buttonStop, buttonResetFollowedAnimal);
 
         buttonStop.setOnAction(event -> this.engine.pause());
 
         buttonContinue.setOnAction(event -> this.engine.unPause());
+
+        buttonResetFollowedAnimal.setOnAction(event -> {
+            this.followedAnimal = null;
+            this.refresh();
+        });
 
         return buttonContainer;
     }
@@ -133,15 +140,31 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
                 Vector2d position = new Vector2d(x, y);
                 if (this.map.isOccupied(position)) {
                     Object mapElement = this.map.objectAt(position);
-                    GuiElementBox guiElementBox = new GuiElementBox((IMapElement) mapElement, this.engine);
+                    GuiElementBox guiElementBox = new GuiElementBox((IMapElement) mapElement);
                     VBox elementContainer = guiElementBox.getElementContainer();
+
+                    elementContainer.setOnMouseClicked(event -> {
+                        if(mapElement instanceof Animal && this.engine.isPaused()){
+
+                            this.followedAnimal = (Animal) mapElement;
+                            guiElementBox.setBackgroundColor(elementContainer);
+                            this.refresh();
+                        }
+                    });
+
+                    if(mapElement.equals(followedAnimal)){
+                        System.out.println("EQUALS");
+                        guiElementBox.setBackgroundColor(elementContainer);
+                    }
+
                     gridPane.add(elementContainer, position.x + 1, yBound - position.y + 1);
                     GridPane.setHalignment(elementContainer, HPos.CENTER);
                 }
             }
         }
     }
-    public VBox getMapStatisticsVBox(){
+
+    private VBox getMapStatisticsVBox(){
         Text title = new Text("statystyki mapy");
 
         Text t1 = new Text("liczba wszystkich zwierzat: ");
@@ -153,7 +176,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
 
         return new VBox(title, new Text(""), t1, t2, t3, t4, t5, t6);
     }
-    public VBox getAnimalStatisticsVBox(){
+    private VBox getAnimalStatisticsVBox(){
         Text title = new Text("statystyki zwierzatka");
 
         Text t1 = new Text("genotyp: ");
