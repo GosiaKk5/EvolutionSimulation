@@ -162,6 +162,9 @@ public class SimulationEngine implements Runnable {
                             int genotypeLength,
                             IChangeOrientationHandler changeOrientationHandler){
 
+        this.height = map.getUpperBound() + 1;
+        this.width = map.getRightBound() + 1;
+
         this.paused = false;
 
         this.plantEnergy = plantEnergy;
