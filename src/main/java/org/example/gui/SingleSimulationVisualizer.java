@@ -190,7 +190,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
     }
     public void refresh() {
         Platform.runLater( () -> {
-            System.out.println("\n\n\n\n\n\n\n\nREFRESH");
+            //System.out.println("\n\n\n\n\n\n\n\nREFRESH");
             this.gridPane.getChildren().clear();
             this.gridPane.getColumnConstraints().clear();
             this.gridPane.getRowConstraints().clear();
