@@ -1,5 +1,6 @@
 package org.example;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class SimulationEngine implements Runnable {
     private final List<Animal> animals;
     private boolean paused;
     private ArrayList<INextSimulationDayObserver> observers = new ArrayList<INextSimulationDayObserver>();
+
+    public Statistic statistic;
 
 
     //    Symulacja każdego dnia składa się z poniższej sekwencji kroków:
@@ -103,6 +106,7 @@ public class SimulationEngine implements Runnable {
 
         this.animals = new ArrayList<>();
 
+
         switch(variantMap){
             case "Globe" -> { this.changePositionHandler = new Globe(width, height); }
             case "Hell" -> {  this.changePositionHandler = new HellishPortal(width, height, breedHandoverEnergy); }
@@ -118,6 +122,8 @@ public class SimulationEngine implements Runnable {
                 System.out.println("NAZWA WARIANTU ZMIANY ORIENTACJI");
             }
         }
+
+        this.statistic = new Statistic(map, this);
 
         switch(variantMutation){
             case "FullRandomness" -> { this.mutationHandler = new FullRandomness(); }
@@ -183,7 +189,7 @@ public class SimulationEngine implements Runnable {
         this.map = map;
         this.mutationHandler = mutationHandler;
         this.changeOrientationHandler = changeOrientationHandler;
-
+        this.statistic = new Statistic(map, this);
 
 //        System.out.println(this.map);
         this.addAnimals();
@@ -282,6 +288,10 @@ public class SimulationEngine implements Runnable {
                     this.eatPlants();
                     this.breedAnimals();
                     this.growPlants();
+                    System.out.println("noAnimals: " + this.statistic.getNoAnimals());
+                    System.out.println("avgDeath: " + this.statistic.getAvgDeathAge());
+                    System.out.println("genotype: " + this.statistic.getTheMostPopularGenotype());
+                    System.out.println("animals with genotype: " + this.statistic.getAnimalsWithMostPopular());
                     System.out.println(map);
                     this.dayChanged();
                 }
@@ -302,6 +312,7 @@ public class SimulationEngine implements Runnable {
         for(Animal animal : animalsToDelate) {
             map.removeAnimal(animal);
             this.animals.remove(animal);
+            this.statistic.isDead(animal);
         }
     }
     private void moveAnimals(){
@@ -394,5 +405,9 @@ public class SimulationEngine implements Runnable {
         for (INextSimulationDayObserver observer : observers) {
             observer.dayChanged();
         }
+    }
+
+    public List<Animal> getAnimals(){
+        return this.animals;
     }
 }

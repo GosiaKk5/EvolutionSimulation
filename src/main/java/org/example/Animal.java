@@ -30,6 +30,7 @@ public class Animal implements IMapElement {
     public int getGenotypeLength() {
         return genotypeLength;
     }
+    public int[] getGenotype(){return genotype;}
     public int getEnergy() {
         return this.energy;
     }
