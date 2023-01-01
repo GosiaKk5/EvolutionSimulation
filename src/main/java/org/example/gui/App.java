@@ -43,18 +43,18 @@ public class App extends Application {
         button.setOnAction(event -> {
             try {
 
-                int height = 5;
-                int width = 5;
+                int height = 7;
+                int width = 7;
                 int numberOfStartPlants = 3;
                 int plantEnergy = 2;
-                int numberOfPlantsGrowDaily = 0;
-                int numberOfStartAnimals = 4;
+                int numberOfPlantsGrowDaily = 5;
+                int numberOfStartAnimals = 6;
                 int startEnergy = 8;
                 int breedReadyEnergy = 6;
                 int breedHandoverEnergy = 5;
                 int minNumberOfMutations = 0;
                 int maxNumberOfMutations = 0;
-                int genotypeLength = 1;
+                int genotypeLength = 7;
 
                 IMap map = new EquatorialForestMap(width, height, numberOfStartPlants);
                 IMutationHandler mutationHandler = new FullRandomness();
@@ -76,7 +76,7 @@ public class App extends Application {
                         mutationHandler,
                         positionHandler,
                         orientationHandler);
-                visualizer.start();
+                visualizer.startSingleSimulation();
             } catch (IllegalArgumentException ex) {
                 System.err.println(ex);
                 System.exit(1);
@@ -123,7 +123,7 @@ public class App extends Application {
                         mutationHandler,
                         positionHandler,
                         orientationHandler);
-                visualizer.start();
+                visualizer.startSingleSimulation();
             }
             catch(IllegalArgumentException ex){
                 System.err.println(ex);
@@ -138,13 +138,13 @@ public class App extends Application {
         button.setOnAction(event -> {
             try{
 
-                int height = 7;
-                int width = 7;
-                int numberOfStartPlants = 10;
-                int plantEnergy = 2;
-                int numberOfPlantsGrowDaily = 0;
-                int numberOfStartAnimals = 4;
-                int startEnergy = 20;
+                int height = 20;
+                int width = 20;
+                int numberOfStartPlants = 5;
+                int plantEnergy = 10;
+                int numberOfPlantsGrowDaily = 3;
+                int numberOfStartAnimals = 6;
+                int startEnergy = 10;
                 int breedReadyEnergy = 6;
                 int breedHandoverEnergy = 5;
                 int minNumberOfMutations = 0;
@@ -171,7 +171,7 @@ public class App extends Application {
                         mutationHandler,
                         positionHandler,
                         orientationHandler);
-                visualizer.start();
+                visualizer.startSingleSimulation();
             }
             catch(IllegalArgumentException ex){
                 System.err.println(ex);

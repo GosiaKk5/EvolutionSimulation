@@ -21,19 +21,34 @@ import java.util.Objects;
 public class GuiElementBox {
 
     private VBox elementContainer;
+    private int containerSize;
+    private int radius;
 
-    public GuiElementBox(IMapElement mapElement){
 
-        Text text = new Text(mapElement.toString());
-        Label elementPosition = new Label(mapElement.getPosition().toString());
-        this.elementContainer = new VBox(text, elementPosition);
-        this.elementContainer.setAlignment(Pos.CENTER);
+    public GuiElementBox(IMapElement mapElement, int containerSize){
+
+        this.containerSize = containerSize;
+
+        if(mapElement instanceof Animal){
+            Circle circle = new Circle();
+            circle.setRadius(containerSize*0.3);
+
+            Text energy = new Text(String.valueOf(((Animal) mapElement).getEnergy()));
+            this.elementContainer = new VBox(circle, energy);
+            this.elementContainer.setAlignment(Pos.CENTER);
+        }
+        else{
+            this.elementContainer = new VBox();
+        }
+
+        //Text text = new Text(mapElement.toString());
+        //Label elementPosition = new Label(mapElement.getPosition().toString());
 
     }
 
-    public void setBackgroundColor(VBox container){
+    public void setBackgroundColor(VBox container, Color color){
 
-        BackgroundFill background_fill = new BackgroundFill(Color.PINK, CornerRadii.EMPTY, Insets.EMPTY);
+        BackgroundFill background_fill = new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY);
         // create Background
         Background background = new Background(background_fill);
         // set background

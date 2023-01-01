@@ -1,11 +1,13 @@
 package org.example;
 
+import org.example.gui.SingleSimulationVisualizer;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimulationEngine implements Runnable {
 
-    private int moveDelay = 1000;
+    static final int MOVE_DELAY = 200;
     int height;
     int width;
     int numberOfStartPlants;
@@ -27,30 +29,6 @@ public class SimulationEngine implements Runnable {
     private boolean paused;
     private ArrayList<INextSimulationDayObserver> observers = new ArrayList<INextSimulationDayObserver>();
 
-
-    //    Symulacja każdego dnia składa się z poniższej sekwencji kroków:
-    //
-    //    usunięcie martwych zwierząt z mapy,
-    //    skręt i przemieszczenie każdego zwierzęcia,
-    //    konsumpcja roślin na których pola weszły zwierzęta,
-    //    rozmnażanie się najedzonych zwierząt znajdujących się na tym samym polu,
-    //    wzrastanie nowych roślin na wybranych polach mapy.
-    //    Daną symulację opisuje szereg parametrów:
-    //
-    //    wysokość i szerokość mapy,
-    //    wariant mapy (wyjaśnione w sekcji poniżej),
-    //    startowa liczba roślin,
-    //    energia zapewniana przez zjedzenie jednej rośliny,
-    //    liczba roślin wyrastająca każdego dnia,
-    //    wariant wzrostu roślin (wyjaśnione w sekcji poniżej),
-    //    startowa liczba zwierzaków,
-    //    startowa energia zwierzaków,
-    //    energia konieczna, by uznać zwierzaka za najedzonego (i gotowego do rozmnażania),
-    //    energia rodziców zużywana by stworzyć potomka,
-    //    minimalna i maksymalna liczba mutacji u potomków (może być równa 0),
-    //    wariant mutacji (wyjaśnione w sekcji poniżej),
-    //    długość genomu zwierzaków,
-    //    wariant zachowania zwierzaków (wyjaśnione w sekcji poniżej)
 
     //STRINGI (do ustalenia) -> inaczej wyjątek:
     //variantMap -> Globe/Hell
@@ -162,6 +140,7 @@ public class SimulationEngine implements Runnable {
                             int genotypeLength,
                             IChangeOrientationHandler changeOrientationHandler){
 
+
         this.height = map.getUpperBound() + 1;
         this.width = map.getRightBound() + 1;
 
@@ -184,16 +163,9 @@ public class SimulationEngine implements Runnable {
         this.mutationHandler = mutationHandler;
         this.changeOrientationHandler = changeOrientationHandler;
 
-
-//        System.out.println(this.map);
         this.addAnimals();
 
-//        System.out.println("ANIMALS ADDED:");
-//        System.out.println();
-//        System.out.println(this.map);
-//
-//        System.out.println("ANIMALS: " + this.animals);
-//        System.out.println();
+        this.dayChanged();
 
     }
 
@@ -207,9 +179,6 @@ public class SimulationEngine implements Runnable {
 
         int indexOfActiveGen = 0;
 
-        IMutationHandler mutationHandler = this.mutationHandler;
-        IChangeOrientationHandler orientationHandler = this.changeOrientationHandler;
-        IChangePositionHandler positionHandler = this.changePositionHandler;
         Animal a1 = new Animal(this.map,
                             new Vector2d(0,0),
                             genotype,
@@ -282,10 +251,10 @@ public class SimulationEngine implements Runnable {
                     this.eatPlants();
                     this.breedAnimals();
                     this.growPlants();
-                    System.out.println(map);
+                    //System.out.println(map);
                     this.dayChanged();
                 }
-                Thread.sleep(moveDelay);
+                Thread.sleep(MOVE_DELAY);
             }
         }
         catch (InterruptedException e) {
@@ -394,5 +363,9 @@ public class SimulationEngine implements Runnable {
         for (INextSimulationDayObserver observer : observers) {
             observer.dayChanged();
         }
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }
