@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface IMap {
     void placeAnimal(Animal animal);
@@ -10,6 +11,8 @@ public interface IMap {
     void removePlant(Vector2d position);
 
     Plant plantAt(Vector2d position);
+
+    Map<Vector2d, Plant> getPlants();
     ArrayList<Animal> animalsAt(Vector2d position);
 
     void removeAnimal(Animal animal);
@@ -18,4 +21,6 @@ public interface IMap {
     int getLowerBound();
     int getLeftBound();
     int getRightBound();
+
+    int getNoFreeFields();
 }

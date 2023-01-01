@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.gui.SingleSimulationVisualizer;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class SimulationEngine implements Runnable {
     private final List<Animal> animals;
     private boolean paused;
     private ArrayList<INextSimulationDayObserver> observers = new ArrayList<INextSimulationDayObserver>();
+
+    public Statistic statistic;
 
 
     //STRINGI (do ustalenia) -> inaczej wyjątek:
@@ -81,6 +84,7 @@ public class SimulationEngine implements Runnable {
 
         this.animals = new ArrayList<>();
 
+
         switch(variantMap){
             case "Globe" -> { this.changePositionHandler = new Globe(width, height); }
             case "Hell" -> {  this.changePositionHandler = new HellishPortal(width, height, breedHandoverEnergy); }
@@ -96,6 +100,8 @@ public class SimulationEngine implements Runnable {
                 System.out.println("NAZWA WARIANTU ZMIANY ORIENTACJI");
             }
         }
+
+        this.statistic = new Statistic(map, this);
 
         switch(variantMutation){
             case "FullRandomness" -> { this.mutationHandler = new FullRandomness(); }
@@ -162,7 +168,9 @@ public class SimulationEngine implements Runnable {
         this.map = map;
         this.mutationHandler = mutationHandler;
         this.changeOrientationHandler = changeOrientationHandler;
+        this.statistic = new Statistic(map, this);
 
+//        System.out.println(this.map);
         this.addAnimals();
 
         this.dayChanged();
@@ -271,6 +279,7 @@ public class SimulationEngine implements Runnable {
         for(Animal animal : animalsToDelate) {
             map.removeAnimal(animal);
             this.animals.remove(animal);
+            this.statistic.isDead(animal);
         }
     }
     private void moveAnimals(){
@@ -367,5 +376,9 @@ public class SimulationEngine implements Runnable {
 
     public void setPaused(boolean paused) {
         this.paused = paused;
+    }
+
+    public List<Animal> getAnimals(){
+        return this.animals;
     }
 }

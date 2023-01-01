@@ -92,4 +92,9 @@ public class EquatorialForestMap extends AbstractMap {
         return this.equatorEnd;
     }
 
+    public int getNoFreeFields(){
+        int noFreeFields = this.fertileFree.size() + this.notFertileFree.size();
+        return noFreeFields;
+    }
+
 }

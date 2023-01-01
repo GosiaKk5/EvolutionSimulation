@@ -87,4 +87,9 @@ public class ToxicCorpsesMap extends AbstractMap{
         Vector2d key = animal.getPosition();
         allFieldsWithDeaths.put(key, allFieldsWithDeaths.get(key) + 1);
     }
+
+    public int getNoFreeFields(){
+        int noFreeFields = this.freeFields.size();
+        return noFreeFields;
+    }
 }

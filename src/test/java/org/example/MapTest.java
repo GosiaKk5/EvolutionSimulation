@@ -65,9 +65,9 @@ public class MapTest {
    @Test
    public void placeAnimalTest(){
 
-       assertArrayEquals(new Animal[]{}, map.animalsAt(new Vector2d(5,5) ).toArray());
+       assertArrayEquals(new Animal[]{}, map.animalsAt(new Vector2d(2,2) ).toArray());
        map.placeAnimal(a4);
-       assertArrayEquals(new Animal[]{a4}, map.animalsAt(new Vector2d(5,5) ).toArray());
+       assertArrayEquals(new Animal[]{a4}, map.animalsAt(new Vector2d(2,2) ).toArray());
 
    }
 
