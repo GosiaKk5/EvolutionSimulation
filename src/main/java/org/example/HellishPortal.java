@@ -34,8 +34,8 @@ public class HellishPortal implements IChangePositionHandler {
     @Override
     public Vector2d getNewPositionInMap(Vector2d position, Vector2d oldPosition, int orientation) {
 
-        int oldX = position.x;
-        int oldY = position.y;
+        int oldX = oldPosition.x;
+        int oldY = oldPosition.y;
         this.orientation = orientation;
 
         return new Vector2d(getNewXOrY(oldX, this.xBound, this.ox), getNewXOrY(oldY, this.yBound, this.oy));
