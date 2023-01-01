@@ -224,7 +224,7 @@ public class Animal implements IMapElement {
 
     private int[] mutate(int[] genotype) {
 
-        System.out.println("BEFORE MUTATION: " + Arrays.toString(genotype));
+        //System.out.println("BEFORE MUTATION: " + Arrays.toString(genotype));
 
         //generate number of mutations
         Random random = new Random();
@@ -232,12 +232,12 @@ public class Animal implements IMapElement {
 
         List<Integer> gensToMutate = this.getIndexesOfGensToMutate(this.genotypeLength, numberOfMutatingGens);
 
-        System.out.println("NUMBER OF GENS TO MUTATE: " + numberOfMutatingGens);
-        System.out.println("INDEXES OF GENS TO MUTATE: " + gensToMutate);
+        //System.out.println("NUMBER OF GENS TO MUTATE: " + numberOfMutatingGens);
+        //System.out.println("INDEXES OF GENS TO MUTATE: " + gensToMutate);
 
         genotype = this.mutationHandler.mutate(genotype, gensToMutate);
 
-        System.out.println("AFTER MUTATION: " + Arrays.toString(genotype));
+        //System.out.println("AFTER MUTATION: " + Arrays.toString(genotype));
 
         return genotype;
     }
@@ -282,5 +282,9 @@ public class Animal implements IMapElement {
         for (IPositionChangeObserver observer : observers) {
             observer.positionChanged(this, oldPosition, newPosition);
         }
+    }
+
+    public int[] getGenotype() {
+        return genotype;
     }
 }
