@@ -2,6 +2,8 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AnimalTest {
@@ -20,7 +22,10 @@ class AnimalTest {
         int genotypeLength = genotype.length;
         int indexOfActiveGen = 0;
         int energy = 5;
-        int breedEnergy = 5;
+        int breedReadyEnergy = 5;
+        int breedHandoverEnergy = 0;
+        int minNumberOfMutations = 0;
+        int maxNumberOfMutations = 4;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
         IChangePositionHandler positionHandler = new Globe(width, height);
@@ -31,7 +36,10 @@ class AnimalTest {
                 genotypeLength,
                 indexOfActiveGen,
                 energy,
-                breedEnergy,
+                breedReadyEnergy,
+                breedHandoverEnergy,
+                minNumberOfMutations,
+                maxNumberOfMutations,
                 mutationHandler,
                 orientationHandler,
                 positionHandler);
@@ -77,7 +85,10 @@ class AnimalTest {
         int genotypeLength = genotype.length;
         int indexOfActiveGen = 0;
         int energy = 5;
-        int breedEnergy = 5;
+        int breedReadyEnergy = 5;
+        int breedHandoverEnergy = 0;
+        int minNumberOfMutations = 0;
+        int maxNumberOfMutations = 5;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
         IChangePositionHandler positionHandler = new Globe(width, height);
@@ -88,7 +99,10 @@ class AnimalTest {
                                 genotypeLength,
                                 indexOfActiveGen,
                                 energy,
-                                breedEnergy,
+                                breedReadyEnergy,
+                                breedHandoverEnergy,
+                                minNumberOfMutations,
+                                maxNumberOfMutations,
                                 mutationHandler,
                                 orientationHandler,
                                 positionHandler);
@@ -137,7 +151,11 @@ class AnimalTest {
         int genotypeLength = genotype.length;
         int indexOfActiveGen = 0;
         int energy = 5;
-        int breedEnergy = 5;
+        int breedReadyEnergy = 5;
+        int breedHandoverEnergy = 0;
+        int minNumberOfMutations = 0;
+        int maxNumberOfMutations = 4;
+
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
         IChangePositionHandler positionHandler = new Globe(width, height);
@@ -148,7 +166,10 @@ class AnimalTest {
                 genotypeLength,
                 indexOfActiveGen,
                 energy,
-                breedEnergy,
+                breedReadyEnergy,
+                breedHandoverEnergy,
+                minNumberOfMutations,
+                maxNumberOfMutations,
                 mutationHandler,
                 orientationHandler,
                 positionHandler);
@@ -160,4 +181,110 @@ class AnimalTest {
             assertEquals(animal.getEnergy(), energyChecks[i]);
         }
     }
+
+    //aby puścić CheckMinAndMaxNumberOfMutationNumber trzeba zmienić mutate w Animal na public
+//    @Test
+//    void CheckMinAndMaxNumberOfMutationNumber(){
+//
+//        int width = 100;
+//        int height = 100;
+//        IMap map = new ToxicCorpsesMap(width,width,0);
+//        Vector2d position = new Vector2d(2,2);
+//        int genotypeLength = 6;
+//        int indexOfActiveGen = 0;
+//        int energy = 5;
+//        int breedReadyEnergy = 5;
+//        int breedHandoverEnergy = 0;
+//        int minNumberOfMutations = 0;
+//        int maxNumberOfMutations = 0;
+//
+//        IMutationHandler mutationHandler = new FullRandomness();
+//        IChangeOrientationHandler orientationHandler = new FullPredestination();
+//        IChangePositionHandler positionHandler = new Globe(width, height);
+//
+//        Animal animal = new Animal(map,
+//                position,
+//                genotypeLength,
+//                indexOfActiveGen,
+//                energy,
+//                breedReadyEnergy,
+//                breedHandoverEnergy,
+//                minNumberOfMutations,
+//                maxNumberOfMutations,
+//                mutationHandler,
+//                orientationHandler,
+//                positionHandler);
+//
+//        int[] genotype = animal.getGenotype();
+//        int[] genotypeCopy = genotype.clone();
+//
+//        animal.mutate(genotype);
+//
+//        int changedGens = 0;
+//
+//        for(int i = 0; i < genotypeLength; i++){
+//            if(genotype[i] != genotypeCopy[i]){
+//                changedGens++;
+//            }
+//        }
+//
+//        System.out.println("BEFORE: " + Arrays.toString(genotypeCopy));
+//        System.out.println("AFTER: " + Arrays.toString(genotype));
+//
+//        assertEquals(changedGens, 0);
+//
+//    }
+//
+//    @Test
+//    void CheckMinAndMaxNumberOfMutationNumber2(){
+//
+//        int width = 100;
+//        int height = 100;
+//        IMap map = new ToxicCorpsesMap(width,width,0);
+//        Vector2d position = new Vector2d(2,2);
+//        int genotypeLength = 100;
+//        int indexOfActiveGen = 0;
+//        int energy = 5;
+//        int breedReadyEnergy = 5;
+//        int breedHandoverEnergy = 0;
+//        int minNumberOfMutations = 3;
+//        int maxNumberOfMutations = 7;
+//
+//        IMutationHandler mutationHandler = new FullRandomness();
+//        IChangeOrientationHandler orientationHandler = new FullPredestination();
+//        IChangePositionHandler positionHandler = new Globe(width, height);
+//
+//        Animal animal = new Animal(map,
+//                position,
+//                genotypeLength,
+//                indexOfActiveGen,
+//                energy,
+//                breedReadyEnergy,
+//                breedHandoverEnergy,
+//                minNumberOfMutations,
+//                maxNumberOfMutations,
+//                mutationHandler,
+//                orientationHandler,
+//                positionHandler);
+//
+//        int[] genotype = animal.getGenotype();
+//        int[] genotypeCopy = genotype.clone();
+//
+//        animal.mutate(genotype);
+//
+//        int changedGens = 0;
+//
+//        for(int i = 0; i < genotypeLength; i++){
+//            if(genotype[i] != genotypeCopy[i]){
+//                changedGens++;
+//            }
+//        }
+//
+//        System.out.println("BEFORE: " + Arrays.toString(genotypeCopy));
+//        System.out.println("AFTER: " + Arrays.toString(genotype));
+//
+//        assertTrue( 3 <= changedGens && changedGens <= 7);
+//
+//    }
+
 }

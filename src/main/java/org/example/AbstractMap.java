@@ -7,6 +7,7 @@ import java.util.Map;
 public abstract class AbstractMap implements IMap, IPositionChangeObserver{
 
     protected final int height;
+
     protected final int width;
     protected final Vector2d lowerLeft;
     protected final Vector2d upperRight;
@@ -36,6 +37,7 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
     protected Map<Vector2d, ArrayList<Animal>> animals = new HashMap<>();
 
     public AbstractMap(int width, int height, int noStartPlants){
+
         this.height = height;
         this.width = width;
         this.lowerLeft = new Vector2d(0,0);
@@ -55,18 +57,20 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
 
     @Override
     public void placeAnimal(Animal animal) {
+
         Vector2d position = animal.getPosition();
 
-        if(position.x <= getRightBound() && position.y <= getUpperBound() && position.x >= 0 && position.y >=0){
+        if(isPositionInMapBounds(position)){
             this.animals.get(position).add(animal);
             animal.addObserver(this);
-        }else{
+        }
+        else{
             throw new IllegalArgumentException(position + "is not on map ");
         }
     }
 
     public void removeAnimal(Animal animal){
-        System.out.println(animals);
+
         Vector2d position = animal.getPosition();
         animals.get(position).remove(animal);
     }
@@ -76,15 +80,17 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
         if(animals.get(position) != null){
             return animals.get(position);
         }
+
         return null;
     }
 
     public Plant plantAt(Vector2d position){
+
         if(plants.size() != 0){
             return plants.get(position);
         }
-        return null;
 
+        return null;
     }
 
     // do rysowania mapy
@@ -101,9 +107,13 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
         return objectAt(position) != null;
     }
 
-    public boolean inMap(Vector2d position){ return(position.follows(this.lowerLeft) && position.precedes(this.upperRight)); }
+    public boolean isPositionInMapBounds(Vector2d position){
+
+        return(position.follows(this.lowerLeft) && position.precedes(this.upperRight));
+    }
 
     public String toString() {
+
         MapVisualizer mapVisualizer = new MapVisualizer(this);
         return mapVisualizer.draw(this.lowerLeft, this.upperRight);
     }
@@ -115,15 +125,11 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
     @Override
     public void positionChanged(Animal animal, Vector2d oldPosition, Vector2d newPosition) {
 
-        System.out.println("SIZE: " + animals.size());
-        System.out.println("VO: " + oldPosition);
-        System.out.println("VN: " + newPosition);
-        System.out.println("animals: " + animals);
-        System.out.println("animal: " + animal);
-
         animals.get(oldPosition).remove(animal);
         animals.get(newPosition).add(animal);
 
     }
+
+
 
 }

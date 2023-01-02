@@ -43,18 +43,18 @@ public class App extends Application {
         button.setOnAction(event -> {
             try {
 
-                int height = 7;
-                int width = 7;
-                int numberOfStartPlants = 3;
-                int plantEnergy = 2;
+                int height = 30;
+                int width = 30;
+                int numberOfStartPlants = 0;
+                int plantEnergy = 15;
                 int numberOfPlantsGrowDaily = 5;
-                int numberOfStartAnimals = 6;
-                int startEnergy = 8;
+                int numberOfStartAnimals = 10;
+                int startEnergy = 10;
                 int breedReadyEnergy = 6;
                 int breedHandoverEnergy = 5;
                 int minNumberOfMutations = 0;
                 int maxNumberOfMutations = 0;
-                int genotypeLength = 7;
+                int genotypeLength = 3;
 
                 IMap map = new EquatorialForestMap(width, height, numberOfStartPlants);
                 IMutationHandler mutationHandler = new FullRandomness();
@@ -90,18 +90,18 @@ public class App extends Application {
         button.setOnAction(event -> {
             try{
 
-                int height = 10;
-                int width = 10;
+                int height = 3;
+                int width = 3;
                 int numberOfStartPlants = 0;
                 int plantEnergy = 2;
                 int numberOfPlantsGrowDaily = 0;
-                int numberOfStartAnimals = 4;
+                int numberOfStartAnimals = 1;
                 int startEnergy = 20;
-                int breedReadyEnergy = 6;
-                int breedHandoverEnergy = 5;
+                int breedReadyEnergy = 5;
+                int breedHandoverEnergy = 3;
                 int minNumberOfMutations = 0;
                 int maxNumberOfMutations = 0;
-                int genotypeLength = 1;
+                int genotypeLength = 12;
 
                 IMap map = new EquatorialForestMap(width, height, numberOfStartPlants);
                 IMutationHandler mutationHandler = new FullRandomness();

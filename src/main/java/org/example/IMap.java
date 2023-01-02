@@ -16,10 +16,8 @@ public interface IMap {
     ArrayList<Animal> animalsAt(Vector2d position);
 
     void removeAnimal(Animal animal);
-    boolean inMap(Vector2d position);
+    boolean isPositionInMapBounds(Vector2d position);
     int getUpperBound();
-    int getLowerBound();
-    int getLeftBound();
     int getRightBound();
 
     int getNoFreeFields();

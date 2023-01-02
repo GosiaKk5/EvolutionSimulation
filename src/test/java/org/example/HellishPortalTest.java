@@ -19,7 +19,10 @@ class HellishPortalTest {
         int genotypeLength = genotype.length;
         int indexOfActiveGen = 0;
         int energy = 10;
+        int breedReadyEnergy = 0;
         int breedHandoverEnergy = 4;
+        int minNumberOfMutations = 0;
+        int maxNumberOfMutations = 1;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
         IChangePositionHandler positionHandler = new HellishPortal(width, height, breedHandoverEnergy);
@@ -30,7 +33,10 @@ class HellishPortalTest {
                 genotypeLength,
                 indexOfActiveGen,
                 energy,
+                breedReadyEnergy,
                 breedHandoverEnergy,
+                minNumberOfMutations,
+                maxNumberOfMutations,
                 mutationHandler,
                 orientationHandler,
                 positionHandler);
