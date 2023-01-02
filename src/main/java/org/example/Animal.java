@@ -122,7 +122,7 @@ public class Animal implements IMapElement {
     public void changeEnergy(int amountOfEnergy){
         this.energy += amountOfEnergy;
     }
-    public Animal breedNewAnimal(Animal otherAnimal) {
+    public Animal breedNewAnimal(Animal otherAnimal){
 
         // dodanie zwierzakom liczby dzieci
         this.noChildren ++;
@@ -164,7 +164,7 @@ public class Animal implements IMapElement {
 
         return newAnimal;
     }
-    public void changeOrientation() {
+    public void changeOrientation(){
 
         int nextIndexOfActiveGen = this.orientationHandler.changeOrientation(this);
         this.orientation = (this.orientation + this.genotype[nextIndexOfActiveGen]) % 8;
@@ -203,12 +203,12 @@ public class Animal implements IMapElement {
     }
 
     //ASIDE BREEDING FUNCTIONS////////////////////////////////////////////////////////////////////////////////////////////////////
-    private boolean chooseSideForStrongerAnimal() {
+    private boolean chooseSideForStrongerAnimal(){
 
         Random random = new Random();
         return random.nextInt(0, 2) == 0;
     }
-    private int[] createGenotypeFromAnimals(Animal strongerAnimal, Animal weakerAnimal, boolean strongerGenotypeOnLeft) {
+    private int[] createGenotypeFromAnimals(Animal strongerAnimal, Animal weakerAnimal, boolean strongerGenotypeOnLeft){
 
         int strongerSideLength = (int) Math.round(((double) strongerAnimal.energy / (double) (strongerAnimal.energy + weakerAnimal.energy)) * (double) genotypeLength);
         int weakerSideLength = this.genotypeLength - strongerSideLength;
@@ -223,11 +223,11 @@ public class Animal implements IMapElement {
         int[] mutatedGenotype = this.mutate(genotypeToMutate);
         return mutatedGenotype;
     }
-    private int[] concatenateGenotypes(int[] leftSide, int leftSideLength, int[] rightSide) {
+    private int[] concatenateGenotypes(int[] leftSide, int leftSideLength, int[] rightSide){
 
         return IntStream.concat(Arrays.stream(Arrays.copyOfRange(leftSide, 0, leftSideLength)), Arrays.stream(Arrays.copyOfRange(rightSide, leftSideLength, genotypeLength))).toArray();
     }
-    private int[] mutate(int[] genotype) {
+    private int[] mutate(int[] genotype){
 
         //System.out.println("BEFORE MUTATION: " + Arrays.toString(genotype));
 
@@ -246,7 +246,7 @@ public class Animal implements IMapElement {
 
         return genotype;
     }
-    private List<Integer> getIndexesOfGensToMutate(int genotypeLength, int numberOfMutatingGens) {
+    private List<Integer> getIndexesOfGensToMutate(int genotypeLength, int numberOfMutatingGens){
 
         List<Integer> indexes = new ArrayList<>();
         Random random = new Random();
@@ -263,17 +263,18 @@ public class Animal implements IMapElement {
 
         return gensToMutate;
     }
-//    @Override
-//    public String toString() {
-//        return "%d".formatted(this.energy);
-//    }
-    public void addObserver(IPositionChangeObserver observer) {
+
+    @Override
+    public String toString() {
+        return "%d".formatted(this.energy);
+    }
+    public void addObserver(IPositionChangeObserver observer){
         observers.add(observer);
     }
-    public void removeObserver(IPositionChangeObserver observer) {
+    public void removeObserver(IPositionChangeObserver observer){
         observers.remove(observer);
     }
-    private void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+    private void positionChanged(Vector2d oldPosition, Vector2d newPosition){
 
         for (IPositionChangeObserver observer : observers) {
             observer.positionChanged(this, oldPosition, newPosition);
