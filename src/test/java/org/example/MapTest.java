@@ -15,7 +15,8 @@ public class MapTest {
 
     IChangePositionHandler positionHandler = new Globe(width, height);
     int genotypeLength = 15;
-    int breedEnergy = 5;
+    int breedReadyEnergy = 5;
+    int BreedHandoverEnergy = 0;
     int indexOfActiveGen = 0;
     int energy = 5;
     Vector2d position = new Vector2d(0,0);
@@ -27,7 +28,8 @@ public class MapTest {
             genotypeLength,
             indexOfActiveGen,
             energy,
-            breedEnergy,
+            breedReadyEnergy,
+            BreedHandoverEnergy,
             mutationHandler,
             orientationHandler,
             positionHandler);
@@ -37,7 +39,8 @@ public class MapTest {
             genotypeLength,
             indexOfActiveGen,
             energy,
-            breedEnergy,
+            breedReadyEnergy,
+            BreedHandoverEnergy,
             mutationHandler,
             orientationHandler,
             positionHandler);
@@ -47,7 +50,8 @@ public class MapTest {
             genotypeLength,
             indexOfActiveGen,
             energy,
-            breedEnergy,
+            breedReadyEnergy,
+            BreedHandoverEnergy,
             mutationHandler,
             orientationHandler,
             positionHandler);
@@ -57,7 +61,8 @@ public class MapTest {
             genotypeLength,
             indexOfActiveGen,
             energy,
-            breedEnergy,
+            breedReadyEnergy,
+            BreedHandoverEnergy,
             mutationHandler,
             orientationHandler,
             positionHandler);

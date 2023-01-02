@@ -90,15 +90,15 @@ public class App extends Application {
         button.setOnAction(event -> {
             try{
 
-                int height = 10;
-                int width = 10;
+                int height = 30;
+                int width = 30;
                 int numberOfStartPlants = 0;
                 int plantEnergy = 2;
-                int numberOfPlantsGrowDaily = 0;
+                int numberOfPlantsGrowDaily = 3;
                 int numberOfStartAnimals = 4;
                 int startEnergy = 20;
-                int breedReadyEnergy = 6;
-                int breedHandoverEnergy = 5;
+                int breedReadyEnergy = 5;
+                int breedHandoverEnergy = 1;
                 int minNumberOfMutations = 0;
                 int maxNumberOfMutations = 0;
                 int genotypeLength = 1;

@@ -11,7 +11,8 @@ public class Animal implements IMapElement {
     private final int genotypeLength;
     private int indexOfActiveGen;
     private int energy;
-    private final int breedEnergy;
+    private final int breedReadyEnergy;
+    private final int breedHandoverEnergy;
     private final IMutationHandler mutationHandler;
     private final IChangeOrientationHandler orientationHandler;
     private final IChangePositionHandler positionHandler;
@@ -34,8 +35,8 @@ public class Animal implements IMapElement {
     public int getEnergy() {
         return this.energy;
     }
-    public int getBreedEnergy() {
-        return this.breedEnergy;
+    public int getBreedReadyEnergy() {
+        return this.breedReadyEnergy;
     }
     public int getAge(){ return this.age; }
     public int getNoChildren(){ return this.noChildren; }
@@ -49,7 +50,8 @@ public class Animal implements IMapElement {
                   int genotypeLength,
                   int indexOfActiveGen,
                   int energy,
-                  int breedEnergy,
+                  int breedReadyEnergy,
+                  int breedHandoverEnergy,
                   IMutationHandler mutationHandler,
                   IChangeOrientationHandler orientationHandler,
                   IChangePositionHandler positionHandler){
@@ -60,7 +62,8 @@ public class Animal implements IMapElement {
         this.genotypeLength = genotypeLength;
         this.indexOfActiveGen = indexOfActiveGen;
         this.energy = energy;
-        this.breedEnergy = breedEnergy;
+        this.breedReadyEnergy = breedReadyEnergy;
+        this.breedHandoverEnergy = breedHandoverEnergy;
         this.mutationHandler = mutationHandler;
         this.positionHandler = positionHandler;
         this.orientationHandler = orientationHandler;
@@ -75,7 +78,8 @@ public class Animal implements IMapElement {
                   int genotypeLength,
                   int indexOfActiveGen,
                   int energy,
-                  int breedEnergy,
+                  int breedReadyEnergy,
+                  int breedHandoverEnergy,
                   IMutationHandler mutationHandler,
                   IChangeOrientationHandler orientationHandler,
                   IChangePositionHandler positionHandler){
@@ -86,7 +90,8 @@ public class Animal implements IMapElement {
         this.genotypeLength = genotypeLength;
         this.indexOfActiveGen = indexOfActiveGen;
         this.energy = energy;
-        this.breedEnergy = breedEnergy;
+        this.breedReadyEnergy = breedReadyEnergy;
+        this.breedHandoverEnergy = breedHandoverEnergy;
         this.mutationHandler = mutationHandler;
         this.positionHandler = positionHandler;
         this.orientationHandler = orientationHandler;
@@ -104,15 +109,12 @@ public class Animal implements IMapElement {
         ;
         return randomGenotype;
     }
-
     public void ageAddOne(){
         this.age += 1;
     }
-
     public void changeEnergy(int amountOfEnergy){
         this.energy += amountOfEnergy;
     }
-
     public Animal breedNewAnimal(Animal otherAnimal) {
 
         // dodanie zwierzakom liczby dzieci
@@ -140,28 +142,25 @@ public class Animal implements IMapElement {
                                         genotypeForChild,
                                         this.genotypeLength,
                                         0,
-                                        this.breedEnergy * 2,
-                                        this.breedEnergy,
+                                        this.breedHandoverEnergy * 2,
+                                        this.breedReadyEnergy,
+                                        this.breedHandoverEnergy,
                                         this.mutationHandler,
                                         this.orientationHandler,
                                         this.positionHandler);
-        //Animal newAnimal = new Animal(genotypeForChild, this.breedEnergy * 2, new Vector2d(0, 0), this.mutationHandler, this.orientationHandler, this.genotypeLength, this.breedEnergy);
 
         //set parents energy
-        strongerAnimal.energy -= this.breedEnergy;
-        weakerAnimal.energy -= this.breedEnergy;
+        strongerAnimal.energy -= this.breedHandoverEnergy;
+        weakerAnimal.energy -= this.breedHandoverEnergy;
 
         return newAnimal;
     }
-
     public void changeOrientation() {
+
         int nextIndexOfActiveGen = this.orientationHandler.changeOrientation(this);
         this.orientation = (this.orientation + this.genotype[nextIndexOfActiveGen]) % 8;
         this.indexOfActiveGen = nextIndexOfActiveGen;
-//        System.out.println("INDEX: " + this.indexOfActiveGen);
-//        System.out.println("ORIENTATION: " + this.orientation);
     }
-
     public void move() {
 
         this.energy -= 1;
@@ -184,7 +183,7 @@ public class Animal implements IMapElement {
             }
         }
 
-        if(!map.inMap(newPosition)){
+        if(!map.isPositionInMapBounds(newPosition)){
             newPosition = this.positionHandler.getNewPositionInMap(newPosition, this.position, this.orientation);
             newOrientation = this.positionHandler.getNewOrientation();
             newEnergy = this.positionHandler.getNewEnergy(this.energy);
@@ -198,10 +197,10 @@ public class Animal implements IMapElement {
 
     //ASIDE BREEDING FUNCTIONS////////////////////////////////////////////////////////////////////////////////////////////////////
     private boolean chooseSideForStrongerAnimal() {
+
         Random random = new Random();
         return random.nextInt(0, 2) == 0;
     }
-
     private int[] createGenotypeFromAnimals(Animal strongerAnimal, Animal weakerAnimal, boolean strongerGenotypeOnLeft) {
 
         int strongerSideLength = (int) Math.round(((double) strongerAnimal.energy / (double) (strongerAnimal.energy + weakerAnimal.energy)) * (double) genotypeLength);
@@ -217,11 +216,10 @@ public class Animal implements IMapElement {
         int[] mutatedGenotype = this.mutate(genotypeToMutate);
         return mutatedGenotype;
     }
-
     private int[] concatenateGenotypes(int[] leftSide, int leftSideLength, int[] rightSide) {
+
         return IntStream.concat(Arrays.stream(Arrays.copyOfRange(leftSide, 0, leftSideLength)), Arrays.stream(Arrays.copyOfRange(rightSide, leftSideLength, genotypeLength))).toArray();
     }
-
     private int[] mutate(int[] genotype) {
 
         //System.out.println("BEFORE MUTATION: " + Arrays.toString(genotype));
@@ -241,8 +239,8 @@ public class Animal implements IMapElement {
 
         return genotype;
     }
-
     private List<Integer> getIndexesOfGensToMutate(int genotypeLength, int numberOfMutatingGens) {
+
         List<Integer> indexes = new ArrayList<>();
         Random random = new Random();
 
@@ -258,33 +256,20 @@ public class Animal implements IMapElement {
 
         return gensToMutate;
     }
-
     @Override
     public String toString() {
-//        String genotypeString = "";
-//        for (Integer gen : this.genotype) {
-//            genotypeString += gen;
-//        }
-        //return "(%s, energia: %d)".formatted(genotypeString, this.energy);
-        //return "A";
         return "%d".formatted(this.energy);
     }
-
     public void addObserver(IPositionChangeObserver observer) {
         observers.add(observer);
     }
-
     public void removeObserver(IPositionChangeObserver observer) {
         observers.remove(observer);
     }
-
     private void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+
         for (IPositionChangeObserver observer : observers) {
             observer.positionChanged(this, oldPosition, newPosition);
         }
-    }
-
-    public int[] getGenotype() {
-        return genotype;
     }
 }

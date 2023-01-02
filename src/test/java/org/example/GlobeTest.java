@@ -20,7 +20,8 @@ class GlobeTest {
         int genotypeLength = genotype.length;
         int indexOfActiveGen = 0;
         int energy = 1;
-        int breedEnergy = 5;
+        int breedReadyEnergy = 5;
+        int breedHandoverEnergy = 0;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
         IChangePositionHandler positionHandler = new Globe(width, height);
@@ -42,7 +43,8 @@ class GlobeTest {
                 genotypeLength,
                 indexOfActiveGen,
                 energy,
-                breedEnergy,
+                breedReadyEnergy,
+                breedHandoverEnergy,
                 mutationHandler,
                 orientationHandler,
                 positionHandler);
@@ -76,7 +78,8 @@ class GlobeTest {
         int genotypeLength = genotype.length;
         int indexOfActiveGen = 0;
         int energy = 1;
-        int breedEnergy = 5;
+        int breedReadyEnergy = 5;
+        int breedHandoverEnergy = 0;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
         IChangePositionHandler positionHandler = new Globe(width, height);
@@ -96,7 +99,8 @@ class GlobeTest {
                 genotypeLength,
                 indexOfActiveGen,
                 energy,
-                breedEnergy,
+                breedReadyEnergy,
+                breedHandoverEnergy,
                 mutationHandler,
                 orientationHandler,
                 positionHandler);
