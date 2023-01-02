@@ -5,6 +5,7 @@ import org.example.gui.SingleSimulationVisualizer;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class SimulationEngine implements Runnable {
 
@@ -33,16 +34,11 @@ public class SimulationEngine implements Runnable {
     public Statistic statistic;
 
 
-    //STRINGI (do ustalenia) -> inaczej wyjątek:
-    //variantMap -> Globe/Hell
-    //variantGrowingPlant -> EquatorialForest/ToxicCorpses
-    //variantMutation -> FullRandomness/LittleCorrect
-    //variantOrientation -> FullPredestination/LittleCraziness
-
     public IMap getMap() {
         return map;
     }
 
+    //pomocniczy konstruktor do testowania
     public SimulationEngine(int height,
                             int width,
                             String variantMap,
@@ -59,13 +55,6 @@ public class SimulationEngine implements Runnable {
                             String variantMutation,
                             int genotypeLength,
                             String variantOrientation){
-
-        //UWAGA W TYM MIEJSCU RZUCAMY WYJĄTAKI JEŻELI PODANE WARTOŚCI SA BLEDNE
-        // height, widht > 0, width >= 5
-        // wszystkie inty itd > 0
-        // minNumberOfMutation <= max
-        // number of plants < widht*height? nie wiem jak to jest zaimplementowane
-        // maxnumber of mutation <= genotypelenght
 
         this.paused = false;
 
@@ -119,16 +108,7 @@ public class SimulationEngine implements Runnable {
             }
         }
 
-//        System.out.println(this.map);
         this.addAnimals();
-
-//        System.out.println("ANIMALS ADDED:");
-//        System.out.println();
-//        System.out.println(this.map);
-//
-//        System.out.println("ANIMALS: " + this.animals);
-//        System.out.println();
-
     }
 
     //konstruktor do app
@@ -170,7 +150,6 @@ public class SimulationEngine implements Runnable {
         this.changeOrientationHandler = changeOrientationHandler;
         this.statistic = new Statistic(map, this);
 
-//        System.out.println(this.map);
         this.addAnimals();
 
         this.dayChanged();
@@ -179,19 +158,19 @@ public class SimulationEngine implements Runnable {
 
     private void addAnimals(){
 
-        int[] genotype = new int[genotypeLength];
+        Random random = new Random();
 
-        for(int i = 0; i < genotypeLength; i++){
-            genotype[i] = 0;
-        }
+        for(int i = 0; i < this.numberOfStartAnimals; i++){
 
-        int indexOfActiveGen = 0;
+            int x = random.nextInt(0,width);
+            int y = random.nextInt(0, height);
 
-        Animal a1 = new Animal(this.map,
-                            new Vector2d(0,0),
-                            genotype,
+            Vector2d randomPosition = new Vector2d(x,y);
+
+            Animal animal = new Animal(this.map,
+                            randomPosition,
                             this.genotypeLength,
-                            indexOfActiveGen,
+                            0,
                             this.startEnergy,
                             this.breedReadyEnergy,
                             this.breedHandoverEnergy,
@@ -199,58 +178,81 @@ public class SimulationEngine implements Runnable {
                             this.changeOrientationHandler,
                             this.changePositionHandler);
 
-        int[] genotype2 = new int[genotypeLength];
-
-        for(int i = 0; i < genotypeLength; i++){
-            genotype2[i] = 1;
+            this.map.placeAnimal(animal);
+            this.animals.add(animal);
         }
-
-        Animal a2 = new Animal(this.map,
-                            new Vector2d(3,3),
-                            genotype2,
-                            this.genotypeLength,
-                            indexOfActiveGen,
-                            this.startEnergy,
-                            this.breedReadyEnergy,
-                            this.breedHandoverEnergy,
-                            this.mutationHandler,
-                            this.changeOrientationHandler,
-                            this.changePositionHandler);
-
-        Animal a3 = new Animal(this.map,
-                new Vector2d(3,2),
-                genotype2,
-                this.genotypeLength,
-                indexOfActiveGen,
-                this.startEnergy,
-                this.breedReadyEnergy,
-                this.breedHandoverEnergy,
-                this.mutationHandler,
-                this.changeOrientationHandler,
-                this.changePositionHandler);
-
-        Animal a4 = new Animal(this.map,
-                new Vector2d(3,2),
-                genotype2,
-                this.genotypeLength,
-                indexOfActiveGen,
-                this.startEnergy,
-                this.breedReadyEnergy,
-                this.breedHandoverEnergy,
-                this.mutationHandler,
-                this.changeOrientationHandler,
-                this.changePositionHandler);
-
-        //wyjątek na umieszczenie poza mapą
-
-        this.map.placeAnimal(a1);
-        this.animals.add(a1);
-        this.map.placeAnimal(a2);
-        this.animals.add(a2);
-        this.map.placeAnimal(a3);
-        this.animals.add(a3);
-        this.map.placeAnimal(a4);
-        this.animals.add(a4);
+//        int[] genotype = new int[genotypeLength];
+//
+//        for(int i = 0; i < genotypeLength; i++){
+//            genotype[i] = 0;
+//        }
+//
+//        int indexOfActiveGen = 0;
+//
+//        Animal a1 = new Animal(this.map,
+//                            new Vector2d(0,0),
+//                            genotype,
+//                            this.genotypeLength,
+//                            indexOfActiveGen,
+//                            this.startEnergy,
+//                            this.breedReadyEnergy,
+//                            this.breedHandoverEnergy,
+//                            this.mutationHandler,
+//                            this.changeOrientationHandler,
+//                            this.changePositionHandler);
+//
+//        int[] genotype2 = new int[genotypeLength];
+//
+//        for(int i = 0; i < genotypeLength; i++){
+//            genotype2[i] = 1;
+//        }
+//
+//        Animal a2 = new Animal(this.map,
+//                            new Vector2d(3,3),
+//                            genotype2,
+//                            this.genotypeLength,
+//                            indexOfActiveGen,
+//                            this.startEnergy,
+//                            this.breedReadyEnergy,
+//                            this.breedHandoverEnergy,
+//                            this.mutationHandler,
+//                            this.changeOrientationHandler,
+//                            this.changePositionHandler);
+//
+//        Animal a3 = new Animal(this.map,
+//                new Vector2d(3,2),
+//                genotype2,
+//                this.genotypeLength,
+//                indexOfActiveGen,
+//                this.startEnergy,
+//                this.breedReadyEnergy,
+//                this.breedHandoverEnergy,
+//                this.mutationHandler,
+//                this.changeOrientationHandler,
+//                this.changePositionHandler);
+//
+//        Animal a4 = new Animal(this.map,
+//                new Vector2d(3,2),
+//                genotype2,
+//                this.genotypeLength,
+//                indexOfActiveGen,
+//                this.startEnergy,
+//                this.breedReadyEnergy,
+//                this.breedHandoverEnergy,
+//                this.mutationHandler,
+//                this.changeOrientationHandler,
+//                this.changePositionHandler);
+//
+//        //wyjątek na umieszczenie poza mapą
+//
+//        this.map.placeAnimal(a1);
+//        this.animals.add(a1);
+//        this.map.placeAnimal(a2);
+//        this.animals.add(a2);
+//        this.map.placeAnimal(a3);
+//        this.animals.add(a3);
+//        this.map.placeAnimal(a4);
+//        this.animals.add(a4);
 
     }
     public void run(){

@@ -35,9 +35,6 @@ public class Animal implements IMapElement {
     public int getEnergy() {
         return this.energy;
     }
-    public int getBreedReadyEnergy() {
-        return this.breedReadyEnergy;
-    }
     public int getAge(){ return this.age; }
     public int getNoChildren(){ return this.noChildren; }
 
@@ -106,7 +103,7 @@ public class Animal implements IMapElement {
             int n = random.nextInt(0, 8);
             randomGenotype[i] = n;
         }
-        ;
+
         return randomGenotype;
     }
     public void ageAddOne(){
@@ -170,17 +167,15 @@ public class Animal implements IMapElement {
         int newEnergy = this.energy;
 
         switch (this.orientation) {
-            case 0 -> { newPosition = this.position.add(new Vector2d(0, 1)); }
-            case 1 -> { newPosition = this.position.add(new Vector2d(1, 1)); }
-            case 2 -> { newPosition = this.position.add(new Vector2d(1, 0)); }
-            case 3 -> { newPosition = this.position.add(new Vector2d(1, -1)); }
-            case 4 -> { newPosition = this.position.add(new Vector2d(0, -1)); }
-            case 5 -> { newPosition = this.position.add(new Vector2d(-1, -1));}
-            case 6 -> { newPosition = this.position.add(new Vector2d(-1, 0)); }
-            case 7 -> { newPosition = this.position.add(new Vector2d(-1, 1)); }
-            default -> {
-                System.out.println("NIEPRAWIDLOWY GEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?");
-            }
+            case 0 -> newPosition = this.position.add(new Vector2d(0, 1));
+            case 1 -> newPosition = this.position.add(new Vector2d(1, 1));
+            case 2 -> newPosition = this.position.add(new Vector2d(1, 0));
+            case 3 -> newPosition = this.position.add(new Vector2d(1, -1));
+            case 4 -> newPosition = this.position.add(new Vector2d(0, -1));
+            case 5 -> newPosition = this.position.add(new Vector2d(-1, -1));
+            case 6 -> newPosition = this.position.add(new Vector2d(-1, 0));
+            case 7 -> newPosition = this.position.add(new Vector2d(-1, 1));
+            default -> System.out.println("NIEPRAWIDLOWY GEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?");
         }
 
         if(!map.isPositionInMapBounds(newPosition)){
