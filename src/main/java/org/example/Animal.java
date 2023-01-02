@@ -256,10 +256,10 @@ public class Animal implements IMapElement {
 
         return gensToMutate;
     }
-    @Override
-    public String toString() {
-        return "%d".formatted(this.energy);
-    }
+//    @Override
+//    public String toString() {
+//        return "%d".formatted(this.energy);
+//    }
     public void addObserver(IPositionChangeObserver observer) {
         observers.add(observer);
     }

@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.example.*;
@@ -33,9 +34,16 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
     static final Color GRID_PANE_COLOR = Color.grayRgb(220);
     static final Color PLANT_COLOR = Color.GREEN;
     static final Color FOLLOWED_ANIMAL_COLOR = Color.PINK;
+    static final Color MOST_POPULAR_GENOTYPE_COLOR = Color.YELLOW;
+    static final Font STATISTICS_TITLE_FONT = new Font(22);
+    static final Font STATISTICS_TEXT_FONT = new Font(18);
+    static final Font BUTTON_FONT = new Font(18);
+    static final Insets BUTTON_INSETS = new Insets(10);
     private final Stage stage;
-    private final VBox mapStatistics;
-    private final VBox animalStatistics;
+    private final VBox mapStatisticsBox;
+    private final VBox animalStatisticsBox;
+    private final Statistic mapStatistics;
+    private boolean showMostPopularGenotype = false;
 
     public SingleSimulationVisualizer(int height,
                                       int width,
@@ -71,6 +79,8 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
                 orientationHandler);
         this.engine.addObserver(this);
 
+        this.mapStatistics = new Statistic(map, engine);
+
         int longerEdge = Math.max(height, width) + 1;
         this.cellSize = Math.round(GRID_PANE_SIZE / longerEdge);
         this.radius = cellSize*RADIUS_PROPORTION_TO_CELL_SIZE;
@@ -78,8 +88,8 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         this.gridPane = new GridPane();
         this.gridPane.setBackground(this.getBackgroundOfColor(GRID_PANE_COLOR));
 
-        this.mapStatistics = new VBox();
-        this.animalStatistics = new VBox();
+        this.mapStatisticsBox = new VBox();
+        this.animalStatisticsBox = new VBox();
 
         this.stage = new Stage();
     }
@@ -103,8 +113,9 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         this.createMapStatistics();
 
         VBox simulationAreaContainer = new VBox(this.gridPane);
-        VBox asideContainer = new VBox(this.getButtonContainer(), this.mapStatistics, this.animalStatistics);
-        asideContainer.setPadding(new Insets(0,0,0,20));
+        VBox asideContainer = new VBox(this.getButtonContainer(), this.mapStatisticsBox, this.animalStatisticsBox);
+        asideContainer.setPadding(new Insets(40,0,0,40));
+
 
         HBox sceneContainer = new HBox(simulationAreaContainer, asideContainer);
         Insets insets = new Insets(20);
@@ -116,15 +127,18 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         stage.show();
     }
     public HBox getButtonContainer(){
-        //Button buttonStop = new Button("stop");
-        //Button buttonContinue = new Button("continue");
+
         Button buttonChangeSimulationPause = new Button("stop");
 
-        HBox buttonContainer = new HBox(buttonChangeSimulationPause);
+        buttonChangeSimulationPause.setPadding(BUTTON_INSETS);
+        buttonChangeSimulationPause.setFont(BUTTON_FONT);
 
-        //zostawiam na wszselki wypadek na razie
-        //buttonStop.setOnAction(event -> this.engine.pause());
-        //buttonContinue.setOnAction(event -> this.engine.unPause());
+        Button buttonShowMostPopularGenotypes = new Button("najpopularniejsze genotypy");
+
+        buttonShowMostPopularGenotypes.setPadding(BUTTON_INSETS);
+        buttonShowMostPopularGenotypes.setFont(BUTTON_FONT);
+
+        HBox buttonContainer = new HBox(buttonChangeSimulationPause, buttonShowMostPopularGenotypes);
 
         buttonChangeSimulationPause.setOnAction(event -> {
             this.engine.setPaused(!this.engine.isPaused());
@@ -132,9 +146,20 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
                 buttonChangeSimulationPause.setText("start");
             }
             else{
+                this.showMostPopularGenotype = false;
                 buttonChangeSimulationPause.setText("stop");
             }
         });
+
+        buttonShowMostPopularGenotypes.setOnAction(event -> {
+            if(this.engine.isPaused()){
+                this.showMostPopularGenotype = !this.showMostPopularGenotype;
+                refresh();
+            }
+        });
+
+        buttonContainer.setAlignment(Pos.CENTER_LEFT);
+        buttonContainer.setSpacing(10);
 
         return buttonContainer;
     }
@@ -212,16 +237,22 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         elementContainer = new VBox(circle, energyText);
         elementContainer.setAlignment(Pos.CENTER);
 
+        System.out.println(animal);
+        //most popular genotype
+        if(this.showMostPopularGenotype && mapStatistics.getAnimalsWithMostPopular().contains(animal)){
+            elementContainer.setBackground(this.getBackgroundOfColor(MOST_POPULAR_GENOTYPE_COLOR));
+        }
+
         //manage animal following - only when simulation is paused
         elementContainer.setOnMouseClicked(event -> {
             if(this.engine.isPaused()){
 
+                //following animal
                 if(Objects.equals(this.followedAnimal, animal)){
                     this.followedAnimal = null;
                 }
                 else{
                     this.followedAnimal = animal;
-                    elementContainer.setBackground(this.getBackgroundOfColor(FOLLOWED_ANIMAL_COLOR));
                 }
                 this.refresh();
             }
@@ -229,27 +260,36 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
 
         //set background color for followed animal when simulation is not paused
         if(Objects.equals(this.followedAnimal, animal)){
-            elementContainer.setBackground(this.getBackgroundOfColor(FOLLOWED_ANIMAL_COLOR));
+            circle.setFill(FOLLOWED_ANIMAL_COLOR);
         }
 
         return elementContainer;
     }
     private void createMapStatistics(){
-        Text title = new Text("statystyki mapy");
 
-        Text t1 = new Text("liczba wszystkich zwierzat: ");
-        Text t2 = new Text("liczba wszystkich roslin: ");
-        Text t3 = new Text("liczba wolnych pol: ");
-        Text t4 = new Text("najpopularniejszy genotyp: ");
-        Text t5 = new Text("sredni poziom energii dla zyjacych zwierzat: ");
-        Text t6 = new Text("srednia dlugosc zycia zwierzat dla martwych zwierzat: ");
+        Text title = new Text("\nstatystyki mapy\n");
+        title.setFont(STATISTICS_TITLE_FONT);
 
-        //return new VBox(title, new Text(""), t1, t2, t3, t4, t5, t6);
-        this.mapStatistics.getChildren().clear();
-        this.mapStatistics.getChildren().setAll(title, new Text(""), t1, t2, t3, t4, t5, t6);
+        Text t1 = new Text("liczba wszystkich zwierzat: " + mapStatistics.getNoAnimals());
+        Text t2 = new Text("liczba wszystkich roslin: " + mapStatistics.getNoPlants());
+        Text t3 = new Text("liczba wolnych pol: " + mapStatistics.getNoFreeFields());
+        Text t4 = new Text("najpopularniejszy genotyp: " + mapStatistics.getTheMostPopularGenotype());
+        Text t5 = new Text("sredni poziom energii dla zyjacych zwierzat: " + mapStatistics.getAvgEnergy());
+        Text t6 = new Text("srednia dlugosc zycia zwierzat dla martwych zwierzat: " + mapStatistics.getAvgDeathAge());
+
+        t1.setFont(STATISTICS_TEXT_FONT);
+        t2.setFont(STATISTICS_TEXT_FONT);
+        t3.setFont(STATISTICS_TEXT_FONT);
+        t4.setFont(STATISTICS_TEXT_FONT);
+        t5.setFont(STATISTICS_TEXT_FONT);
+        t6.setFont(STATISTICS_TEXT_FONT);
+
+        this.mapStatisticsBox.getChildren().clear();
+        this.mapStatisticsBox.getChildren().setAll(title, t1, t2, t3, t4, t5, t6);
     }
     private void createAnimalStatistics(){
-        Text title = new Text("statystyki zwierzatka");
+        Text title = new Text("\nstatystyki zwierzatka\n");
+        title.setFont(STATISTICS_TITLE_FONT);
 
         String genotype = "";
         String activeGen = "";
@@ -273,12 +313,18 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         Text t5 = new Text("dzieci: " + children);
         Text t6 = new Text("liczba dni: " + age);
 
-        this.animalStatistics.getChildren().clear();
-        this.animalStatistics.getChildren().setAll(title, new Text(""), t1, t2, t3, t4, t5, t6);
+        t1.setFont(STATISTICS_TEXT_FONT);
+        t2.setFont(STATISTICS_TEXT_FONT);
+        t3.setFont(STATISTICS_TEXT_FONT);
+        t4.setFont(STATISTICS_TEXT_FONT);
+        t5.setFont(STATISTICS_TEXT_FONT);
+        t6.setFont(STATISTICS_TEXT_FONT);
+
+        this.animalStatisticsBox.getChildren().clear();
+        this.animalStatisticsBox.getChildren().setAll(title, t1, t2, t3, t4, t5, t6);
     }
     public void refresh() {
         Platform.runLater( () -> {
-            //System.out.println("\n\n\n\n\n\n\n\nREFRESH");
             this.gridPane.getChildren().clear();
             this.gridPane.getColumnConstraints().clear();
             this.gridPane.getRowConstraints().clear();
@@ -292,7 +338,6 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
 
     @Override
     public void dayChanged() {
-        //System.out.println("REFRESH---------------------------------------------------------------------------------");
         this.refresh();
     }
 }
