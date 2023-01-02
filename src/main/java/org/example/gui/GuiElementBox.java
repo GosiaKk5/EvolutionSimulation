@@ -40,10 +40,6 @@ public class GuiElementBox {
         else{
             this.elementContainer = new VBox();
         }
-
-        //Text text = new Text(mapElement.toString());
-        //Label elementPosition = new Label(mapElement.getPosition().toString());
-
     }
 
     public void setBackgroundColor(VBox container, Color color){

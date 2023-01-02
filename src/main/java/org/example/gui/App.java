@@ -46,7 +46,7 @@ public class App extends Application {
                 int height = 7;
                 int width = 7;
                 int numberOfStartPlants = 3;
-                int plantEnergy = 2;
+                int plantEnergy = 5;
                 int numberOfPlantsGrowDaily = 5;
                 int numberOfStartAnimals = 6;
                 int startEnergy = 8;
