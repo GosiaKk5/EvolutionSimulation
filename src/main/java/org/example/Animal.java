@@ -13,6 +13,8 @@ public class Animal implements IMapElement {
     private int energy;
     private final int breedReadyEnergy;
     private final int breedHandoverEnergy;
+    private final int minNumberOfMutations;
+    private final int maxNumberOfMutations;
     private final IMutationHandler mutationHandler;
     private final IChangeOrientationHandler orientationHandler;
     private final IChangePositionHandler positionHandler;
@@ -40,7 +42,7 @@ public class Animal implements IMapElement {
 
 
 
-    //konstruktor ogólny
+    //konstruktor używany do testów
     public Animal(IMap map,
                   Vector2d position,
                   int[] genotype,
@@ -49,6 +51,8 @@ public class Animal implements IMapElement {
                   int energy,
                   int breedReadyEnergy,
                   int breedHandoverEnergy,
+                  int minNumberOfMutations,
+                  int maxNumberOfMutations,
                   IMutationHandler mutationHandler,
                   IChangeOrientationHandler orientationHandler,
                   IChangePositionHandler positionHandler){
@@ -67,6 +71,8 @@ public class Animal implements IMapElement {
         this.observers = new ArrayList<>();
         this.age = 0;
         this.noChildren = 0;
+        this.minNumberOfMutations = minNumberOfMutations;
+        this.maxNumberOfMutations = maxNumberOfMutations;
     }
 
     //konstruktor przypisujący losowy genotyp (będzie potrzebny do simulation engine)
@@ -77,6 +83,8 @@ public class Animal implements IMapElement {
                   int energy,
                   int breedReadyEnergy,
                   int breedHandoverEnergy,
+                  int minNumberOfMutations,
+                  int maxNumberOfMutations,
                   IMutationHandler mutationHandler,
                   IChangeOrientationHandler orientationHandler,
                   IChangePositionHandler positionHandler){
@@ -89,6 +97,8 @@ public class Animal implements IMapElement {
         this.energy = energy;
         this.breedReadyEnergy = breedReadyEnergy;
         this.breedHandoverEnergy = breedHandoverEnergy;
+        this.minNumberOfMutations = minNumberOfMutations;
+        this.maxNumberOfMutations = maxNumberOfMutations;
         this.mutationHandler = mutationHandler;
         this.positionHandler = positionHandler;
         this.orientationHandler = orientationHandler;
@@ -142,6 +152,8 @@ public class Animal implements IMapElement {
                                         this.breedHandoverEnergy * 2,
                                         this.breedReadyEnergy,
                                         this.breedHandoverEnergy,
+                                        this.minNumberOfMutations,
+                                        this.maxNumberOfMutations,
                                         this.mutationHandler,
                                         this.orientationHandler,
                                         this.positionHandler);
@@ -221,7 +233,7 @@ public class Animal implements IMapElement {
 
         //generate number of mutations
         Random random = new Random();
-        int numberOfMutatingGens = random.nextInt(0, genotypeLength + 1);
+        int numberOfMutatingGens = random.nextInt(minNumberOfMutations, maxNumberOfMutations + 1);
 
         List<Integer> gensToMutate = this.getIndexesOfGensToMutate(this.genotypeLength, numberOfMutatingGens);
 

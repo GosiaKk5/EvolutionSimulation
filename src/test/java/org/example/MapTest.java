@@ -17,6 +17,8 @@ public class MapTest {
     int genotypeLength = 15;
     int breedReadyEnergy = 5;
     int BreedHandoverEnergy = 0;
+    int minNumberOfMutations = 0;
+    int maxNumberOfMutations = 5;
     int indexOfActiveGen = 0;
     int energy = 5;
     Vector2d position = new Vector2d(0,0);
@@ -30,6 +32,8 @@ public class MapTest {
             energy,
             breedReadyEnergy,
             BreedHandoverEnergy,
+            minNumberOfMutations,
+            maxNumberOfMutations,
             mutationHandler,
             orientationHandler,
             positionHandler);
@@ -41,6 +45,8 @@ public class MapTest {
             energy,
             breedReadyEnergy,
             BreedHandoverEnergy,
+            minNumberOfMutations,
+            maxNumberOfMutations,
             mutationHandler,
             orientationHandler,
             positionHandler);
@@ -52,6 +58,8 @@ public class MapTest {
             energy,
             breedReadyEnergy,
             BreedHandoverEnergy,
+            minNumberOfMutations,
+            maxNumberOfMutations,
             mutationHandler,
             orientationHandler,
             positionHandler);
@@ -63,6 +71,8 @@ public class MapTest {
             energy,
             breedReadyEnergy,
             BreedHandoverEnergy,
+            minNumberOfMutations,
+            maxNumberOfMutations,
             mutationHandler,
             orientationHandler,
             positionHandler);

@@ -21,6 +21,8 @@ class HellishPortalTest {
         int energy = 10;
         int breedReadyEnergy = 0;
         int breedHandoverEnergy = 4;
+        int minNumberOfMutations = 0;
+        int maxNumberOfMutations = 1;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
         IChangePositionHandler positionHandler = new HellishPortal(width, height, breedHandoverEnergy);
@@ -33,6 +35,8 @@ class HellishPortalTest {
                 energy,
                 breedReadyEnergy,
                 breedHandoverEnergy,
+                minNumberOfMutations,
+                maxNumberOfMutations,
                 mutationHandler,
                 orientationHandler,
                 positionHandler);

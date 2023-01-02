@@ -291,12 +291,12 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         Text title = new Text("\nstatystyki mapy\n");
         title.setFont(STATISTICS_TITLE_FONT);
 
-        Text t1 = new Text("liczba wszystkich zwierzat: " + mapStatistics.getNoAnimals());
-        Text t2 = new Text("liczba wszystkich roslin: " + mapStatistics.getNoPlants());
-        Text t3 = new Text("liczba wolnych pol: " + mapStatistics.getNoFreeFields());
-        Text t4 = new Text("najpopularniejszy genotyp: " + mapStatistics.getTheMostPopularGenotype());
-        Text t5 = new Text("sredni poziom energii dla zyjacych zwierzat: " + mapStatistics.getAvgEnergy());
-        Text t6 = new Text("srednia dlugosc zycia zwierzat dla martwych zwierzat: " + mapStatistics.getAvgDeathAge());
+        Text t1 = new Text("liczba wszystkich zwierzat: " + engine.statistic.getNoAnimals());
+        Text t2 = new Text("liczba wszystkich roslin: " + engine.statistic.getNoPlants());
+        Text t3 = new Text("liczba wolnych pol: " + engine.statistic.getNoFreeFields());
+        Text t4 = new Text("najpopularniejszy genotyp: " + engine.statistic.getTheMostPopularGenotype());
+        Text t5 = new Text("sredni poziom energii dla zyjacych zwierzat: " + engine.statistic.getAvgEnergy());
+        Text t6 = new Text("srednia dlugosc zycia zwierzat dla martwych zwierzat: " + engine.statistic.getAvgDeathAge());
 
         t1.setFont(STATISTICS_TEXT_FONT);
         t2.setFont(STATISTICS_TEXT_FONT);

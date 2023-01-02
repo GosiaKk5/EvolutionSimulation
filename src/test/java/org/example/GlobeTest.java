@@ -22,6 +22,8 @@ class GlobeTest {
         int energy = 1;
         int breedReadyEnergy = 5;
         int breedHandoverEnergy = 0;
+        int minNumberOfMutations = 0;
+        int maxNumberOfMutations = 5;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
         IChangePositionHandler positionHandler = new Globe(width, height);
@@ -45,6 +47,8 @@ class GlobeTest {
                 energy,
                 breedReadyEnergy,
                 breedHandoverEnergy,
+                minNumberOfMutations,
+                maxNumberOfMutations,
                 mutationHandler,
                 orientationHandler,
                 positionHandler);
@@ -80,6 +84,8 @@ class GlobeTest {
         int energy = 1;
         int breedReadyEnergy = 5;
         int breedHandoverEnergy = 0;
+        int minNumberOfMutations = 0;
+        int maxNumberOfMutations = 4;
         IMutationHandler mutationHandler = new FullRandomness();
         IChangeOrientationHandler orientationHandler = new FullPredestination();
         IChangePositionHandler positionHandler = new Globe(width, height);
@@ -101,6 +107,8 @@ class GlobeTest {
                 energy,
                 breedReadyEnergy,
                 breedHandoverEnergy,
+                minNumberOfMutations,
+                maxNumberOfMutations,
                 mutationHandler,
                 orientationHandler,
                 positionHandler);

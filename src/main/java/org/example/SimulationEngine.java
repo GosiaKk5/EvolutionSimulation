@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class SimulationEngine implements Runnable {
 
-    static final int MOVE_DELAY = 200;
+    static final int MOVE_DELAY = 500;
     int height;
     int width;
     int numberOfStartPlants;
@@ -174,6 +174,8 @@ public class SimulationEngine implements Runnable {
                             this.startEnergy,
                             this.breedReadyEnergy,
                             this.breedHandoverEnergy,
+                            this.minNumberOfMutations,
+                            this.maxNumberOfMutations,
                             this.mutationHandler,
                             this.changeOrientationHandler,
                             this.changePositionHandler);
