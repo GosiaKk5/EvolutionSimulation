@@ -12,20 +12,11 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
     protected final Vector2d lowerLeft;
     protected final Vector2d upperRight;
 
-    public int getUpperBound() {
-        return upperBound;
+    public int getHeight() {
+        return height;
     }
-
-    public int getLowerBound() {
-        return lowerBound;
-    }
-
-    public int getLeftBound() {
-        return leftBound;
-    }
-
-    public int getRightBound() {
-        return rightBound;
+    public int getWidth() {
+        return width;
     }
 
     protected final int upperBound;

@@ -125,8 +125,8 @@ public class SimulationEngine implements Runnable {
                             IChangeOrientationHandler changeOrientationHandler){
 
 
-        this.height = map.getUpperBound() + 1;
-        this.width = map.getRightBound() + 1;
+        this.height = map.getHeight();
+        this.width = map.getWidth();
 
         this.paused = false;
 
@@ -160,15 +160,8 @@ public class SimulationEngine implements Runnable {
 
         for(int i = 0; i < this.numberOfStartAnimals; i++){
 
-            int x = random.nextInt(0,width);
-            int y = random.nextInt(0, height);
-
-            Vector2d randomPosition = new Vector2d(x,y);
-
             Animal animal = new Animal(this.map,
-                            randomPosition,
                             this.genotypeLength,
-                            0,
                             this.startEnergy,
                             this.breedReadyEnergy,
                             this.breedHandoverEnergy,
@@ -181,79 +174,6 @@ public class SimulationEngine implements Runnable {
             this.map.placeAnimal(animal);
             this.animals.add(animal);
         }
-//        int[] genotype = new int[genotypeLength];
-//
-//        for(int i = 0; i < genotypeLength; i++){
-//            genotype[i] = 0;
-//        }
-//
-//        int indexOfActiveGen = 0;
-//
-//        Animal a1 = new Animal(this.map,
-//                            new Vector2d(0,0),
-//                            genotype,
-//                            this.genotypeLength,
-//                            indexOfActiveGen,
-//                            this.startEnergy,
-//                            this.breedReadyEnergy,
-//                            this.breedHandoverEnergy,
-//                            this.mutationHandler,
-//                            this.changeOrientationHandler,
-//                            this.changePositionHandler);
-//
-//        int[] genotype2 = new int[genotypeLength];
-//
-//        for(int i = 0; i < genotypeLength; i++){
-//            genotype2[i] = 1;
-//        }
-//
-//        Animal a2 = new Animal(this.map,
-//                            new Vector2d(3,3),
-//                            genotype2,
-//                            this.genotypeLength,
-//                            indexOfActiveGen,
-//                            this.startEnergy,
-//                            this.breedReadyEnergy,
-//                            this.breedHandoverEnergy,
-//                            this.mutationHandler,
-//                            this.changeOrientationHandler,
-//                            this.changePositionHandler);
-//
-//        Animal a3 = new Animal(this.map,
-//                new Vector2d(3,2),
-//                genotype2,
-//                this.genotypeLength,
-//                indexOfActiveGen,
-//                this.startEnergy,
-//                this.breedReadyEnergy,
-//                this.breedHandoverEnergy,
-//                this.mutationHandler,
-//                this.changeOrientationHandler,
-//                this.changePositionHandler);
-//
-//        Animal a4 = new Animal(this.map,
-//                new Vector2d(3,2),
-//                genotype2,
-//                this.genotypeLength,
-//                indexOfActiveGen,
-//                this.startEnergy,
-//                this.breedReadyEnergy,
-//                this.breedHandoverEnergy,
-//                this.mutationHandler,
-//                this.changeOrientationHandler,
-//                this.changePositionHandler);
-//
-//        //wyjątek na umieszczenie poza mapą
-//
-//        this.map.placeAnimal(a1);
-//        this.animals.add(a1);
-//        this.map.placeAnimal(a2);
-//        this.animals.add(a2);
-//        this.map.placeAnimal(a3);
-//        this.animals.add(a3);
-//        this.map.placeAnimal(a4);
-//        this.animals.add(a4);
-
     }
     public void run(){
 
@@ -349,7 +269,7 @@ public class SimulationEngine implements Runnable {
                 if(fighters.size() >= 2){
                     Animal animal1 = fighters.get(0); // zwierzeta zostaly posortowane przy walce o jedzenie
                     Animal animal2 = fighters.get(1);
-                    if(animal1.getEnergy() > breedHandoverEnergy && animal2.getEnergy() > breedHandoverEnergy){
+                    if(animal1.getEnergy() > breedReadyEnergy && animal2.getEnergy() > breedReadyEnergy){
                         Animal newAnimal = animal1.breedNewAnimal(animal2);
                         this.map.placeAnimal(newAnimal);
                         this.animals.add(newAnimal);

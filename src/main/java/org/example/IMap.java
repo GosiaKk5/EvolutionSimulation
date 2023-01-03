@@ -17,8 +17,7 @@ public interface IMap {
 
     void removeAnimal(Animal animal);
     boolean isPositionInMapBounds(Vector2d position);
-    int getUpperBound();
-    int getRightBound();
-
+    int getWidth();
+    int getHeight();
     int getNoFreeFields();
 }
