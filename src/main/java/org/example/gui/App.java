@@ -51,41 +51,9 @@ public class App extends Application {
         Button button = new Button(buttonText);
         button.setOnAction(event -> {
             try {
+                FileHandler fileHandler = new FileHandler("src/main/resources/variant1.txt");
+                fileHandler.getSimulationVisualizer().startSingleSimulation();
 
-                int height = 30;
-                int width = 30;
-                int numberOfStartPlants = 0;
-                int plantEnergy = 15;
-                int numberOfPlantsGrowDaily = 5;
-                int numberOfStartAnimals = 10;
-                int startEnergy = 10;
-                int breedReadyEnergy = 6;
-                int breedHandoverEnergy = 5;
-                int minNumberOfMutations = 0;
-                int maxNumberOfMutations = 0;
-                int genotypeLength = 3;
-
-                IMap map = new EquatorialForestMap(width, height, numberOfStartPlants);
-                IMutationHandler mutationHandler = new FullRandomness();
-                IChangePositionHandler positionHandler = new Globe(width, height);
-                IChangeOrientationHandler orientationHandler = new FullPredestination();
-
-                SingleSimulationVisualizer visualizer = new SingleSimulationVisualizer(height,
-                        width,
-                        map,
-                        plantEnergy,
-                        numberOfPlantsGrowDaily,
-                        numberOfStartAnimals,
-                        startEnergy,
-                        breedReadyEnergy,
-                        breedHandoverEnergy,
-                        minNumberOfMutations,
-                        maxNumberOfMutations,
-                        genotypeLength,
-                        mutationHandler,
-                        positionHandler,
-                        orientationHandler);
-                visualizer.startSingleSimulation();
             } catch (IllegalArgumentException ex) {
                 System.err.println(ex);
                 System.exit(1);
@@ -97,41 +65,8 @@ public class App extends Application {
         Button button = new Button(buttonText);
         button.setOnAction(event -> {
             try{
-
-                int height = 3;
-                int width = 3;
-                int numberOfStartPlants = 0;
-                int plantEnergy = 2;
-                int numberOfPlantsGrowDaily = 0;
-                int numberOfStartAnimals = 1;
-                int startEnergy = 20;
-                int breedReadyEnergy = 5;
-                int breedHandoverEnergy = 3;
-                int minNumberOfMutations = 0;
-                int maxNumberOfMutations = 0;
-                int genotypeLength = 12;
-
-                IMap map = new EquatorialForestMap(width, height, numberOfStartPlants);
-                IMutationHandler mutationHandler = new FullRandomness();
-                IChangePositionHandler positionHandler = new HellishPortal(width, height, breedHandoverEnergy);
-                IChangeOrientationHandler orientationHandler = new FullPredestination();
-
-                SingleSimulationVisualizer visualizer = new SingleSimulationVisualizer(height,
-                        width,
-                        map,
-                        plantEnergy,
-                        numberOfPlantsGrowDaily,
-                        numberOfStartAnimals,
-                        startEnergy,
-                        breedReadyEnergy,
-                        breedHandoverEnergy,
-                        minNumberOfMutations,
-                        maxNumberOfMutations,
-                        genotypeLength,
-                        mutationHandler,
-                        positionHandler,
-                        orientationHandler);
-                visualizer.startSingleSimulation();
+                FileHandler fileHandler = new FileHandler("src/main/resources/variant2.txt");
+                fileHandler.getSimulationVisualizer().startSingleSimulation();
             }
             catch(IllegalArgumentException ex){
                 System.err.println(ex);
@@ -144,41 +79,8 @@ public class App extends Application {
         Button button = new Button(buttonText);
         button.setOnAction(event -> {
             try{
-
-                int height = 20;
-                int width = 20;
-                int numberOfStartPlants = 5;
-                int plantEnergy = 10;
-                int numberOfPlantsGrowDaily = 3;
-                int numberOfStartAnimals = 6;
-                int startEnergy = 10;
-                int breedReadyEnergy = 6;
-                int breedHandoverEnergy = 5;
-                int minNumberOfMutations = 0;
-                int maxNumberOfMutations = 0;
-                int genotypeLength = 1;
-
-                IMap map = new EquatorialForestMap(width, height, numberOfStartPlants);
-                IMutationHandler mutationHandler = new FullRandomness();
-                IChangePositionHandler positionHandler = new HellishPortal(width, height, breedHandoverEnergy);
-                IChangeOrientationHandler orientationHandler = new FullPredestination();
-
-                SingleSimulationVisualizer visualizer = new SingleSimulationVisualizer(height,
-                        width,
-                        map,
-                        plantEnergy,
-                        numberOfPlantsGrowDaily,
-                        numberOfStartAnimals,
-                        startEnergy,
-                        breedReadyEnergy,
-                        breedHandoverEnergy,
-                        minNumberOfMutations,
-                        maxNumberOfMutations,
-                        genotypeLength,
-                        mutationHandler,
-                        positionHandler,
-                        orientationHandler);
-                visualizer.startSingleSimulation();
+                FileHandler fileHandler = new FileHandler("src/main/resources/variant3.txt");
+                fileHandler.getSimulationVisualizer().startSingleSimulation();
             }
             catch(IllegalArgumentException ex){
                 System.err.println(ex);
@@ -197,6 +99,15 @@ public class App extends Application {
 
         container.setAlignment(Pos.CENTER);
         container.setSpacing(10);
+
+//        try{
+//            FileHandler fileHandler = new FileHandler("src/main/resources/variant3.txt");
+//            fileHandler.getSimulationVisualizer().startSingleSimulation();
+//        }
+//        catch(IllegalArgumentException ex){
+//            System.err.println(ex);
+//            System.exit(1);
+//        }
 
         return container;
     }
