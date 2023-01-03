@@ -283,8 +283,4 @@ public class Animal implements IMapElement {
             observer.positionChanged(this, oldPosition, newPosition);
         }
     }
-
-    public int[] getGenotype() {
-        return genotype;
-    }
 }
