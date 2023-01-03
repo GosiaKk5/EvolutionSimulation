@@ -1,8 +1,5 @@
 package org.example;
 
-import org.example.gui.SingleSimulationVisualizer;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +29,7 @@ public class SimulationEngine implements Runnable {
     private boolean paused;
     private ArrayList<INextSimulationDayObserver> observers = new ArrayList<INextSimulationDayObserver>();
 
-    public Statistic statistic;
+    public Statistics statistic;
 
 
     public IMap getMap() {
@@ -91,7 +88,7 @@ public class SimulationEngine implements Runnable {
             }
         }
 
-        this.statistic = new Statistic(map, this);
+        this.statistic = new Statistics(map, this);
 
         switch(variantMutation){
             case "FullRandomness" -> { this.mutationHandler = new FullRandomness(); }
@@ -149,7 +146,7 @@ public class SimulationEngine implements Runnable {
         this.map = map;
         this.mutationHandler = mutationHandler;
         this.changeOrientationHandler = changeOrientationHandler;
-        this.statistic = new Statistic(map, this);
+        this.statistic = new Statistics(map, this);
 
         this.addAnimals();
 

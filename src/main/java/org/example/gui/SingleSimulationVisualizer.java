@@ -15,7 +15,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.example.*;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 public class SingleSimulationVisualizer implements INextSimulationDayObserver{
@@ -29,7 +28,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
     private final Stage stage;
     private final VBox mapStatisticsBox;
     private final VBox animalStatisticsBox;
-    private final Statistic mapStatistics;
+    private final Statistics mapStatistics;
     final int cellSize;
     final double radius;
     static final int GRID_PANE_SIZE = 760;
@@ -79,7 +78,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
                 orientationHandler);
         this.engine.addObserver(this);
 
-        this.mapStatistics = new Statistic(map, engine);
+        this.mapStatistics = this.engine.statistic;
 
         int longerEdge = Math.max(height, width) + 1;
         this.cellSize = Math.round(GRID_PANE_SIZE / longerEdge);
@@ -268,9 +267,6 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         if(energy <= 3){
             color = Color.BLACK;
         }else if(energy <= 5){
-            color = Color.BROWN;
-        }
-        else if(energy <= 5){
             color = Color.RED;
         }
         else if(energy <= 10){
@@ -291,12 +287,12 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         Text title = new Text("\nstatystyki mapy\n");
         title.setFont(STATISTICS_TITLE_FONT);
 
-        Text t1 = new Text("liczba wszystkich zwierzat: " + engine.statistic.getNoAnimals());
-        Text t2 = new Text("liczba wszystkich roslin: " + engine.statistic.getNoPlants());
-        Text t3 = new Text("liczba wolnych pol: " + engine.statistic.getNoFreeFields());
-        Text t4 = new Text("najpopularniejszy genotyp: " + engine.statistic.getTheMostPopularGenotype());
-        Text t5 = new Text("sredni poziom energii dla zyjacych zwierzat: " + engine.statistic.getAvgEnergy());
-        Text t6 = new Text("srednia dlugosc zycia zwierzat dla martwych zwierzat: " + engine.statistic.getAvgDeathAge());
+        Text t1 = new Text("liczba wszystkich zwierzat: " + mapStatistics.getNoAnimals());
+        Text t2 = new Text("liczba wszystkich roslin: " + mapStatistics.getNoPlants());
+        Text t3 = new Text("liczba wolnych pol: " + mapStatistics.getNoFreeFields());
+        Text t4 = new Text("najpopularniejszy genotyp: " + mapStatistics.getTheMostPopularGenotype());
+        Text t5 = new Text("sredni poziom energii dla zyjacych zwierzat: " + mapStatistics.getAvgEnergy());
+        Text t6 = new Text("srednia dlugosc zycia zwierzat dla martwych zwierzat: " + mapStatistics.getAvgDeathAge());
 
         t1.setFont(STATISTICS_TEXT_FONT);
         t2.setFont(STATISTICS_TEXT_FONT);
@@ -321,7 +317,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         String age = "";
 
         if(this.followedAnimal != null){
-            genotype = Arrays.toString(this.followedAnimal.getGenotype());
+            genotype = this.getGenotypeString(this.followedAnimal.getGenotype());
             activeGen = String.valueOf(this.followedAnimal.getIndexOfActiveGen());
             energy = String.valueOf(this.followedAnimal.getEnergy());
             eatenPlants = "";
@@ -344,6 +340,13 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
 
         this.animalStatisticsBox.getChildren().clear();
         this.animalStatisticsBox.getChildren().setAll(title, t1, t2, t3, t4, t5, t6);
+    }
+    private String getGenotypeString(int[] genotype){
+        String stringGenotype = "";
+        for(int i : genotype){
+            stringGenotype += i;
+        }
+        return stringGenotype;
     }
     private void refresh() {
         Platform.runLater( () -> {

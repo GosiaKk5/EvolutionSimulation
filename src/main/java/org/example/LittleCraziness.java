@@ -42,6 +42,9 @@ public class LittleCraziness implements IChangeOrientationHandler {
                     indexes.add(i);
                 }
             }
+            if(indexes.size() == 0){
+                return animal.getIndexOfActiveGen();
+            }
             nextGenIndex = indexes.get(random.nextInt(0, genotypeLength - 1));
         }
 
