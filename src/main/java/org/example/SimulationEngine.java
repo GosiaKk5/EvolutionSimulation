@@ -4,6 +4,7 @@ import org.example.gui.SingleSimulationVisualizer;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -267,7 +268,14 @@ public class SimulationEngine implements Runnable {
                     this.eatPlants();
                     this.breedAnimals();
                     this.growPlants();
-                    //System.out.println(map);
+                    System.out.println("----------");
+                    for(Animal animal : animals){
+                        System.out.println(Arrays.toString(animal.getGenotype()));
+                    }
+                    System.out.println("most popular: " + this.statistic.getTheMostPopularGenotype());
+                    System.out.println("noAnimals: "+ this.statistic.getNoAnimals());
+                    System.out.println("animals popular: " + this.statistic.getAnimalsWithMostPopular());
+                    System.out.println("----------");
                     this.dayChanged();
                 }
                 Thread.sleep(MOVE_DELAY);
