@@ -1,9 +1,8 @@
 package org.example;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
-public class Statistic{
+public class Statistics {
 //    liczby wszystkich zwierząt,
 //    liczby wszystkich roślin,
 //    liczby wolnych pól,
@@ -23,7 +22,7 @@ public class Statistic{
     private int[] mostPopularGenotype;
 
 
-    public Statistic(IMap map, SimulationEngine engine){
+    public Statistics(IMap map, SimulationEngine engine){
         this.engine = engine;
         this.map = map;
         this.noDeadAnimals = 0;
