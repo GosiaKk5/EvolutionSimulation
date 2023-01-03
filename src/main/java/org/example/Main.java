@@ -12,6 +12,7 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args){
 
+        //FileHandler h = new FileHandler("C:\\Users\\malgo\\OneDrive\\Pulpit\\AGH\\semestr_3\\PO\\testing.txt");
 
         Application.launch(App.class, args);
 
@@ -145,4 +146,6 @@ public class Main {
 //                                variantOrientation);
 //        engine.run();
     }
+
+
 }

@@ -1,0 +1,18 @@
+width:5
+height:5
+positionHandler:piekielny portal
+numberOfStartPlants:1
+plantEnergy:2
+numberOfPlantsGrowDaily:0
+map:zalesione rowniki
+numberOfStartAnimals:1
+animalStartEnergy:20
+breedReadyEnergy:5
+breedHandoverEnergy:3
+minNumberOfMutations:0
+maxNumberOfMutations:0
+mutationHandler:pelna losowosc
+genotypeLength:12
+orientationHandler:pelna predestynacja
+saveStatistic:false
+pathForStatistic:null

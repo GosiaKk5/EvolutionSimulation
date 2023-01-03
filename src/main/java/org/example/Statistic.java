@@ -43,14 +43,19 @@ public class Statistic{
         return map.getNoFreeFields();
     }
 
-    public int getAvgEnergy(){
+    public double getAvgEnergy(){
         int sumEnergy = 0;
 
         for(Animal animal : engine.getAnimals()){
             sumEnergy += animal.getEnergy();
         }
-
-        return sumEnergy/this.getNoAnimals();
+        if (getNoAnimals() > 0){
+            double avg = (double)sumEnergy/this.getNoAnimals();
+            avg*=100;
+            avg = (double)Math.round(avg);
+            return avg/100;
+        }
+        return -1;
     }
 
     public double getAvgDeathAge(){
