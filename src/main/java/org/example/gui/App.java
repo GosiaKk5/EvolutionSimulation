@@ -34,12 +34,11 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
     public HBox getStartButtons(){
 
-        Button buttonOption1 = this.getOptionButton1("option 1");
-        Button buttonOption2 = this.getOptionButton2("option 2");
-        Button buttonOption3 = this.getOptionButton3("option 3");
+        Button buttonOption1 = this.getOptionButton("option 1", "src/main/resources/variant1.txt");
+        Button buttonOption2 = this.getOptionButton("option 2", "src/main/resources/variant2.txt");
+        Button buttonOption3 = this.getOptionButton("option 3", "src/main/resources/variant3.txt");
 
         HBox buttonContainer = new HBox(buttonOption1, buttonOption2, buttonOption3);
 
@@ -47,11 +46,12 @@ public class App extends Application {
         buttonContainer.setSpacing(10);
         return buttonContainer;
     }
-    public Button getOptionButton1(String buttonText){
+    public Button getOptionButton(String buttonText, String stringPath){
+
         Button button = new Button(buttonText);
         button.setOnAction(event -> {
             try {
-                FileHandler fileHandler = new FileHandler("src/main/resources/variant1.txt");
+                FileHandler fileHandler = new FileHandler(stringPath);
                 fileHandler.getSimulationVisualizer().startSingleSimulation();
 
             } catch (IllegalArgumentException ex) {
@@ -61,41 +61,25 @@ public class App extends Application {
         });
         return button;
     }
-    public Button getOptionButton2(String buttonText){
-        Button button = new Button(buttonText);
-        button.setOnAction(event -> {
-            try{
-                FileHandler fileHandler = new FileHandler("src/main/resources/variant2.txt");
-                fileHandler.getSimulationVisualizer().startSingleSimulation();
-            }
-            catch(IllegalArgumentException ex){
-                System.err.println(ex);
-                System.exit(1);
-            }
-        });
-        return button;
-    }
-    public Button getOptionButton3(String buttonText){
-        Button button = new Button(buttonText);
-        button.setOnAction(event -> {
-            try{
-                FileHandler fileHandler = new FileHandler("src/main/resources/variant3.txt");
-                fileHandler.getSimulationVisualizer().startSingleSimulation();
-            }
-            catch(IllegalArgumentException ex){
-                System.err.println(ex);
-                System.exit(1);
-            }
-        });
-        return button;
-    }
-
     public HBox getPathTextFieldAndButton(){
 
         TextField textField = new TextField();
 
-        Button button = new Button("przeslij");
-        HBox container = new HBox(textField, button);
+        Button buttonSubmit = new Button("przeslij");
+        HBox container = new HBox(textField, buttonSubmit);
+
+        buttonSubmit.setOnAction(event -> {
+            String path = textField.getText();
+
+            try{
+                FileHandler fileHandler = new FileHandler(path);
+                fileHandler.getSimulationVisualizer().startSingleSimulation();
+            }
+            catch(IllegalArgumentException ex){
+                System.err.println(ex);
+                System.exit(1);
+            }
+        });
 
         container.setAlignment(Pos.CENTER);
         container.setSpacing(10);
