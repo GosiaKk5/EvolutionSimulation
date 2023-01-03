@@ -55,12 +55,15 @@ public class Statistic{
 
     public double getAvgDeathAge(){
         if(this.noDeadAnimals > 0){
-            return (double)this.deadAnimalsAgeSum/this.noDeadAnimals;
+            double avg = (double)this.deadAnimalsAgeSum/this.noDeadAnimals;
+            avg*=100;
+            avg = (double)Math.round(avg);
+            return avg/100;
         }
         return -1;
     }
 
-    public int[] getTheMostPopularGenotype(){
+    public String getTheMostPopularGenotype(){
         HashMap<int[], Integer> genotypesCounter = new HashMap<>();
         for(Animal animal : engine.getAnimals()){
             int[] genotype = animal.getGenotype();
@@ -80,7 +83,7 @@ public class Statistic{
 
         if(mostPopular != null){
             this.mostPopularGenotype = mostPopular.getKey();
-            return this.mostPopularGenotype;
+            return Arrays.toString(this.mostPopularGenotype);
         }else{
             this.mostPopularGenotype = null;
             return null;
