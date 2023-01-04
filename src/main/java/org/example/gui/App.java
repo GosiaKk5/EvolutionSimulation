@@ -36,9 +36,9 @@ public class App extends Application {
     }
     public HBox getStartButtons(){
 
-        Button buttonOption1 = this.getOptionButton("opcja 1", "src/main/resources/variant1.txt");
-        Button buttonOption2 = this.getOptionButton("opcja 2", "src/main/resources/variant2.txt");
-        Button buttonOption3 = this.getOptionButton("opcja 3", "src/main/resources/variant3.txt");
+        Button buttonOption1 = this.getOptionButton("opcja 1", "src/main/resources/opcja1.txt");
+        Button buttonOption2 = this.getOptionButton("opcja 2", "src/main/resources/opcja2.txt");
+        Button buttonOption3 = this.getOptionButton("opcja 3", "src/main/resources/opcja3.txt");
 
         HBox buttonContainer = new HBox(buttonOption1, buttonOption2, buttonOption3);
 

@@ -17,11 +17,10 @@ public class SimulationEngine implements Runnable {
     private final int minNumberOfMutations;
     private final int maxNumberOfMutations;
     private final int genotypeLength;
-
-    IChangePositionHandler changePositionHandler;
-    IChangeOrientationHandler changeOrientationHandler;
-    IMutationHandler mutationHandler;
-    IMap map;
+    private final IChangePositionHandler changePositionHandler;
+    private final IChangeOrientationHandler changeOrientationHandler;
+    private final IMutationHandler mutationHandler;
+    private final IMap map;
     private final List<Animal> animals;
     private boolean paused;
     private final ArrayList<INextSimulationDayObserver> observers = new ArrayList<>();
@@ -105,14 +104,6 @@ public class SimulationEngine implements Runnable {
                     this.eatPlants();
                     this.breedAnimals();
                     this.growPlants();
-//                    System.out.println("----------");
-//                    for(Animal animal : animals){
-//                        System.out.println(Arrays.toString(animal.getGenotype()));
-//                    }
-//                    System.out.println("most popular: " + this.statistic.getTheMostPopularGenotype());
-//                    System.out.println("noAnimals: "+ this.statistic.getNoAnimals());
-//                    System.out.println("animals popular: " + this.statistic.getAnimalsWithMostPopular());
-//                    System.out.println("----------");
                     this.dayChanged();
                 }
                 Thread.sleep(MOVE_DELAY);
@@ -210,21 +201,14 @@ public class SimulationEngine implements Runnable {
     public void addObserver(INextSimulationDayObserver observer) {
         observers.add(observer);
     }
-
-    public void removeObserver(INextSimulationDayObserver observer) {
-        observers.remove(observer);
-    }
-
     private void dayChanged() {
         for (INextSimulationDayObserver observer : observers) {
             observer.dayChanged();
         }
     }
-
     public void setPaused(boolean paused) {
         this.paused = paused;
     }
-
     public List<Animal> getAnimals(){
         return this.animals;
     }

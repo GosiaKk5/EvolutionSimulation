@@ -1,17 +1,7 @@
 package org.example;
 
-public class Plant implements IMapElement{
-    private final Vector2d position;
-
-    public Plant(Vector2d position){
-        this.position = position;
-    }
-
-    public Vector2d getPosition(){
-        return this.position;
-    }
-
-    public String toString(){
+public record Plant(Vector2d position) implements IMapElement {
+    public String toString() {
         return "*";
     }
 

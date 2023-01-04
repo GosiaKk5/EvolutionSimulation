@@ -58,12 +58,12 @@ class GlobeTest {
         System.out.println(map);
         for(int i = 0; i < positionChecks.length; i++){
             animal.move();
-            //assertEquals(animal.getOrientation(), orientationChecks[i]);
+            assertEquals(animal.getOrientation(), orientationChecks[i]);
 
             animal.changeOrientation();
             System.out.println(animal.getOrientation());
 
-            //assertEquals(animal.getPosition(), positionChecks[i]);
+            assertEquals(animal.getPosition(), positionChecks[i]);
             System.out.println(map);
         }
     }
@@ -124,7 +124,7 @@ class GlobeTest {
             animal.changeOrientation();
             System.out.println(animal.getOrientation());
 
-            assertEquals(animal.getPosition(), positionChecks[i]);
+            assertEquals(animal.position(), positionChecks[i]);
             System.out.println(map);
         }
 

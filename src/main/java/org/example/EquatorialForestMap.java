@@ -1,39 +1,36 @@
 package org.example;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
 
 public class EquatorialForestMap extends AbstractMap {
 
-    private ArrayList<Vector2d> fertileFree = new ArrayList<Vector2d>(); // wolne pola żyzne
-    private ArrayList<Vector2d>  notFertileFree = new ArrayList<Vector2d>(); // wolne pola nieżyzne
-    //private final HashSet<Vector2d> fertileAll = new HashSet<>(); // wszystkie pola żyzne
-
-    private int equatorStart;
-    private int equatorEnd;
+    private final ArrayList<Vector2d> fertileFree = new ArrayList<>(); // wolne pola żyzne
+    private final ArrayList<Vector2d> notFertileFree = new ArrayList<>(); // wolne pola nieżyzne
+    private final int equatorStart;
+    private final int equatorEnd;
 
 
     public EquatorialForestMap(int width, int height, int noStartPlants){
         super(width, height, noStartPlants);
-        findEquator();
+
+        int equatorialHeight = getEquatorialHeight();
+        this.equatorStart = (this.height - equatorialHeight) / 2;
+        this.equatorEnd = this.equatorStart + equatorialHeight - 1;
+
         setFertileFields();
         addPlants(noStartPlants);
     }
 
-    private void findEquator(){
-        int noFertileFields = (int) Math.round(((double) this.width * (double) this.height)/5);
-        int middleRow =  (height-1) / 2;
+    private int getEquatorialHeight(){
+
         int equatorialHeight = this.height / 5;
 
         if ( ((double)equatorialHeight / (double)this.height) < 0.20){
             equatorialHeight += 1;
 
         }
-
-
-        this.equatorStart = (this.height - equatorialHeight)/2;
-        this.equatorEnd = this.equatorStart + equatorialHeight - 1;
+        return equatorialHeight;
     }
 
     private void setFertileFields(){

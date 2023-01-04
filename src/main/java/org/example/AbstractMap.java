@@ -38,7 +38,7 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
     @Override
     public void placeAnimal(Animal animal) {
 
-        Vector2d position = animal.getPosition();
+        Vector2d position = animal.position();
 
         if(isPositionInMapBounds(position)){
             this.animals.get(position).add(animal);
@@ -51,7 +51,7 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
 
     public void removeAnimal(Animal animal){
 
-        Vector2d position = animal.getPosition();
+        Vector2d position = animal.position();
         animals.get(position).remove(animal);
     }
 

@@ -15,7 +15,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.example.*;
 
-import java.io.FileWriter;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -31,7 +30,6 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
     private final VBox mapStatisticsBox;
     private final VBox animalStatisticsBox;
     private final Statistics mapStatistics;
-
     private final WriteFileHandler writeFile;
     private final String pathForStatistic;
     final int cellSize;
@@ -43,7 +41,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
     static final Color GRID_PANE_COLOR = Color.grayRgb(220);
     static final Color PLANT_COLOR = Color.rgb(115,215,77);
     static final Color FOLLOWED_ANIMAL_COLOR = Color.BLUE;
-    static final Color MOST_POPULAR_GENOTYPE_COLOR = Color.PINK;
+    static final Color MOST_POPULAR_GENOTYPE_COLOR = Color.VIOLET;
     static final Font STATISTICS_TITLE_FONT = new Font(22);
     static final Font STATISTICS_TEXT_FONT = new Font(18);
     static final Font BUTTON_FONT = new Font(18);
@@ -154,13 +152,22 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
             }
             else{
                 this.showMostPopularGenotype = false;
+                buttonShowMostPopularGenotypes.setText("pokaz najpopularniejsze genotypy");
                 buttonChangeSimulationPause.setText("stop");
             }
         });
 
         buttonShowMostPopularGenotypes.setOnAction(event -> {
             if(this.engine.isPaused()){
+
                 this.showMostPopularGenotype = !this.showMostPopularGenotype;
+
+                if(this.showMostPopularGenotype){
+                    buttonShowMostPopularGenotypes.setText("ukryj najpopularniejsze genotypy");
+                }
+                else{
+                    buttonShowMostPopularGenotypes.setText("pokaz najpopularniejsze genotypy");
+                }
                 refresh();
             }
         });

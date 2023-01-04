@@ -2,8 +2,6 @@ package org.example;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class AnimalTest {
@@ -55,16 +53,16 @@ class AnimalTest {
         int[] orientationCheck = {2,4,6,6,0,2};
 
 
-        System.out.println(animal.getPosition());
+        System.out.println(animal.position());
         for(int i = 0; i < positionCheck.length; i++){
             System.out.println("i: " + i);
             System.out.println("ORIENTATION: " + animal.getOrientation());
             animal.move();
             animal.changeOrientation();
 
-            System.out.println("POSITION: " + animal.getPosition());
+            System.out.println("POSITION: " + animal.position());
 
-            assertEquals(animal.getPosition(), positionCheck[i]);
+            assertEquals(animal.position(), positionCheck[i]);
             assertEquals(animal.getOrientation(), orientationCheck[i]);
 
             System.out.println();
@@ -122,16 +120,16 @@ class AnimalTest {
         int[] orientationCheck = {1,3,6,1,5,2,0,1,4,4};
 
 
-        System.out.println(animal.getPosition());
+        System.out.println(animal.position());
         for(int i = 0; i < genotype.length; i++){
             System.out.println("i: " + i);
             System.out.println("ORIENTATION: " + animal.getOrientation());
             animal.move();
             animal.changeOrientation();
 
-            System.out.println("POSITION: " + animal.getPosition());
+            System.out.println("POSITION: " + animal.position());
 
-            assertEquals(animal.getPosition(), positonCheks[i]);
+            assertEquals(animal.position(), positonCheks[i]);
             assertEquals(animal.getOrientation(), orientationCheck[i]);
 
             System.out.println();
@@ -145,7 +143,7 @@ class AnimalTest {
 
         int width = 100;
         int height = 100;
-        IMap map = new ToxicCorpsesMap(width,width,0);
+        IMap map = new ToxicCorpsesMap(width,height,0);
         Vector2d position = new Vector2d(2,2);
         int[] genotype = {0,2,2,2};
         int genotypeLength = genotype.length;
@@ -176,9 +174,9 @@ class AnimalTest {
 
         int[] energyChecks = {4,3,2,1,0};
 
-        for(int i = 0; i < energyChecks.length; i++){
+        for (int energyCheck : energyChecks) {
             animal.move();
-            assertEquals(animal.getEnergy(), energyChecks[i]);
+            assertEquals(animal.getEnergy(), energyCheck);
         }
     }
 

@@ -11,8 +11,6 @@ public class LittleCraziness implements IChangeOrientationHandler {
         this.random = new Random();
         this.probability = new int[]{0, 0, 1, 1, 1, 1, 1, 1, 1, 1};
     }
-    //aributes: genotypeLength, indexes
-
     @Override
     public int changeOrientation(Animal animal) {
 
