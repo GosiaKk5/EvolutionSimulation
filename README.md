@@ -24,7 +24,7 @@ genotypeLength,3
 orientationHandler,nieco szalenstwa
 pathForStatistics,null
 ```
-Ważne jest by w linijce nie było zbędnych spacji.
+Ważne jest, by w linijce nie było zbędnych spacji.
 
 ## Ograniczenia wprowadzanych wartości
 - **width** (szerokość mapy) - liczba od 5 do 50
