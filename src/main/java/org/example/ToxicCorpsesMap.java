@@ -13,7 +13,6 @@ public class ToxicCorpsesMap extends AbstractMap{
         this.freeFields = new ArrayList<>();
         setFields();
         addStartPlants(noStartPlants);
-
     }
 
     //to delate

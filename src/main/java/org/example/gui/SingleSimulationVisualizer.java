@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import org.example.*;
 
 import java.io.FileWriter;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class SingleSimulationVisualizer implements INextSimulationDayObserver{
@@ -294,12 +295,22 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         Text title = new Text("\nstatystyki mapy\n");
         title.setFont(STATISTICS_TITLE_FONT);
 
+        String mostPopularGenotype = "-";
+        if(this.mapStatistics.getTheMostPopularGenotype() != null){
+            mostPopularGenotype = getGenotypeString(this.mapStatistics.getTheMostPopularGenotype());
+        }
+
+        String averageEnergy = "-";
+        if(this.mapStatistics.getAvgEnergy() != -1){
+            averageEnergy = String.valueOf(this.mapStatistics.getAvgEnergy());
+        }
+
         Text t1 = new Text("liczba wszystkich zwierzat: " + mapStatistics.getNoAnimals());
         Text t2 = new Text("liczba wszystkich roslin: " + mapStatistics.getNoPlants());
         Text t3 = new Text("liczba wolnych pol: " + mapStatistics.getNoFreeFields());
-        Text t4 = new Text("najpopularniejszy genotyp: " + mapStatistics.getTheMostPopularGenotype());
-        Text t5 = new Text("sredni poziom energii dla zyjacych zwierzat: " + mapStatistics.getAvgEnergy());
-        Text t6 = new Text("srednia dlugosc zycia zwierzat dla martwych zwierzat: " + mapStatistics.getAvgDeathAge());
+        Text t4 = new Text("najpopularniejszy genotyp: " + mostPopularGenotype);
+        Text t5 = new Text("sredni poziom energii zyjacych zwierzat: " + averageEnergy);
+        Text t6 = new Text("srednia dlugosc zycia zwierzat martwych zwierzat: " + mapStatistics.getAvgDeathAge());
 
         t1.setFont(STATISTICS_TEXT_FONT);
         t2.setFont(STATISTICS_TEXT_FONT);
@@ -320,12 +331,12 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         Text title = new Text("\nstatystyki zwierzatka\n");
         title.setFont(STATISTICS_TITLE_FONT);
 
-        String genotype = "";
-        String activeGen = "";
-        String energy = "";
-        String eatenPlants = "";
-        String children = "";
-        String age = "";
+        String genotype = "-";
+        String activeGen = "-";
+        String energy = "-";
+        String eatenPlants = "-";
+        String children = "-";
+        String age = "-";
 
         if(this.followedAnimal != null){
             genotype = this.getGenotypeString(this.followedAnimal.getGenotype());
@@ -335,6 +346,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
             children = String.valueOf(this.followedAnimal.getNoChildren());
             age = String.valueOf(this.followedAnimal.getAge());
         }
+
         Text t1 = new Text("genotyp: " + genotype);
         Text t2 = new Text("aktywny index genu: " + activeGen);
         Text t3 = new Text("energia: " + energy);
@@ -353,11 +365,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         this.animalStatisticsBox.getChildren().setAll(title, t1, t2, t3, t4, t5, t6);
     }
     private String getGenotypeString(int[] genotype){
-        String stringGenotype = "";
-        for(int i : genotype){
-            stringGenotype += i;
-        }
-        return stringGenotype;
+        return Arrays.toString(genotype).replaceAll("\\[|\\]|,|\\s", "");
     }
     private void refresh() {
         Platform.runLater( () -> {

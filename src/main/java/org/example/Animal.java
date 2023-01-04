@@ -19,9 +19,9 @@ public class Animal implements IMapElement {
     private final IChangeOrientationHandler orientationHandler;
     private final IChangePositionHandler positionHandler;
     private final List<IPositionChangeObserver> observers;
-
     private int age;
     private int noChildren;
+    private final Random random;
 
     private int noEatenPlants;
 
@@ -59,6 +59,7 @@ public class Animal implements IMapElement {
                   IMutationHandler mutationHandler,
                   IChangeOrientationHandler orientationHandler,
                   IChangePositionHandler positionHandler){
+        this.random = new Random();
         this.map = map;
         this.position = position;
         this.orientation = genotype[indexOfActiveGen];
@@ -78,12 +79,10 @@ public class Animal implements IMapElement {
         this.minNumberOfMutations = minNumberOfMutations;
         this.maxNumberOfMutations = maxNumberOfMutations;
     }
-
-    //konstruktor przypisujący losowy genotyp (będzie potrzebny do simulation engine)
+    //konstruktor pozwalający na podanie genotypu
     public Animal(IMap map,
-                  Vector2d position,
+                  int[] genotype,
                   int genotypeLength,
-                  int indexOfActiveGen,
                   int energy,
                   int breedReadyEnergy,
                   int breedHandoverEnergy,
@@ -92,12 +91,49 @@ public class Animal implements IMapElement {
                   IMutationHandler mutationHandler,
                   IChangeOrientationHandler orientationHandler,
                   IChangePositionHandler positionHandler){
+        this.random = new Random();
         this.map = map;
-        this.position = position;
-        this.genotype = this.getRandomGenotype(genotypeLength);
+        this.genotype = genotype;
+
+        int x = random.nextInt(0, map.getWidth());
+        int y = random.nextInt(0, map.getHeight());
+        this.position = new Vector2d(x,y);
+
+        this.indexOfActiveGen = random.nextInt(0,genotypeLength);
         this.orientation = genotype[indexOfActiveGen];
         this.genotypeLength = genotypeLength;
-        this.indexOfActiveGen = indexOfActiveGen;
+        this.energy = energy;
+        this.breedReadyEnergy = breedReadyEnergy;
+        this.breedHandoverEnergy = breedHandoverEnergy;
+        this.minNumberOfMutations = minNumberOfMutations;
+        this.maxNumberOfMutations = maxNumberOfMutations;
+        this.mutationHandler = mutationHandler;
+        this.positionHandler = positionHandler;
+        this.orientationHandler = orientationHandler;
+        this.observers = new ArrayList<>();
+    }
+    //konstruktor przypisujący losowy genotyp
+    public Animal(IMap map,
+                  int genotypeLength,
+                  int energy,
+                  int breedReadyEnergy,
+                  int breedHandoverEnergy,
+                  int minNumberOfMutations,
+                  int maxNumberOfMutations,
+                  IMutationHandler mutationHandler,
+                  IChangeOrientationHandler orientationHandler,
+                  IChangePositionHandler positionHandler){
+        this.random = new Random();
+        this.map = map;
+
+        int x = random.nextInt(0, map.getWidth());
+        int y = random.nextInt(0, map.getHeight());
+        this.position = new Vector2d(x,y);
+
+        this.genotype = this.getRandomGenotype(genotypeLength);
+        this.indexOfActiveGen = random.nextInt(0,genotypeLength);
+        this.orientation = genotype[indexOfActiveGen];
+        this.genotypeLength = genotypeLength;
         this.energy = energy;
         this.breedReadyEnergy = breedReadyEnergy;
         this.breedHandoverEnergy = breedHandoverEnergy;
@@ -112,8 +148,6 @@ public class Animal implements IMapElement {
         this.noEatenPlants = 0;
     }
     private int[] getRandomGenotype(int genotypeLength) {
-
-        Random random = new Random();
 
         int[] randomGenotype = new int[genotypeLength];
         for (int i = 0; i < genotypeLength; i++) {
@@ -132,48 +166,6 @@ public class Animal implements IMapElement {
     }
     public void changeEnergy(int amountOfEnergy){
         this.energy += amountOfEnergy;
-    }
-    public Animal breedNewAnimal(Animal otherAnimal){
-
-        // dodanie zwierzakom liczby dzieci
-        this.noChildren ++;
-        otherAnimal.noChildren ++;
-        //
-
-        Animal strongerAnimal;
-        Animal weakerAnimal;
-
-        //set stronger animal
-        if (this.energy > otherAnimal.energy) {
-            strongerAnimal = this;
-            weakerAnimal = otherAnimal;
-        } else {
-            strongerAnimal = otherAnimal;
-            weakerAnimal = this;
-        }
-
-        boolean strongerGenotypeOnLeft = this.chooseSideForStrongerAnimal();
-        int[] genotypeForChild = createGenotypeFromAnimals(strongerAnimal, weakerAnimal, strongerGenotypeOnLeft);
-
-        Animal newAnimal = new Animal(this.map,
-                                        this.position,
-                                        genotypeForChild,
-                                        this.genotypeLength,
-                                        0,
-                                        this.breedHandoverEnergy * 2,
-                                        this.breedReadyEnergy,
-                                        this.breedHandoverEnergy,
-                                        this.minNumberOfMutations,
-                                        this.maxNumberOfMutations,
-                                        this.mutationHandler,
-                                        this.orientationHandler,
-                                        this.positionHandler);
-
-        //set parents energy
-        strongerAnimal.energy -= this.breedHandoverEnergy;
-        weakerAnimal.energy -= this.breedHandoverEnergy;
-
-        return newAnimal;
     }
     public void changeOrientation(){
 
@@ -198,7 +190,7 @@ public class Animal implements IMapElement {
             case 5 -> newPosition = this.position.add(new Vector2d(-1, -1));
             case 6 -> newPosition = this.position.add(new Vector2d(-1, 0));
             case 7 -> newPosition = this.position.add(new Vector2d(-1, 1));
-            default -> System.out.println("NIEPRAWIDLOWY GEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?");
+            default -> throw new IllegalArgumentException("nieprawidłowy gen");
         }
 
         if(!map.isPositionInMapBounds(newPosition)){
@@ -212,11 +204,48 @@ public class Animal implements IMapElement {
         this.orientation = newOrientation;
         this.energy = newEnergy;
     }
+    public Animal breedNewAnimal(Animal otherAnimal){
 
+        // dodanie zwierzakom liczby dzieci
+        this.noChildren ++;
+        otherAnimal.noChildren ++;
+
+        Animal strongerAnimal;
+        Animal weakerAnimal;
+
+        //set stronger animal
+        if (this.energy > otherAnimal.energy) {
+            strongerAnimal = this;
+            weakerAnimal = otherAnimal;
+        } else {
+            strongerAnimal = otherAnimal;
+            weakerAnimal = this;
+        }
+
+        boolean strongerGenotypeOnLeft = this.chooseSideForStrongerAnimal();
+        int[] genotypeForChild = createGenotypeFromAnimals(strongerAnimal, weakerAnimal, strongerGenotypeOnLeft);
+
+        Animal newAnimal = new Animal(this.map,
+                genotypeForChild,
+                this.genotypeLength,
+                this.breedHandoverEnergy * 2,
+                this.breedReadyEnergy,
+                this.breedHandoverEnergy,
+                this.minNumberOfMutations,
+                this.maxNumberOfMutations,
+                this.mutationHandler,
+                this.orientationHandler,
+                this.positionHandler);
+
+        //set parents energy
+        strongerAnimal.energy -= this.breedHandoverEnergy;
+        weakerAnimal.energy -= this.breedHandoverEnergy;
+
+        return newAnimal;
+    }
     //ASIDE BREEDING FUNCTIONS////////////////////////////////////////////////////////////////////////////////////////////////////
     private boolean chooseSideForStrongerAnimal(){
 
-        Random random = new Random();
         return random.nextInt(0, 2) == 0;
     }
     private int[] createGenotypeFromAnimals(Animal strongerAnimal, Animal weakerAnimal, boolean strongerGenotypeOnLeft){
@@ -243,7 +272,6 @@ public class Animal implements IMapElement {
         //System.out.println("BEFORE MUTATION: " + Arrays.toString(genotype));
 
         //generate number of mutations
-        Random random = new Random();
         int numberOfMutatingGens = random.nextInt(minNumberOfMutations, maxNumberOfMutations + 1);
 
         List<Integer> gensToMutate = this.getIndexesOfGensToMutate(this.genotypeLength, numberOfMutatingGens);
@@ -260,7 +288,6 @@ public class Animal implements IMapElement {
     private List<Integer> getIndexesOfGensToMutate(int genotypeLength, int numberOfMutatingGens){
 
         List<Integer> indexes = new ArrayList<>();
-        Random random = new Random();
 
         for (int i = 0; i < genotypeLength; i++) {
             indexes.add(i);
@@ -273,11 +300,6 @@ public class Animal implements IMapElement {
         }
 
         return gensToMutate;
-    }
-
-    @Override
-    public String toString() {
-        return "%d".formatted(this.energy);
     }
     public void addObserver(IPositionChangeObserver observer){
         observers.add(observer);

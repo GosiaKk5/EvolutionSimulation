@@ -16,8 +16,8 @@ public class Statistics {
     private int noDeadAnimals;
     private int deadAnimalsAgeSum;
 
-    private SimulationEngine engine;
-    private IMap map;
+    private final SimulationEngine engine;
+    private final IMap map;
 
     private int[] mostPopularGenotype;
 
