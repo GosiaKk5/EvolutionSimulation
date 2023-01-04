@@ -46,9 +46,6 @@ public class FileHandler {
                 }
             }
             br.close();
-            for(String key : this.dict.keySet()){
-                System.out.println(key + ":" + this.dict.get(key));
-            }
         }catch(Exception ex){
             System.out.println("Błąd");
         }
@@ -135,23 +132,23 @@ public class FileHandler {
         if(numberOfStartPlants < 0){
             throw new IllegalArgumentException("numberOfStartPlants can't be less than 0");
         }
-        if(plantEnergy < 0){
-            throw new IllegalArgumentException("plantEnergy can't be less than 0");
+        if(plantEnergy < 1){
+            throw new IllegalArgumentException("plantEnergy can't be less than 1");
         }
         if(numberOfPlantsGrowDaily < 0){
             throw new IllegalArgumentException("numberOfPlantsGrowDaily can't be less than 0");
         }
-        if(numberOfStartAnimals < 0){
-            throw new IllegalArgumentException("numberOfStartAnimals can't be less than 0");
+        if(numberOfStartAnimals < 1){
+            throw new IllegalArgumentException("numberOfStartAnimals can't be less than 1");
         }
-        if(breedReadyEnergy  < 0){
-            throw new IllegalArgumentException("breedReadyEnergy can't be less than 0");
+        if(breedReadyEnergy  < 2){
+            throw new IllegalArgumentException("breedReadyEnergy can't be less than 2");
         }
-        if(animalStartEnergy < 0){
-            throw new IllegalArgumentException("plantEnergy can't be less than 0");
+        if(animalStartEnergy < 1){
+            throw new IllegalArgumentException("plantEnergy can't be less than 1");
         }
-        if(breedHandoverEnergy  < 0){
-            throw new IllegalArgumentException("plantEnergy can't be less than 0");
+        if(breedHandoverEnergy  < 1){
+            throw new IllegalArgumentException("plantEnergy can't be less than 1");
         }
 
         if(genotypeLength < 1 || genotypeLength > 30){
