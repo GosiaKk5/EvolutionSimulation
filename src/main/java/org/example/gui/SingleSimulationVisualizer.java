@@ -366,7 +366,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         Text t4 = new Text("zjedzone rosliny: " + eatenPlants);
         Text t5 = new Text("dzieci: " + children);
         Text t6 = new Text("liczba dni: " + age);
-        Text t7 = new Text("wiek smierci: " + deathAge);
+        Text t7 = new Text("dzien smierci: " + deathAge);
 
         t1.setFont(STATISTICS_TEXT_FONT);
         t2.setFont(STATISTICS_TEXT_FONT);
