@@ -7,8 +7,8 @@ import java.util.Arrays;
 
 public class WriteFileHandler{
 
-    String filePath;
-    Statistics statistics;
+    private final String filePath;
+    private final Statistics statistics;
 
     public WriteFileHandler(String filePath, Statistics statistics){
         this.filePath = filePath;
@@ -17,7 +17,6 @@ public class WriteFileHandler{
             createHeadlines();
         }
     }
-
     private void createHeadlines(){
         try{
             File file = new File(this.filePath);
@@ -31,10 +30,9 @@ public class WriteFileHandler{
                     "sredni wiek smierci");
             output.close();
         }catch(Exception ex){
-            return;
+            throw new IllegalArgumentException("write file error");
         }
     }
-
     public void writeToFile() {
         try{
             File file = new File(this.filePath);
@@ -48,7 +46,7 @@ public class WriteFileHandler{
                     statistics.getAvgDeathAge());
             output.close();
         }catch(Exception ex){
-            return;
+            throw new IllegalArgumentException("write file error");
         }
     }
 }

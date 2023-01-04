@@ -50,7 +50,7 @@ class HellishPortalTest {
 
         System.out.println(animal.getEnergy());
         assertEquals(animal.getOrientation(), genotype[0]);
-        assertNotSame(animal.getPosition(), position);
+        assertNotSame(animal.position(), position);
         assertEquals(animal.getEnergy(), energyCheck);
 
         System.out.println(map);

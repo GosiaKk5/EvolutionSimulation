@@ -25,7 +25,7 @@ public class Animal implements IMapElement {
 
     private int noEatenPlants;
 
-    public Vector2d getPosition() { return position; }
+    public Vector2d position() { return position; }
     public int getOrientation() {
         return orientation;
     }
@@ -41,7 +41,7 @@ public class Animal implements IMapElement {
     }
     public int getAge(){ return this.age; }
     public int getNoChildren(){ return this.noChildren; }
-    public int getNoEatenPlants(){ return this.noEatenPlants; };
+    public int getNoEatenPlants(){ return this.noEatenPlants; }
 
 
 
@@ -177,7 +177,7 @@ public class Animal implements IMapElement {
 
         this.energy -= 1;
 
-        Vector2d newPosition = this.position;
+        Vector2d newPosition;
         int newOrientation = this.orientation;
         int newEnergy = this.energy;
 
@@ -190,7 +190,7 @@ public class Animal implements IMapElement {
             case 5 -> newPosition = this.position.add(new Vector2d(-1, -1));
             case 6 -> newPosition = this.position.add(new Vector2d(-1, 0));
             case 7 -> newPosition = this.position.add(new Vector2d(-1, 1));
-            default -> throw new IllegalArgumentException("nieprawidłowy gen");
+            default -> throw new IllegalArgumentException("nieprawidlowy gen");
         }
 
         if(!map.isPositionInMapBounds(newPosition)){
@@ -304,13 +304,14 @@ public class Animal implements IMapElement {
     public void addObserver(IPositionChangeObserver observer){
         observers.add(observer);
     }
-    public void removeObserver(IPositionChangeObserver observer){
-        observers.remove(observer);
-    }
     private void positionChanged(Vector2d oldPosition, Vector2d newPosition){
 
         for (IPositionChangeObserver observer : observers) {
             observer.positionChanged(this, oldPosition, newPosition);
         }
+    }
+
+    public Vector2d getPosition() {
+        return position;
     }
 }

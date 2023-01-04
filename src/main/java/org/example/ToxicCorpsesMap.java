@@ -4,9 +4,8 @@ import java.util.*;
 
 public class ToxicCorpsesMap extends AbstractMap{
 
-    private ArrayList<Vector2d> freeFields;
-    private HashMap<Vector2d, Integer> allFieldsWithDeaths;
-
+    private final ArrayList<Vector2d> freeFields;
+    private final HashMap<Vector2d, Integer> allFieldsWithDeaths;
     public ToxicCorpsesMap(int width, int height, int noStartPlants){
         super(width, height, noStartPlants);
         this.allFieldsWithDeaths = new HashMap<>();
@@ -14,16 +13,6 @@ public class ToxicCorpsesMap extends AbstractMap{
         setFields();
         addStartPlants(noStartPlants);
     }
-
-    //to delate
-    public HashMap<Vector2d, Integer> getAllFieldsWithDeaths(){
-        return this.allFieldsWithDeaths;
-    }
-    public ArrayList<Vector2d> getFreeFields(){
-        return this.freeFields;
-    }
-    //
-
     private void setFields(){
         for(int y = 0; y < height; y++){
             for(int x = 0; x < width; x++){
@@ -32,11 +21,9 @@ public class ToxicCorpsesMap extends AbstractMap{
             }
         }
     }
-
     private void sortFreeFields(){
         this.freeFields.sort((e1 ,e2)-> allFieldsWithDeaths.get(e1) - allFieldsWithDeaths.get(e2));
     }
-
     public void addStartPlants(int noPlants){
         Random random = new Random();
         for(int i = 0; i < noPlants; i++){
@@ -47,7 +34,6 @@ public class ToxicCorpsesMap extends AbstractMap{
             this.plants.put(newPlantPosition, newPlant);
         }
     }
-
     @Override
     public void addPlants(int noPlants) {
         sortFreeFields();
@@ -57,12 +43,12 @@ public class ToxicCorpsesMap extends AbstractMap{
 
                 int noFertileFields = (int) Math.round((double) this.freeFields.size()/5);
                 int indexProbability = random.nextInt(0, 10);
-                int index = 0;
+                int index;
 
                 if(indexProbability < 8 && noFertileFields > 0){
-                    index = random.nextInt(0,noFertileFields);
+                    index = random.nextInt(0, noFertileFields);
                 } else{
-                    index = random.nextInt(noFertileFields,this.freeFields.size());
+                    index = random.nextInt(noFertileFields, this.freeFields.size());
                 }
 
                 Vector2d newPlantPosition = this.freeFields.get(index);
@@ -73,20 +59,17 @@ public class ToxicCorpsesMap extends AbstractMap{
             }
         }
     }
-
     @Override
     public void removePlant(Vector2d position) {
         plants.remove(position);
         freeFields.add(position);
     }
-
     @Override
     public void removeAnimal(Animal animal){
         super.removeAnimal(animal);
-        Vector2d key = animal.getPosition();
+        Vector2d key = animal.position();
         allFieldsWithDeaths.put(key, allFieldsWithDeaths.get(key) + 1);
     }
-
     public int getNoFreeFields(){
         int noFreeFields = this.freeFields.size();
         return noFreeFields;

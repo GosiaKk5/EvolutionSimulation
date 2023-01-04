@@ -4,9 +4,6 @@ import org.example.gui.SingleSimulationVisualizer;
 import java.io.*;
 import java.util.HashMap;
 
-import java.sql.SQLOutput;
-
-
 
 public class FileHandler {
     private int width;
@@ -25,7 +22,7 @@ public class FileHandler {
     private IMutationHandler mutationHandler;
     private int genotypeLength;
     private IChangeOrientationHandler orientationHandler;
-    private HashMap<String, String> dict = new HashMap<>();
+    private final HashMap<String, String> dict = new HashMap<>();
     private String pathForStatistics;
     public FileHandler(String path){
         readFile(path);
@@ -53,7 +50,7 @@ public class FileHandler {
                 System.out.println(key + ":" + this.dict.get(key));
             }
         }catch(Exception ex){
-            System.out.println("Błąd");;
+            System.out.println("Błąd");
         }
     }
 
@@ -101,51 +98,27 @@ public class FileHandler {
 
 
         switch (dict.get("positionHandler")) {
-            case "kula ziemska" -> {
-                this.positionHandler = new Globe(width, height);
-            }
-            case "piekielny portal" -> {
-                this.positionHandler = new HellishPortal(width, height, breedHandoverEnergy);
-            }
-            default -> {
-                throw new IllegalArgumentException("positionHandler can't have value:" + dict.get("positionHandler"));
-            }
+            case "kula ziemska" -> this.positionHandler = new Globe(width, height);
+            case "piekielny portal" -> this.positionHandler = new HellishPortal(width, height, breedHandoverEnergy);
+            default -> throw new IllegalArgumentException("positionHandler can't have value:" + dict.get("positionHandler"));
         }
 
         switch (dict.get("map")) {
-            case "zalesione rowniki" -> {
-                this.map = new EquatorialForestMap(width, height, numberOfStartPlants);
-            }
-            case "toksyczne trupy" -> {
-                this.map = new ToxicCorpsesMap(width, height, numberOfStartPlants);
-            }
-            default -> {
-                throw new IllegalArgumentException("map can't have value:" + dict.get("map"));
-            }
+            case "zalesione rowniki" -> this.map = new EquatorialForestMap(width, height, numberOfStartPlants);
+            case "toksyczne trupy" -> this.map = new ToxicCorpsesMap(width, height, numberOfStartPlants);
+            default -> throw new IllegalArgumentException("map can't have value:" + dict.get("map"));
         }
 
         switch (dict.get("mutationHandler")) {
-            case "pelna losowosc" -> {
-                this.mutationHandler = new FullRandomness();
-            }
-            case "lekka korekta" -> {
-                this.mutationHandler = new LittleCorrect();
-            }
-            default -> {
-                throw new IllegalArgumentException("mutationHandler can't have value:" + dict.get("mutationHandler"));
-            }
+            case "pelna losowosc" -> this.mutationHandler = new FullRandomness();
+            case "lekka korekta" -> this.mutationHandler = new LittleCorrect();
+            default -> throw new IllegalArgumentException("mutationHandler can't have value:" + dict.get("mutationHandler"));
         }
 
         switch (dict.get("orientationHandler")) {
-            case "pelna predestynacja" -> {
-                this.orientationHandler = new FullPredestination();
-            }
-            case "nieco szalenstwa" -> {
-                this.orientationHandler = new LittleCraziness();
-            }
-            default -> {
-                throw new IllegalArgumentException("orientationHandler can't have value:" + dict.get("orientationHandler"));
-            }
+            case "pelna predestynacja" -> this.orientationHandler = new FullPredestination();
+            case "nieco szalenstwa" -> this.orientationHandler = new LittleCraziness();
+            default -> throw new IllegalArgumentException("orientationHandler can't have value:" + dict.get("orientationHandler"));
         }
     }
 
