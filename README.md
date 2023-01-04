@@ -33,7 +33,7 @@ Ważne jest, by w linijce nie było zbędnych spacji.
 - **numberOfStartPlants** (liczba startowych roślin) - liczba większa równa 0
 - **plantEnergy** (energia jaką uzyskuje zwierzę po zjedzeniu rośliny) - liczba większa od 0
 - **numberOfPlantsGrowDaily** (liczba roślin, które wyrastają każdeo dnia) - liczba większa równa 0
-- **map** (waraint sposobu wzrostu roślin) - ```zalesione rowniki``` lub ```toksyczne trupy```
+- **map** (wariant sposobu wzrostu roślin) - ```zalesione rowniki``` lub ```toksyczne trupy```
 - **numberOfStartAnimals** (początkowa liczba zwierząt) - liczba większa od 0
 - **animalStartEnergy** (startowa ilość energii zwierzęcia) - liczba większa od 0
 - **breedReadyEnergy** (energia jaką powinno mieć zwierzę, by móc się rozmnażać) - liczba większa od 1 
@@ -43,4 +43,4 @@ Ważne jest, by w linijce nie było zbędnych spacji.
 - **mutationHandler** (warianty mutacji) - ```pelna losowosc``` lub ```lekka korekta``` 
 - **genotypeLength** (długość genotypu) - liczba od 0 do 30
 - **orientationHandler** (wariant zachowania) - ```pelna predestynacja``` lub ```nieco szalenstwa``` 
-- **pathForStatistics** (ścieżka do pliku w którym chcemy zapisać statystyki syulacji) - ```null``` (jeżeli nie chcemy zapisywać) lub ścieżka
+- **pathForStatistics** (ścieżka do pliku, w którym chcemy zapisać statystyki symulacji) - ```null``` (jeżeli nie chcemy zapisywać) lub ścieżka
