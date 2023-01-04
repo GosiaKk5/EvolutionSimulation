@@ -1,17 +1,17 @@
-width,5
-height,5
-positionHandler,piekielny portal
-numberOfStartPlants,1
-plantEnergy,2
-numberOfPlantsGrowDaily,0
+width,50
+height,50
+positionHandler,kula ziemska
+numberOfStartPlants,50
+plantEnergy,10
+numberOfPlantsGrowDaily,10
 map,zalesione rowniki
-numberOfStartAnimals,1
-animalStartEnergy,20
-breedReadyEnergy,5
-breedHandoverEnergy,3
+numberOfStartAnimals,100
+animalStartEnergy,30
+breedReadyEnergy,15
+breedHandoverEnergy,10
 minNumberOfMutations,0
-maxNumberOfMutations,0
+maxNumberOfMutations,6
 mutationHandler,pelna losowosc
-genotypeLength,12
+genotypeLength,6
 orientationHandler,pelna predestynacja
 pathForStatistics,null
