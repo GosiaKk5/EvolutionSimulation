@@ -36,9 +36,9 @@ public class App extends Application {
     }
     public HBox getStartButtons(){
 
-        Button buttonOption1 = this.getOptionButton("option 1", "src/main/resources/variant1.txt");
-        Button buttonOption2 = this.getOptionButton("option 2", "src/main/resources/variant2.txt");
-        Button buttonOption3 = this.getOptionButton("option 3", "src/main/resources/variant3.txt");
+        Button buttonOption1 = this.getOptionButton("opcja 1", "src/main/resources/variant1.txt");
+        Button buttonOption2 = this.getOptionButton("opcja 2", "src/main/resources/variant2.txt");
+        Button buttonOption3 = this.getOptionButton("opcja 3", "src/main/resources/variant3.txt");
 
         HBox buttonContainer = new HBox(buttonOption1, buttonOption2, buttonOption3);
 
@@ -83,15 +83,6 @@ public class App extends Application {
 
         container.setAlignment(Pos.CENTER);
         container.setSpacing(10);
-
-//        try{
-//            FileHandler fileHandler = new FileHandler("src/main/resources/variant3.txt");
-//            fileHandler.getSimulationVisualizer().startSingleSimulation();
-//        }
-//        catch(IllegalArgumentException ex){
-//            System.err.println(ex);
-//            System.exit(1);
-//        }
 
         return container;
     }
