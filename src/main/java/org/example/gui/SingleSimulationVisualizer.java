@@ -344,6 +344,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         String eatenPlants = "-";
         String children = "-";
         String age = "-";
+        String deathAge = "-";
 
         if(this.followedAnimal != null){
             genotype = this.getGenotypeString(this.followedAnimal.getGenotype());
@@ -352,6 +353,11 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
             eatenPlants = String.valueOf(this.followedAnimal.getNoEatenPlants());
             children = String.valueOf(this.followedAnimal.getNoChildren());
             age = String.valueOf(this.followedAnimal.getAge());
+            deathAge = String.valueOf(this.followedAnimal.getDeathAge());
+        }
+
+        if(deathAge.equals("-1")){
+            deathAge = "-";
         }
 
         Text t1 = new Text("genotyp: " + genotype);
@@ -360,6 +366,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         Text t4 = new Text("zjedzone rosliny: " + eatenPlants);
         Text t5 = new Text("dzieci: " + children);
         Text t6 = new Text("liczba dni: " + age);
+        Text t7 = new Text("wiek smierci: " + deathAge);
 
         t1.setFont(STATISTICS_TEXT_FONT);
         t2.setFont(STATISTICS_TEXT_FONT);
@@ -367,9 +374,10 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         t4.setFont(STATISTICS_TEXT_FONT);
         t5.setFont(STATISTICS_TEXT_FONT);
         t6.setFont(STATISTICS_TEXT_FONT);
+        t7.setFont(STATISTICS_TEXT_FONT);
 
         this.animalStatisticsBox.getChildren().clear();
-        this.animalStatisticsBox.getChildren().setAll(title, t1, t2, t3, t4, t5, t6);
+        this.animalStatisticsBox.getChildren().setAll(title, t1, t2, t3, t4, t5, t6, t7);
     }
     private String getGenotypeString(int[] genotype){
         return Arrays.toString(genotype).replaceAll("\\[|\\]|,|\\s", "");
