@@ -1,16 +1,13 @@
 package org.example;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class SimulationEngine implements Runnable {
 
     static final int MOVE_DELAY = 500;
-    int height;
-    int width;
-    int numberOfStartPlants;
+    private final int height;
+    private final int width;
     private final int plantEnergy;
     private final int numberOfPlantsGrowDaily;
     private final int numberOfStartAnimals;
@@ -27,89 +24,14 @@ public class SimulationEngine implements Runnable {
     IMap map;
     private final List<Animal> animals;
     private boolean paused;
-    private ArrayList<INextSimulationDayObserver> observers = new ArrayList<INextSimulationDayObserver>();
-
-    public Statistics statistic;
+    private final ArrayList<INextSimulationDayObserver> observers = new ArrayList<>();
+    public final Statistics statistic;
 
 
     public IMap getMap() {
         return map;
     }
 
-    //pomocniczy konstruktor do testowania
-    public SimulationEngine(int height,
-                            int width,
-                            String variantMap,
-                            int numberOfStartPlants,
-                            int plantEnergy,
-                            int numberOfPlantsGrowDaily,
-                            String variantGrowingPlants,
-                            int numberOfStartAnimals,
-                            int startEnergy,
-                            int breedReadyEnergy,
-                            int breedHandoverEnergy,
-                            int minNumberOfMutations,
-                            int maxNumberOfMutations,
-                            String variantMutation,
-                            int genotypeLength,
-                            String variantOrientation){
-
-        this.paused = false;
-
-        this.height = height;
-        this.width = width;
-        this.numberOfStartPlants = numberOfStartPlants;
-        this.plantEnergy = plantEnergy;
-        this.numberOfPlantsGrowDaily = numberOfPlantsGrowDaily;
-        this.numberOfStartAnimals = numberOfStartAnimals;
-        this.startEnergy = startEnergy;
-        this.breedReadyEnergy = breedReadyEnergy;
-        this.breedHandoverEnergy = breedHandoverEnergy;
-        this.minNumberOfMutations = minNumberOfMutations;
-        this.maxNumberOfMutations = maxNumberOfMutations;
-        this.genotypeLength = genotypeLength;
-
-        this.animals = new ArrayList<>();
-
-
-        switch(variantMap){
-            case "Globe" -> { this.changePositionHandler = new Globe(width, height); }
-            case "Hell" -> {  this.changePositionHandler = new HellishPortal(width, height, breedHandoverEnergy); }
-            default -> {
-                System.out.println("NAZWA WARIANTU ZMIANY POZYCJI");
-            }
-        }
-
-        switch(variantGrowingPlants){
-            case "EquatorialForest" -> { this.map = new EquatorialForestMap(width, height, numberOfStartPlants); }
-            case "ToxicCorpses" -> { this.map = new ToxicCorpsesMap(width, height, numberOfStartPlants); }
-            default -> {
-                System.out.println("NAZWA WARIANTU ZMIANY ORIENTACJI");
-            }
-        }
-
-        this.statistic = new Statistics(map, this);
-
-        switch(variantMutation){
-            case "FullRandomness" -> { this.mutationHandler = new FullRandomness(); }
-            case "LittleCorrect" -> { this.mutationHandler = new LittleCorrect(); }
-            default -> {
-                System.out.println("NAZWA WARIANTU MUTACJI");
-            }
-        }
-
-        switch(variantOrientation){
-            case "FullPredestination" -> { this.changeOrientationHandler = new FullPredestination(); }
-            case "FullRandomness" -> { this.changeOrientationHandler = new LittleCraziness(); }
-            default -> {
-                System.out.println("NAZWA WARIANTU ORIENTACJI");
-            }
-        }
-
-        this.addAnimals();
-    }
-
-    //konstruktor do app
     public SimulationEngine(IMap map,
                             IChangePositionHandler changePositionHandler,
                             int plantEnergy,
@@ -156,8 +78,6 @@ public class SimulationEngine implements Runnable {
 
     private void addAnimals(){
 
-        Random random = new Random();
-
         for(int i = 0; i < this.numberOfStartAnimals; i++){
 
             Animal animal = new Animal(this.map,
@@ -185,14 +105,14 @@ public class SimulationEngine implements Runnable {
                     this.eatPlants();
                     this.breedAnimals();
                     this.growPlants();
-                    System.out.println("----------");
-                    for(Animal animal : animals){
-                        System.out.println(Arrays.toString(animal.getGenotype()));
-                    }
-                    System.out.println("most popular: " + this.statistic.getTheMostPopularGenotype());
-                    System.out.println("noAnimals: "+ this.statistic.getNoAnimals());
-                    System.out.println("animals popular: " + this.statistic.getAnimalsWithMostPopular());
-                    System.out.println("----------");
+//                    System.out.println("----------");
+//                    for(Animal animal : animals){
+//                        System.out.println(Arrays.toString(animal.getGenotype()));
+//                    }
+//                    System.out.println("most popular: " + this.statistic.getTheMostPopularGenotype());
+//                    System.out.println("noAnimals: "+ this.statistic.getNoAnimals());
+//                    System.out.println("animals popular: " + this.statistic.getAnimalsWithMostPopular());
+//                    System.out.println("----------");
                     this.dayChanged();
                 }
                 Thread.sleep(MOVE_DELAY);
@@ -286,13 +206,6 @@ public class SimulationEngine implements Runnable {
     public boolean isPaused(){
         return this.paused;
     }
-    public void unPause(){
-        this.paused = false;
-    }
-    public void pause(){
-        this.paused = true;
-    }
-
     public void addObserver(INextSimulationDayObserver observer) {
         observers.add(observer);
     }

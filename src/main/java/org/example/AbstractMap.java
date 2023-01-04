@@ -18,12 +18,6 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
     public int getWidth() {
         return width;
     }
-
-    protected final int upperBound;
-    protected final int lowerBound;
-    protected final int leftBound;
-    protected final int rightBound;
-
     protected Map<Vector2d, Plant> plants = new HashMap<>();
     protected Map<Vector2d, ArrayList<Animal>> animals = new HashMap<>();
 
@@ -33,15 +27,10 @@ public abstract class AbstractMap implements IMap, IPositionChangeObserver{
         this.width = width;
         this.lowerLeft = new Vector2d(0,0);
         this.upperRight = new Vector2d(width - 1, height - 1);
-        this.lowerBound = 0;
-        this.upperBound = height - 1;
-        this.leftBound = 0;
-        this.rightBound = width - 1;
-
 
         for(int y = 0; y < height; y++){
             for(int x = 0; x < width; x++){
-                animals.put(new Vector2d(x,y), new ArrayList<Animal>());
+                animals.put(new Vector2d(x,y), new ArrayList<>());
             }
         }
     }
