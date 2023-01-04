@@ -170,7 +170,7 @@ public class Animal implements IMapElement {
     public void changeEnergy(int amountOfEnergy){
         this.energy += amountOfEnergy;
     }
-    public void setDeathAge(){this.deathAge = this.age;}
+    public void setDeathAge(int noDay){this.deathAge = noDay;}
     public void changeOrientation(){
 
         int nextIndexOfActiveGen = this.orientationHandler.changeOrientation(this);

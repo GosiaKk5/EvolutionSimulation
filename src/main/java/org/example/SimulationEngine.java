@@ -25,6 +25,7 @@ public class SimulationEngine implements Runnable {
     private boolean paused;
     private final ArrayList<INextSimulationDayObserver> observers = new ArrayList<>();
     public final Statistics statistic;
+    private int noDay;
 
 
     public IMap getMap() {
@@ -68,6 +69,7 @@ public class SimulationEngine implements Runnable {
         this.mutationHandler = mutationHandler;
         this.changeOrientationHandler = changeOrientationHandler;
         this.statistic = new Statistics(map, this);
+        this.noDay = 0;
 
         this.addAnimals();
 
@@ -124,7 +126,7 @@ public class SimulationEngine implements Runnable {
             map.removeAnimal(animal);
             this.animals.remove(animal);
             this.statistic.isDead(animal);
-            animal.setDeathAge();
+            animal.setDeathAge(this.noDay);
         }
     }
     private void moveAnimals(){
@@ -205,6 +207,7 @@ public class SimulationEngine implements Runnable {
     private void dayChanged() {
         for (INextSimulationDayObserver observer : observers) {
             observer.dayChanged();
+            this.noDay ++;
         }
     }
     public void setPaused(boolean paused) {
