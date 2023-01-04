@@ -3,7 +3,7 @@ W okienku startowym symulacji jest możliwość dodania ścieżki do pliku opisu
 
 ## Strukura pliku
 
-Plik powienien mieć określoną strukturę. Przykład
+Plik powienien mieć określoną strukturę. Przykład:
 
 ```txt
 width,30
