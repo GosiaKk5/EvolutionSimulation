@@ -19,6 +19,7 @@ public class Animal implements IMapElement {
     private final IChangeOrientationHandler orientationHandler;
     private final IChangePositionHandler positionHandler;
     private final List<IPositionChangeObserver> observers;
+    private int deathAge;
     private int age;
     private int noChildren;
     private final Random random;
@@ -42,7 +43,7 @@ public class Animal implements IMapElement {
     public int getAge(){ return this.age; }
     public int getNoChildren(){ return this.noChildren; }
     public int getNoEatenPlants(){ return this.noEatenPlants; }
-
+    public int getDeathAge(){return this.deathAge; }
 
 
     //konstruktor używany do testów
@@ -78,6 +79,7 @@ public class Animal implements IMapElement {
         this.noEatenPlants = 0;
         this.minNumberOfMutations = minNumberOfMutations;
         this.maxNumberOfMutations = maxNumberOfMutations;
+        this.deathAge = -1;
     }
     //konstruktor pozwalający na podanie genotypu
     public Animal(IMap map,
@@ -111,6 +113,7 @@ public class Animal implements IMapElement {
         this.positionHandler = positionHandler;
         this.orientationHandler = orientationHandler;
         this.observers = new ArrayList<>();
+        this.deathAge = -1;
     }
     //konstruktor przypisujący losowy genotyp
     public Animal(IMap map,
@@ -167,6 +170,7 @@ public class Animal implements IMapElement {
     public void changeEnergy(int amountOfEnergy){
         this.energy += amountOfEnergy;
     }
+    public void setDeathAge(){this.deathAge = this.age;}
     public void changeOrientation(){
 
         int nextIndexOfActiveGen = this.orientationHandler.changeOrientation(this);

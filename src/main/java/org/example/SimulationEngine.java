@@ -124,6 +124,7 @@ public class SimulationEngine implements Runnable {
             map.removeAnimal(animal);
             this.animals.remove(animal);
             this.statistic.isDead(animal);
+            animal.setDeathAge();
         }
     }
     private void moveAnimals(){
