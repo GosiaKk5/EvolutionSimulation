@@ -1,18 +1,17 @@
-width:30
-height:30
-positionHandler:piekielny portal
-numberOfStartPlants:0
-plantEnergy:2
-numberOfPlantsGrowDaily:5
-map:toksyczne trupy
-numberOfStartAnimals:15
-animalStartEnergy:10
-breedReadyEnergy:6
-breedHandoverEnergy:5
-minNumberOfMutations:0
-maxNumberOfMutations:0
-mutationHandler:lekka korekta
-genotypeLength:3
-orientationHandler:nieco szalenstwa
-saveStatistic:false
-pathForStatistic:null
+width,30
+height,30
+positionHandler,piekielny portal
+numberOfStartPlants,0
+plantEnergy,2
+numberOfPlantsGrowDaily,5
+map,toksyczne trupy
+numberOfStartAnimals,15
+animalStartEnergy,10
+breedReadyEnergy,6
+breedHandoverEnergy,5
+minNumberOfMutations,0
+maxNumberOfMutations,0
+mutationHandler,lekka korekta
+genotypeLength,3
+orientationHandler,nieco szalenstwa
+pathForStatistics,null

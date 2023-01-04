@@ -14,5 +14,4 @@ maxNumberOfMutations:0
 mutationHandler:pelna losowosc
 genotypeLength:12
 orientationHandler:pelna predestynacja
-saveStatistic:false
-pathForStatistic:null
+pathForStatistics:null

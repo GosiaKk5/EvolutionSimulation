@@ -23,6 +23,8 @@ public class Animal implements IMapElement {
     private int noChildren;
     private final Random random;
 
+    private int noEatenPlants;
+
     public Vector2d getPosition() { return position; }
     public int getOrientation() {
         return orientation;
@@ -39,6 +41,7 @@ public class Animal implements IMapElement {
     }
     public int getAge(){ return this.age; }
     public int getNoChildren(){ return this.noChildren; }
+    public int getNoEatenPlants(){ return this.noEatenPlants; };
 
 
 
@@ -72,6 +75,7 @@ public class Animal implements IMapElement {
         this.observers = new ArrayList<>();
         this.age = 0;
         this.noChildren = 0;
+        this.noEatenPlants = 0;
         this.minNumberOfMutations = minNumberOfMutations;
         this.maxNumberOfMutations = maxNumberOfMutations;
     }
@@ -139,6 +143,9 @@ public class Animal implements IMapElement {
         this.positionHandler = positionHandler;
         this.orientationHandler = orientationHandler;
         this.observers = new ArrayList<>();
+        this.age = 0;
+        this.noChildren = 0;
+        this.noEatenPlants = 0;
     }
     private int[] getRandomGenotype(int genotypeLength) {
 
@@ -152,6 +159,10 @@ public class Animal implements IMapElement {
     }
     public void ageAddOne(){
         this.age += 1;
+    }
+
+    public void noEatenPlantsAddOne(){
+        this.noEatenPlants ++;
     }
     public void changeEnergy(int amountOfEnergy){
         this.energy += amountOfEnergy;
