@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.example.*;
 
+import java.io.FileWriter;
 import java.util.Objects;
 
 public class SingleSimulationVisualizer implements INextSimulationDayObserver{
@@ -29,6 +30,9 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
     private final VBox mapStatisticsBox;
     private final VBox animalStatisticsBox;
     private final Statistics mapStatistics;
+
+    private final WriteFileHandler writeFile;
+    private final String pathForStatistic;
     final int cellSize;
     final double radius;
     static final int GRID_PANE_SIZE = 760;
@@ -58,7 +62,8 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
                                       int genotypeLength,
                                       IMutationHandler mutationHandler,
                                       IChangePositionHandler positionHandler,
-                                      IChangeOrientationHandler orientationHandler){
+                                      IChangeOrientationHandler orientationHandler,
+                                      String pathForStatistic){
 
         this.map = map;
         this.xBound = width - 1;
@@ -79,6 +84,8 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         this.engine.addObserver(this);
 
         this.mapStatistics = this.engine.statistic;
+        this.writeFile = new WriteFileHandler(pathForStatistic, this.mapStatistics);
+        this.pathForStatistic = pathForStatistic;
 
         int longerEdge = Math.max(height, width) + 1;
         this.cellSize = Math.round(GRID_PANE_SIZE / longerEdge);
@@ -301,6 +308,10 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
         t5.setFont(STATISTICS_TEXT_FONT);
         t6.setFont(STATISTICS_TEXT_FONT);
 
+        if(!pathForStatistic.equals("null")){
+            writeFile.writeToFile();
+        }
+
         this.mapStatisticsBox.getChildren().clear();
         this.mapStatisticsBox.getChildren().setAll(title, t1, t2, t3, t4, t5, t6);
 
@@ -320,7 +331,7 @@ public class SingleSimulationVisualizer implements INextSimulationDayObserver{
             genotype = this.getGenotypeString(this.followedAnimal.getGenotype());
             activeGen = String.valueOf(this.followedAnimal.getIndexOfActiveGen());
             energy = String.valueOf(this.followedAnimal.getEnergy());
-            eatenPlants = "";
+            eatenPlants = String.valueOf(this.followedAnimal.getNoEatenPlants());
             children = String.valueOf(this.followedAnimal.getNoChildren());
             age = String.valueOf(this.followedAnimal.getAge());
         }

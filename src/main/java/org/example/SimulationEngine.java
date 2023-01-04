@@ -312,6 +312,7 @@ public class SimulationEngine implements Runnable {
                     Animal animal = chooseWhoEat(position);
                     if(animal.getEnergy() >= 0){ //jedzą żywe zwierzaki xd
                         animal.changeEnergy(this.plantEnergy);
+                        animal.noEatenPlantsAddOne();
                     }
 
                 }

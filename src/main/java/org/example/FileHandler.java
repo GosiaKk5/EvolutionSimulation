@@ -1,10 +1,7 @@
 package org.example;
 import org.example.gui.SingleSimulationVisualizer;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.HashMap;
 
 import java.sql.SQLOutput;
@@ -29,15 +26,12 @@ public class FileHandler {
     private int genotypeLength;
     private IChangeOrientationHandler orientationHandler;
     private HashMap<String, String> dict = new HashMap<>();
-
-    private boolean saveStatistic;
-    private String pathForStatistic;
+    private String pathForStatistics;
     public FileHandler(String path){
         readFile(path);
         checkIfFileHasEverything();
         convertValues();
         checkIfValuesAreOk();
-        writeFile();
     }
     private void readFile(String path){
         try{
@@ -48,7 +42,7 @@ public class FileHandler {
             while ((line = br.readLine()) != null){
                 if(!(line).trim().equals("") && !(line).trim().equals("/n") && !(line).isEmpty()){
 
-                    String[] keyAndValue = line.split(":");
+                    String[] keyAndValue = line.split(",");
                     String key = keyAndValue[0];
                     String value = keyAndValue[1];
                     this.dict.put(key, value);
@@ -80,17 +74,11 @@ public class FileHandler {
         "mutationHandler",
         "genotypeLength",
         "orientationHandler",
-        "saveStatistic"};
+        "pathForStatistics"};
 
         for(String toCheck : needed){
             if(!this.dict.containsKey(toCheck)){
                 throw new IllegalArgumentException("Add corectly" + toCheck);
-            }
-        }
-
-        if(this.dict.get("saveStatistic") == "true"){
-            if(!this.dict.containsKey("pathForStatistic")){
-                throw new IllegalArgumentException("Add corectly pathForStatistic");
             }
         }
     }
@@ -108,11 +96,9 @@ public class FileHandler {
         minNumberOfMutations = Integer.parseInt(this.dict.get("minNumberOfMutations"));
         maxNumberOfMutations = Integer.parseInt(this.dict.get("maxNumberOfMutations"));
         genotypeLength = Integer.parseInt(this.dict.get("genotypeLength"));
-        saveStatistic = Boolean.valueOf(this.dict.get("saveStatistic"));
 
-        if(saveStatistic){
-            pathForStatistic = this.dict.get("pathForStatistic");
-        }
+        pathForStatistics = this.dict.get("pathForStatistics");
+
 
         switch (dict.get("positionHandler")) {
             case "kula ziemska" -> {
@@ -165,7 +151,57 @@ public class FileHandler {
 
     private void checkIfValuesAreOk(){
         if(width < 5 || height < 5 || width > 50 || height > 50){
-            throw new IllegalArgumentException("width and height should be greater than 5 and lesser than 50");
+            throw new IllegalArgumentException("width and height should be greater than 5 and less than 51");
+        }
+        if(maxNumberOfMutations < 0){
+            throw new IllegalArgumentException("maxNumberOfMutations can't be less than 0");
+        }
+        if(minNumberOfMutations < 0){
+            throw new IllegalArgumentException("minNumberOfMutations can't be less than 0");
+        }
+        if(numberOfStartPlants < 0){
+            throw new IllegalArgumentException("numberOfStartPlants can't be less than 0");
+        }
+        if(plantEnergy < 0){
+            throw new IllegalArgumentException("plantEnergy can't be less than 0");
+        }
+        if(numberOfPlantsGrowDaily < 0){
+            throw new IllegalArgumentException("numberOfPlantsGrowDaily can't be less than 0");
+        }
+        if(numberOfStartAnimals < 0){
+            throw new IllegalArgumentException("numberOfStartAnimals can't be less than 0");
+        }
+        if(breedReadyEnergy  < 0){
+            throw new IllegalArgumentException("breedReadyEnergy can't be less than 0");
+        }
+        if(animalStartEnergy < 0){
+            throw new IllegalArgumentException("plantEnergy can't be less than 0");
+        }
+        if(breedHandoverEnergy  < 0){
+            throw new IllegalArgumentException("plantEnergy can't be less than 0");
+        }
+
+        if(genotypeLength < 1 || genotypeLength > 30){
+            throw new IllegalArgumentException("genotypeLenght should be greater than 0 and less than 31");
+        }
+
+        if(maxNumberOfMutations > genotypeLength){
+            throw new IllegalArgumentException("maxNumberOfMutations can't be greater than genotypeLenght");
+        }
+
+        if(minNumberOfMutations > maxNumberOfMutations){
+            throw new IllegalArgumentException("minNumberOfMutations can't be greater than maxNumberOfMutations");
+        }
+
+        if(breedHandoverEnergy >= breedReadyEnergy){
+            throw new IllegalArgumentException("breedHandoverEnergy can't be greater than breedReadyEnergy");
+        }
+
+        if(!pathForStatistics.equals("null")){
+            File file = new File(pathForStatistics);
+            if (!file.exists()){
+                throw new IllegalArgumentException("pathForStatistics don't provide a file");
+            }
         }
     }
 
@@ -184,18 +220,10 @@ public class FileHandler {
                 genotypeLength,
                 mutationHandler,
                 positionHandler,
-                orientationHandler);
+                orientationHandler,
+                pathForStatistics);
 
         return visualizer;
     }
-    private void writeFile(){
-        try{
-            BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\malgo\\OneDrive\\Pulpit\\dayStat.csv"));
 
-            bw.write("a,b");
-            bw.close();
-        }catch(Exception ex){
-            return;
-        }
-    }
 }
