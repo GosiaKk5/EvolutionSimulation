@@ -16,8 +16,8 @@ public class Statistics {
     private int noDeadAnimals;
     private int deadAnimalsAgeSum;
 
-    private SimulationEngine engine;
-    private IMap map;
+    private final SimulationEngine engine;
+    private final IMap map;
 
     private int[] mostPopularGenotype;
 
@@ -67,7 +67,7 @@ public class Statistics {
         return -1;
     }
 
-    public String getTheMostPopularGenotype(){
+    public int[] getTheMostPopularGenotype(){
         HashMap<int[], Integer> genotypesCounter = new HashMap<>();
         for(Animal animal : engine.getAnimals()){
             int[] genotype = animal.getGenotype();
@@ -87,7 +87,7 @@ public class Statistics {
 
         if(mostPopular != null){
             this.mostPopularGenotype = mostPopular.getKey();
-            return Arrays.toString(this.mostPopularGenotype);
+            return this.mostPopularGenotype;
         }else{
             this.mostPopularGenotype = null;
             return null;

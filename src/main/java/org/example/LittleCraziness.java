@@ -32,10 +32,6 @@ public class LittleCraziness implements IChangeOrientationHandler {
         }
         else{
 
-            System.out.println();
-            System.out.println("FIRE!");
-            System.out.println();
-
             List<Integer> indexes = new ArrayList<>();
             for (int i = 0; i < genotypeLength ; i++){
                 if (animal.getIndexOfActiveGen() != i){
