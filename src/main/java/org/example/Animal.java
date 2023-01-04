@@ -190,7 +190,7 @@ public class Animal implements IMapElement {
             case 5 -> newPosition = this.position.add(new Vector2d(-1, -1));
             case 6 -> newPosition = this.position.add(new Vector2d(-1, 0));
             case 7 -> newPosition = this.position.add(new Vector2d(-1, 1));
-            default -> throw new IllegalArgumentException("nieprawidlowy gen");
+            default -> throw new IllegalArgumentException("nieprawidlowy gen" + this.orientation);
         }
 
         if(!map.isPositionInMapBounds(newPosition)){

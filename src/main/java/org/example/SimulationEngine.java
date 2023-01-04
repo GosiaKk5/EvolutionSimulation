@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SimulationEngine implements Runnable {
 
-    static final int MOVE_DELAY = 500;
+    static final int MOVE_DELAY = 400;
     private final int height;
     private final int width;
     private final int plantEnergy;
