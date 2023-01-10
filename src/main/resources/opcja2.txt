@@ -1,0 +1,17 @@
+width,50
+height,50
+positionHandler,kula ziemska
+numberOfStartPlants,50
+plantEnergy,10
+numberOfPlantsGrowDaily,10
+map,zalesione rowniki
+numberOfStartAnimals,200
+animalStartEnergy,30
+breedReadyEnergy,15
+breedHandoverEnergy,10
+minNumberOfMutations,0
+maxNumberOfMutations,6
+mutationHandler,pelna losowosc
+genotypeLength,6
+orientationHandler,pelna predestynacja
+pathForStatistics,null

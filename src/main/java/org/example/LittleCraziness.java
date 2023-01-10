@@ -3,19 +3,16 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.IntStream;
 
-public class LittleCraziness implements IChangePositionHandler{
+public class LittleCraziness implements IChangeOrientationHandler {
     private final Random random;
     private final int[] probability;
     public LittleCraziness() {
         this.random = new Random();
         this.probability = new int[]{0, 0, 1, 1, 1, 1, 1, 1, 1, 1};
     }
-    //aributes: genotypeLength, indexes
-
     @Override
-    public int changePosition(Animal animal) {
+    public int changeOrientation(Animal animal) {
 
         int genotypeLength = animal.getGenotypeLength();
 
@@ -33,15 +30,14 @@ public class LittleCraziness implements IChangePositionHandler{
         }
         else{
 
-            System.out.println();
-            System.out.println("FIRE!");
-            System.out.println();
-
             List<Integer> indexes = new ArrayList<>();
             for (int i = 0; i < genotypeLength ; i++){
                 if (animal.getIndexOfActiveGen() != i){
                     indexes.add(i);
                 }
+            }
+            if(indexes.size() == 0){
+                return animal.getIndexOfActiveGen();
             }
             nextGenIndex = indexes.get(random.nextInt(0, genotypeLength - 1));
         }

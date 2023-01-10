@@ -1,0 +1,17 @@
+width,10
+height,10
+positionHandler,piekielny portal
+numberOfStartPlants,10
+plantEnergy,20
+numberOfPlantsGrowDaily,5
+map,toksyczne trupy
+numberOfStartAnimals,10
+animalStartEnergy,20
+breedReadyEnergy,5
+breedHandoverEnergy,3
+minNumberOfMutations,0
+maxNumberOfMutations,4
+mutationHandler,lekka korekta
+genotypeLength,6
+orientationHandler,nieco szalenstwa
+pathForStatistics,null
